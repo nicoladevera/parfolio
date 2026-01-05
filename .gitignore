@@ -1,0 +1,19 @@
+# General exclusions
+.DS_Store
+*.log
+*.tmp
+
+# Python exclusions (mostly covered in backend/.gitignore, but good for root)
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+.env
+
+# Credentials
+backend/firebase-credentials.json
+
+# IDEs
+.vscode/
+.idea/
