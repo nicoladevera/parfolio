@@ -1,6 +1,6 @@
-# Agentic Coding Project
+# PARfolio
 
-This repository contains the backend server for the Agentic Coding Project, built using FastAPI and the Firebase Admin SDK.
+This repository contains the backend server for PARfolio, built using FastAPI and the Firebase Admin SDK.
 
 ## Project Structure
 - `backend/`: The main FastAPI server directory.
