@@ -32,7 +32,8 @@ PARfolio listens to your rambling work stories, automatically structures them in
 
 | Layer | Technology |
 |-------|------------|
-| **Frontend** | Flutter (iOS, Android, Web) |
+| **Frontend (App)** | Flutter (iOS, Android, Web) |
+| **Frontend (Landing)** | HTML, CSS, JS (Vibrant/Playful Design) |
 | **Backend** | FastAPI (Python) |
 | **Database** | Firebase Firestore |
 | **Auth** | Firebase Authentication |
@@ -50,6 +51,11 @@ parfolio/
 │   ├── firebase_config.py    # Firebase initialization
 │   ├── requirements.txt      # Python dependencies
 │   └── .env.example          # Environment template
+├── frontend/                 # Landing Page
+│   ├── index.html            # Main entry point
+│   ├── style.css             # Vibrant design styles
+│   ├── script.js             # Interactions
+│   └── assets/               # Images and mockups
 ├── docs/
 │   ├── overview.md           # Product overview & pitch
 │   └── spec_sheet.md         # Technical spec (schema, endpoints)
@@ -84,6 +90,10 @@ parfolio/
    ```bash
    uvicorn main:app --reload
    ```
+
+### Frontend Setup (Landing Page)
+
+Simply open `frontend/index.html` in your browser. No build process required.
 
 ---
 
