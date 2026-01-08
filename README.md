@@ -1,21 +1,99 @@
 # PARfolio
 
-This repository contains the backend server for PARfolio, built using FastAPI and the Firebase Admin SDK.
+> **Turn your work experiences into interview-ready stories.**
+
+PARfolio is an AI-powered voice-first app that helps mid-career professionals capture, structure, and organize their work experiences into interview-ready PAR (Problem–Action–Result) narratives.
+
+---
+
+## The Problem
+
+Mid-career professionals have valuable career stories in their heads, but those stories are messy, unstructured, and easy to forget—making interview preparation time-consuming, stressful, and inconsistent.
+
+## The Solution
+
+PARfolio listens to your rambling work stories, automatically structures them into a clear Problem–Action–Result format, categorizes them by behavioral competency, and stores them for easy retrieval.
+
+---
+
+## Key Features
+
+| Feature | Description |
+|---------|-------------|
+| 🎙️ **Voice → PAR Story Builder** | Speak your messy work story, get a clean PAR narrative with an auto-generated title |
+| 🏷️ **Behavioral Tagging** | Auto-assign 1–3 competency tags (e.g., Leadership, Communication, Impact) |
+| 💡 **Lightweight Coaching** | Get 2–3 insights per story: strengths, gaps, and suggestions |
+| 📚 **Story Portfolio** | Browse, search, and filter your stories by tag |
+| 📤 **Export** | One-click export to Notion, Google Sheets, or plain text |
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|------------|
+| **Frontend** | Flutter (iOS, Android, Web) |
+| **Backend** | FastAPI (Python) |
+| **Database** | Firebase Firestore |
+| **Auth** | Firebase Authentication |
+| **Speech-to-Text** | Google Cloud Speech-to-Text / Whisper |
+| **AI/LLM** | OpenAI GPT-5.2 / Anthropic Claude Sonnet 4.5 or Opus 4.5 |
+
+---
 
 ## Project Structure
-- `backend/`: The main FastAPI server directory.
-    - `main.py`: Entry point for the FastAPI application.
-    - `firebase_config.py`: Centralized Firebase initialization.
-    - `requirements.txt`: Python dependencies.
-    - `.venv/`: Python virtual environment (ignored by Git).
-    - `.env.example`: Template for environment variables.
+
+```
+parfolio/
+├── backend/                  # FastAPI server
+│   ├── main.py               # Entry point
+│   ├── firebase_config.py    # Firebase initialization
+│   ├── requirements.txt      # Python dependencies
+│   └── .env.example          # Environment template
+├── docs/
+│   ├── overview.md           # Product overview & pitch
+│   └── spec_sheet.md         # Technical spec (schema, endpoints)
+└── README.md
+```
+
+---
 
 ## Getting Started
-To get the backend running locally:
 
-1.  Navigate to the `backend` directory.
-2.  Set up a virtual environment: `python3 -m venv venv`.
-3.  Activate the environment: `source venv/bin/activate`.
-4.  Install dependencies: `pip install -r requirements.txt`.
-5.  Create a `.env` file based on `.env.example`.
-6.  Start the server: `uvicorn main:app --reload`.
+### Backend Setup
+
+1. Navigate to the `backend` directory:
+   ```bash
+   cd backend
+   ```
+
+2. Set up a virtual environment:
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate
+   ```
+
+3. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. Create a `.env` file based on `.env.example`
+
+5. Start the server:
+   ```bash
+   uvicorn main:app --reload
+   ```
+
+---
+
+## Documentation
+
+- [Product Overview](docs/overview.md) — User persona, problem, solution, and pitch
+- [Technical Spec Sheet](docs/spec_sheet.md) — Data schema, API endpoints, and examples
+
+---
+
+## License
+
+MIT
