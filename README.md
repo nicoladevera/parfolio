@@ -32,8 +32,8 @@ PARfolio listens to your rambling work stories, automatically structures them in
 
 | Layer | Technology |
 |-------|------------|
-| **Frontend (App)** | Flutter (iOS, Web) |
-| **Frontend (Landing)** | HTML, CSS, JS (Vibrant/Playful Design) |
+| **Frontend (App)** | Flutter (Web) |
+| **Marketing (Landing)** | HTML, CSS, JS (Vibrant/Playful Design) |
 | **Backend** | FastAPI (Python) |
 | **Database** | Firebase Firestore |
 | **Auth** | Firebase Authentication |
@@ -46,16 +46,15 @@ PARfolio listens to your rambling work stories, automatically structures them in
 
 ```
 parfolio/
-├── app/                      # Flutter Mobile/Web App
+├── frontend/                 # Flutter Web App
 │   ├── lib/                  # Dart source code
-│   ├── ios/                  # iOS native code
 │   └── web/                  # Web entry point
 ├── backend/                  # FastAPI server
 │   ├── main.py               # Entry point
 │   ├── firebase_config.py    # Firebase initialization
 │   ├── requirements.txt      # Python dependencies
 │   └── .env.example          # Environment template
-├── frontend/                 # Landing Page
+├── marketing/                # Landing Page
 │   ├── index.html            # Main entry point
 │   ├── style.css             # Vibrant design styles
 │   ├── script.js             # Interactions
@@ -97,9 +96,9 @@ parfolio/
 
 ### App Setup (Flutter)
 
-1. Navigate to the `app` directory:
+1. Navigate to the `frontend` directory:
    ```bash
-   cd app
+   cd frontend
    ```
 
 2. Install dependencies:
@@ -109,16 +108,13 @@ parfolio/
 
 3. Run the app:
    ```bash
-   # For iOS Simulator
-   flutter run -d ios
-
    # For Chrome
    flutter run -d chrome
    ```
 
-### Frontend Setup (Landing Page)
+### Marketing Site Setup (Landing Page)
 
-Simply open `frontend/index.html` in your browser. No build process required.
+Simply open `marketing/index.html` in your browser. No build process required.
 
 ---
 
