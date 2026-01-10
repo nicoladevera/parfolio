@@ -32,7 +32,7 @@ PARfolio listens to your rambling work stories, automatically structures them in
 
 | Layer | Technology |
 |-------|------------|
-| **Frontend (App)** | Flutter (iOS, Android, Web) |
+| **Frontend (App)** | Flutter (iOS, Web) |
 | **Frontend (Landing)** | HTML, CSS, JS (Vibrant/Playful Design) |
 | **Backend** | FastAPI (Python) |
 | **Database** | Firebase Firestore |
@@ -46,6 +46,10 @@ PARfolio listens to your rambling work stories, automatically structures them in
 
 ```
 parfolio/
+├── app/                      # Flutter Mobile/Web App
+│   ├── lib/                  # Dart source code
+│   ├── ios/                  # iOS native code
+│   └── web/                  # Web entry point
 ├── backend/                  # FastAPI server
 │   ├── main.py               # Entry point
 │   ├── firebase_config.py    # Firebase initialization
@@ -89,6 +93,27 @@ parfolio/
 5. Start the server:
    ```bash
    uvicorn main:app --reload
+   ```
+
+### App Setup (Flutter)
+
+1. Navigate to the `app` directory:
+   ```bash
+   cd app
+   ```
+
+2. Install dependencies:
+   ```bash
+   flutter pub get
+   ```
+
+3. Run the app:
+   ```bash
+   # For iOS Simulator
+   flutter run -d ios
+
+   # For Chrome
+   flutter run -d chrome
    ```
 
 ### Frontend Setup (Landing Page)

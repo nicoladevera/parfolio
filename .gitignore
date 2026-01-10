@@ -17,3 +17,6 @@ backend/firebase-credentials.json
 # IDEs
 .vscode/
 .idea/
+
+# Node
+node_modules/
