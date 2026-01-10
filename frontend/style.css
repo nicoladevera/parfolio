@@ -12,13 +12,15 @@
     /* White */
     --bg-alt: #F8F9FA;
     /* Off White */
+    --bg-soft: #FAF8FF;
+    /* Soft Lavender for sections */
     --text-main: #2D3436;
     /* Dark Charcoal */
     --text-muted: #636E72;
     /* Grey */
 
     /* Spacing & Radius */
-    --border-radius-lg: 24px;
+    --border-radius-lg: 32px;
     --border-radius-md: 16px;
     --border-radius-sm: 8px;
     --container-width: 1200px;
@@ -95,8 +97,45 @@ p {
 .script-text {
     font-family: var(--font-script);
     color: var(--primary-color);
-    font-size: 1.2em;
+    font-size: 1.15em;
     font-weight: 400;
+}
+
+/* Inline script emphasis for headlines */
+.script-emphasis {
+    font-family: var(--font-script);
+    color: var(--primary-color);
+    font-size: 1.1em;
+    position: relative;
+    display: inline-block;
+}
+
+.script-emphasis::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: -2px;
+    right: -2px;
+    height: 10px;
+    background: var(--secondary-color);
+    opacity: 0.35;
+    z-index: -1;
+    border-radius: 8px;
+    transform: rotate(-1deg);
+}
+
+.script-emphasis.gold {
+    color: var(--secondary-color);
+    text-shadow: 1px 1px 0px #eebb44;
+}
+
+.script-emphasis.gold::after {
+    background: var(--primary-light);
+}
+
+/* Prevent wrapping */
+.nowrap {
+    white-space: nowrap;
 }
 
 /* Buttons */
@@ -111,14 +150,14 @@ p {
     font-weight: 700;
     font-size: 1.1rem;
     transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 4px 14px rgba(108, 92, 231, 0.3);
+    box-shadow: 0 8px 24px rgba(108, 92, 231, 0.15);
     color: white !important;
     /* Force white text always */
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4);
+    box-shadow: 0 12px 32px rgba(108, 92, 231, 0.25);
     color: white;
     /* Ensure text remains white */
 }
@@ -185,6 +224,7 @@ p {
     align-items: center;
     position: relative;
     min-height: 80vh;
+    background: linear-gradient(180deg, var(--bg-soft) 0%, var(--bg-color) 100%);
 }
 
 .hero-badge {
@@ -206,11 +246,11 @@ p {
     background: #F0F3F8;
     border-radius: var(--border-radius-lg);
     padding: 20px;
-    box-shadow: 20px 20px 0px var(--secondary-color);
-    /* Playful offset shadow */
+    box-shadow: 16px 16px 0px rgba(253, 203, 110, 0.6);
+    /* Softer playful offset shadow */
     transform: rotate(-2deg);
     transition: transform 0.3s ease;
-    border: 3px solid #000;
+    border: 2px solid rgba(108, 92, 231, 0.2);
 }
 
 .image-container img {
@@ -229,7 +269,7 @@ p {
     background: white;
     padding: 12px 24px;
     border-radius: 50px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
     font-weight: 600;
     z-index: 2;
     animation: float 4s ease-in-out infinite;
