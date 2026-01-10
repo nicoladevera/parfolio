@@ -123,7 +123,7 @@ tags/{tagId}
 
 | Layer | Technology |
 |-------|------------|
-| **Frontend** | Flutter (iOS, Android, Web) |
+| **Frontend** | Flutter (iOS, Web) |
 | **Backend** | FastAPI (Python) |
 | **Database** | Firebase Firestore |
 | **Auth** | Firebase Authentication |
@@ -165,7 +165,7 @@ tags/{tagId}
 
 ## Next Steps
 
-1. [ ] Set up Flutter project structure
+1. [x] Set up Flutter project structure (Web & iOS)
 2. [ ] Implement Firebase Auth flow
 3. [ ] Build `/ai/process` endpoint with OpenAI/Gemini integration
 4. [ ] Create Stories CRUD endpoints
