@@ -12,7 +12,8 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _nameController = TextEditingController();
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
 
@@ -27,7 +28,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       await authService.register(
         _emailController.text.trim(),
         _passwordController.text,
-        _nameController.text.trim(),
+        _firstNameController.text.trim(),
+        _lastNameController.text.trim(),
       );
       
       // 2. Auto Login after registration
@@ -83,17 +85,39 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 48),
-                TextFormField(
-                  controller: _nameController,
-                  decoration: InputDecoration(
-                    labelText: 'Full Name',
-                    prefixIcon: Icon(Icons.person_outline, color: AppColors.secondary),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                        borderSide: BorderSide(color: AppColors.secondary, width: 2),
+                SizedBox(height: 48),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        controller: _firstNameController,
+                        decoration: InputDecoration(
+                          labelText: 'First Name',
+                          prefixIcon: Icon(Icons.person_outline, color: AppColors.secondary),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: BorderSide(color: AppColors.secondary, width: 2),
+                          ),
+                        ),
+                        validator: (val) => val!.isEmpty ? 'Required' : null,
+                      ),
                     ),
-                  ),
-                  validator: (val) => val!.isEmpty ? 'Please enter name' : null,
+                    SizedBox(width: 16),
+                    Expanded(
+                      child: TextFormField(
+                        controller: _lastNameController,
+                        decoration: InputDecoration(
+                          labelText: 'Last Name',
+                          prefixIcon: Icon(Icons.person_outline, color: AppColors.secondary),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: BorderSide(color: AppColors.secondary, width: 2),
+                          ),
+                        ),
+                        validator: (val) => val!.isEmpty ? 'Required' : null,
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(height: 16),
                 TextFormField(
