@@ -183,7 +183,7 @@ tags/{tagId}
 ## Next Steps
 
 1. [x] Set up Flutter project structure (Web)
-2. [ ] Implement Firebase Auth flow
+2. [x] Implement Firebase Auth flow
 3. [ ] Build `/ai/process` endpoint with OpenAI/Gemini integration
 4. [ ] Create Stories CRUD endpoints
 5. [ ] Design and build Flutter UI for voice recording + story display
