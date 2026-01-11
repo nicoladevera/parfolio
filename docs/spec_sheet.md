@@ -37,6 +37,13 @@ users/{userId}
 ├── firstName: string
 ├── lastName: string
 ├── displayName: string
+├── currentRole: string (optional)
+├── targetRole: string (optional)
+├── currentIndustry: string (optional)
+├── targetIndustry: string (optional)
+├── careerStage: enum (optional) ["early_career", "mid_career", "senior_leadership"]
+├── transitionTypes: array of enums (optional) ["same_role_new_company", "role_change", "industry_change", "company_type_shift"]
+├── profilePhotoUrl: string (optional)
 ├── createdAt: timestamp
 └── updatedAt: timestamp
 ```
@@ -79,6 +86,14 @@ tags/{tagId}
 | `POST` | `/auth/register` | Register new user (requires email, password, first_name, last_name) |
 | `POST` | `/auth/login` | Login and return JWT token |
 | `GET` | `/auth/me` | Get current user profile |
+
+---
+
+### Profile
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/profile` | Get current user's full profile |
+| `PUT` | `/profile` | Update profile fields (current_role, target_role, etc.) |
 
 ---
 
