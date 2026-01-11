@@ -49,14 +49,14 @@ class WelcomeHeader extends StatelessWidget {
       children: [
         Text(
           _displayName.isEmpty
-              ? '$_greeting! 👋'
-              : '$_greeting, $_displayName! 👋',
+              ? '$_greeting!'
+              : '$_greeting, $_displayName!',
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                 color: Theme.of(context).colorScheme.onSurface,
                 fontWeight: FontWeight.bold,
               ),
         ),
-        SizedBox(height: 8),
+        SizedBox(height: 12),
         Text(
           _subtitle,
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(

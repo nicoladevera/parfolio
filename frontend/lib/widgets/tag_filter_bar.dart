@@ -35,7 +35,11 @@ class TagFilterBar extends StatelessWidget {
           final isSelected = selectedTag == tag;
           
           return FilterChip(
-            label: Text(tag),
+            label: Text(
+              tag,
+              overflow: TextOverflow.visible,
+              softWrap: false,
+            ),
             selected: isSelected,
             onSelected: (_) => onTagSelected(tag),
             // Unselected: Gray 100
