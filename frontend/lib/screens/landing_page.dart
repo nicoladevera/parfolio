@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
-import '../core/theme.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({super.key});
@@ -8,7 +7,7 @@ class LandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: Theme.of(context).colorScheme.surface, // Replaced background with surface
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -34,12 +33,12 @@ class _Navbar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Text(
+          Text(
             'PARfolio',
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.w800,
-              color: AppColors.textMain,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
           ),
           Row(
@@ -55,7 +54,7 @@ class _Navbar extends StatelessWidget {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
+                  backgroundColor: Theme.of(context).colorScheme.primary,
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
                   shape: RoundedRectangleBorder(
@@ -86,9 +85,9 @@ class _NavLink extends StatelessWidget {
         onTap: onTap,
         child: Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             fontWeight: FontWeight.w500,
-            color: AppColors.textMain,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
       ),
@@ -103,11 +102,11 @@ class _Hero extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [AppColors.bgSoft, AppColors.bg],
+          colors: [Theme.of(context).colorScheme.surfaceVariant, Theme.of(context).colorScheme.background],
         ),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 60),
@@ -126,10 +125,10 @@ class _Hero extends StatelessWidget {
                         color: const Color(0xFFE8F0FE),
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: const Text(
+                      child: Text(
                         '🎤 Voice-First Interview Prep',
                         style: TextStyle(
-                          color: AppColors.primary,
+                          color: Theme.of(context).colorScheme.primary,
                           fontWeight: FontWeight.w700,
                           fontSize: 14,
                         ),
@@ -143,14 +142,18 @@ class _Hero extends StatelessWidget {
                           const TextSpan(text: 'Turn your work '),
                           TextSpan(
                             text: 'chaos',
-                            style: AppTheme.scriptStyle.copyWith(fontSize: 56),
+                            style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                              fontStyle: FontStyle.italic,
+                              fontSize: 56,
+                            ),
                           ),
                           const TextSpan(text: ' into interview '),
                           TextSpan(
                             text: 'gold',
-                            style: AppTheme.scriptStyle.copyWith(
+                            style: Theme.of(context).textTheme.displayLarge?.copyWith(
                               fontSize: 56,
-                              color: AppColors.secondary,
+                              color: Theme.of(context).colorScheme.secondary,
+                              fontStyle: FontStyle.italic,
                             ),
                           ),
                         ],
@@ -171,7 +174,7 @@ class _Hero extends StatelessWidget {
                             );
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primary,
+                            backgroundColor: Theme.of(context).colorScheme.primary,
                             foregroundColor: Colors.white,
                             padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 24),
                             shape: RoundedRectangleBorder(
@@ -190,7 +193,11 @@ class _Hero extends StatelessWidget {
                             ),
                             side: const BorderSide(color: Color(0xFFEEEEEE), width: 2),
                           ),
-                          child: const Text('View Demo', style: TextStyle(fontSize: 18, color: AppColors.textMain, fontWeight: FontWeight.bold)),
+                          child: Text('View Demo', style: TextStyle(
+                            fontSize: 18, 
+                            color: Theme.of(context).colorScheme.onSurface, 
+                            fontWeight: FontWeight.bold
+                          )),
                         ),
                       ],
                     ),
@@ -223,10 +230,10 @@ class _HeroImage extends StatelessWidget {
             decoration: BoxDecoration(
               color: const Color(0xFFF0F3F8),
               borderRadius: BorderRadius.circular(32),
-              border: Border.all(color: AppColors.primary.withOpacity(0.2), width: 2),
+              border: Border.all(color: Theme.of(context).colorScheme.primary.withOpacity(0.2), width: 2),
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.secondary.withOpacity(0.6),
+                  color: Theme.of(context).colorScheme.secondary.withOpacity(0.6),
                   offset: const Offset(16, 16),
                 ),
               ],
@@ -299,16 +306,19 @@ class _Features extends StatelessWidget {
                 const TextSpan(text: 'The best way to '),
                 TextSpan(
                   text: 'prep',
-                  style: AppTheme.scriptStyle.copyWith(fontSize: 40),
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    fontStyle: FontStyle.italic,
+                    fontSize: 40,
+                  ),
                 ),
                 const TextSpan(text: ' for your next role'),
               ],
             ),
           ),
           const SizedBox(height: 16),
-          const Text(
+          Text(
             'Forget the stress of blank pages. Just talk.',
-            style: TextStyle(fontSize: 18, color: AppColors.textMuted),
+            style: TextStyle(fontSize: 18, color: Theme.of(context).colorScheme.onSurfaceVariant),
           ),
           const SizedBox(height: 60),
           const Row(
@@ -375,12 +385,17 @@ class _FeatureCard extends StatelessWidget {
           const SizedBox(height: 24),
           Text(
             title,
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w800, color: AppColors.textMain, letterSpacing: -0.48),
+            style: TextStyle(
+              fontSize: 24, 
+              fontWeight: FontWeight.w800, 
+              color: Theme.of(context).colorScheme.onSurface, 
+              letterSpacing: -0.48
+            ),
           ),
           const SizedBox(height: 12),
           Text(
             description,
-            style: const TextStyle(fontSize: 16, color: AppColors.textMuted),
+            style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.onSurfaceVariant),
           ),
         ],
       ),
@@ -398,9 +413,10 @@ class _Footer extends StatelessWidget {
       child: Center(
         child: Text(
           '© 2026 PARfolio. Nicely done.',
-          style: TextStyle(color: AppColors.textMain.withOpacity(0.7), fontSize: 14),
+          style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7), fontSize: 14),
         ),
       ),
     );
   }
 }
+

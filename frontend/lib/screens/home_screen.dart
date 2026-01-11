@@ -4,7 +4,7 @@ import '../services/auth_service.dart';
 import '../services/story_service.dart';
 import '../models/user_model.dart';
 import '../models/story_model.dart';
-import '../core/theme.dart';
+import '../models/story_model.dart';
 import '../widgets/welcome_header.dart';
 import '../widgets/recording_cta.dart';
 import '../widgets/tag_filter_bar.dart';
@@ -101,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.bgSoft,
+      backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest, // Use theme background
       appBar: AppBar(
         title: Text(
           'PARfolio', 
@@ -122,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
           IconButton(
-            icon: Icon(Icons.logout, color: AppColors.textMain),
+            icon: Icon(Icons.logout, color: Theme.of(context).colorScheme.onSurface),
             onPressed: () => Provider.of<AuthService>(context, listen: false).signOut(),
             tooltip: 'Sign Out',
           ),
@@ -131,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: RefreshIndicator(
         onRefresh: _loadData,
-        color: AppColors.primary,
+        color: Theme.of(context).colorScheme.primary,
         child: SingleChildScrollView(
           padding: EdgeInsets.all(24),
           physics: AlwaysScrollableScrollPhysics(),
@@ -214,3 +214,4 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+

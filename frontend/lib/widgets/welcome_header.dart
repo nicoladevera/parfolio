@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../core/theme.dart';
 import '../models/user_model.dart';
 
 class WelcomeHeader extends StatelessWidget {
@@ -53,7 +52,7 @@ class WelcomeHeader extends StatelessWidget {
               ? '$_greeting! 👋'
               : '$_greeting, $_displayName! 👋',
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                color: AppColors.textMain,
+                color: Theme.of(context).colorScheme.onSurface,
                 fontWeight: FontWeight.bold,
               ),
         ),
@@ -61,10 +60,11 @@ class WelcomeHeader extends StatelessWidget {
         Text(
           _subtitle,
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: AppColors.textMuted,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
         ),
       ],
     );
   }
 }
+

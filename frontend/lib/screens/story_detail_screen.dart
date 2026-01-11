@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/story_model.dart';
-import '../core/theme.dart';
+import '../core/colors.dart';
 
 class StoryDetailScreen extends StatelessWidget {
   final StoryModel story;
@@ -30,7 +30,7 @@ class StoryDetailScreen extends StatelessWidget {
               Navigator.pop(context); // Close dialog
               Navigator.pop(context); // Return to dashboard
             },
-            child: Text('Delete', style: TextStyle(color: Colors.red)),
+            child: Text('Delete', style: TextStyle(color: Theme.of(context).colorScheme.error)),
           ),
         ],
       ),
@@ -43,10 +43,10 @@ class StoryDetailScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        iconTheme: IconThemeData(color: AppColors.textMain),
+        iconTheme: IconThemeData(color: Theme.of(context).colorScheme.onSurface),
         actions: [
           IconButton(
-            icon: Icon(Icons.edit_outlined, color: AppColors.textMain),
+            icon: Icon(Icons.edit_outlined, color: Theme.of(context).colorScheme.onSurface),
             onPressed: () {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text('Edit coming soon!')),
@@ -54,7 +54,7 @@ class StoryDetailScreen extends StatelessWidget {
             },
           ),
           IconButton(
-            icon: Icon(Icons.delete_outline, color: Colors.red),
+            icon: Icon(Icons.delete_outline, color: Theme.of(context).colorScheme.error),
             onPressed: () => _confirmDelete(context),
           ),
         ],
@@ -76,15 +76,21 @@ class StoryDetailScreen extends StatelessWidget {
               spacing: 8,
               runSpacing: 8,
               children: story.tags.map((tag) {
-                final color = AppColors.tagColors[tag] ?? AppColors.primary;
-                return Chip(
-                  label: Text(tag),
-                  backgroundColor: color.withOpacity(0.1),
-                  labelStyle: TextStyle(
-                    color: color,
-                    fontWeight: FontWeight.bold,
+                // Use extension for tag colors
+                final color = Theme.of(context).colorScheme.tagColors[tag] ?? Theme.of(context).colorScheme.primary;
+                return Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: color.withOpacity(0.15),
+                    borderRadius: BorderRadius.circular(999),
                   ),
-                  side: BorderSide.none,
+                  child: Text(
+                    tag,
+                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                      color: color,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 );
               }).toList(),
             ),
@@ -101,25 +107,30 @@ class StoryDetailScreen extends StatelessWidget {
                 'Coaching Insights',
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: AppColors.primary,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
               ),
               SizedBox(height: 16),
-              _buildInsightCard(context, 'Strength', story.coaching!.strength, Colors.green),
-              _buildInsightCard(context, 'Gap', story.coaching!.gap, Colors.orange),
-              _buildInsightCard(context, 'Suggestion', story.coaching!.suggestion, AppColors.primary),
+              _buildInsightCard(context, 'Strength', story.coaching!.strength, Theme.of(context).colorScheme.success),
+              _buildInsightCard(context, 'Gap', story.coaching!.gap, Theme.of(context).colorScheme.warning),
+              _buildInsightCard(context, 'Suggestion', story.coaching!.suggestion, Theme.of(context).colorScheme.info),
             ],
             
             SizedBox(height: 48),
             ExpansionTile(
               title: Text('Raw Transcript', 
-                  style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.textMuted)),
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant
+                  )),
               children: [
                 Padding(
                   padding: EdgeInsets.all(16),
                   child: Text(
                     story.rawTranscript,
-                    style: TextStyle(color: AppColors.textMuted, height: 1.5, fontStyle: FontStyle.italic),
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      fontStyle: FontStyle.italic
+                    ),
                   ),
                 ),
               ],
@@ -128,7 +139,9 @@ class StoryDetailScreen extends StatelessWidget {
             Center(
               child: Text(
                 'Created on ${DateFormat('MMMM d, yyyy').format(story.createdAt)}',
-                style: TextStyle(color: AppColors.textMuted),
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant
+                ),
               ),
             ),
           ],
@@ -145,20 +158,17 @@ class StoryDetailScreen extends StatelessWidget {
         children: [
           Text(
             title.toUpperCase(),
-            style: TextStyle(
-              fontSize: 14,
+            style: Theme.of(context).textTheme.labelMedium?.copyWith(
               fontWeight: FontWeight.bold,
-              color: AppColors.textMuted,
-              letterSpacing: 1,
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+              letterSpacing: 1.5,
             ),
           ),
           SizedBox(height: 8),
           Text(
             content,
-            style: TextStyle(
-              fontSize: 16,
-              height: 1.6,
-              color: AppColors.textMain,
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              color: Theme.of(context).colorScheme.onSurface,
             ),
           ),
         ],
@@ -186,16 +196,17 @@ class StoryDetailScreen extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: TextStyle(
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: color,
-                    fontSize: 14,
                   ),
                 ),
                 SizedBox(height: 4),
                 Text(
                   content,
-                  style: TextStyle(color: AppColors.textMain),
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
                 ),
               ],
             ),
@@ -205,3 +216,4 @@ class StoryDetailScreen extends StatelessWidget {
     );
   }
 }
+

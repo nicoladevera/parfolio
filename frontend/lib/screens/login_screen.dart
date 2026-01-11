@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../services/auth_service.dart';
-import '../core/theme.dart';
 import 'register_screen.dart';
-
-import 'package:google_fonts/google_fonts.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -51,19 +48,28 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(
-                  'Welcome\nBack!',
-                  style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                    color: AppColors.primary,
-                  ),
+                RichText(
                   textAlign: TextAlign.center,
+                  text: TextSpan(
+                    style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    children: [
+                      TextSpan(text: 'Welcome\n'),
+                      TextSpan(
+                        text: 'Back!',
+                        style: TextStyle(fontStyle: FontStyle.italic),
+                      ),
+                    ],
+                  ),
                 ),
                 SizedBox(height: 48),
                 TextFormField(
                   controller: _emailController,
                   decoration: InputDecoration(
                     labelText: 'Email',
-                    prefixIcon: Icon(Icons.email_outlined, color: AppColors.primary),
+                    prefixIcon: Icon(Icons.email_outlined),
+                    // Theme handles borders
                   ),
                   keyboardType: TextInputType.emailAddress,
                   validator: (val) => val!.isEmpty ? 'Please enter email' : null,
@@ -73,7 +79,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   controller: _passwordController,
                   decoration: InputDecoration(
                     labelText: 'Password',
-                    prefixIcon: Icon(Icons.lock_outline, color: AppColors.primary),
+                    prefixIcon: Icon(Icons.lock_outline),
+                    // Theme handles borders
                   ),
                   obscureText: true,
                   validator: (val) => val!.length < 6 ? 'Password too short' : null,
@@ -105,24 +112,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         if (mounted) setState(() => _isLoading = false);
                       }
                     },
-                    style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: Color(0xFFEEEEEE)),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.login, color: AppColors.textMain),
+                        Icon(Icons.login),
                         SizedBox(width: 12),
                         Text(
                           "Continue with Google",
-                          style: GoogleFonts.outfit(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.textMain,
-                          ),
+                          style: Theme.of(context).textTheme.labelLarge, // Use theme
                         ),
                       ],
                     ),
@@ -140,12 +137,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Text.rich(
                     TextSpan(
                       text: "Don't have an account? ",
-                      style: TextStyle(color: AppColors.textMuted),
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
                       children: [
                         TextSpan(
                           text: "Sign up",
                           style: TextStyle(
-                            color: AppColors.primary,
+                            color: Theme.of(context).colorScheme.primary,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -161,3 +160,4 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
+

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../core/theme.dart';
+import '../core/shadows.dart'; // Add this import
 
 class RecordingCTA extends StatelessWidget {
   final VoidCallback onRecordPressed;
@@ -15,15 +15,9 @@ class RecordingCTA extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: AppColors.primary,
+        color: Theme.of(context).colorScheme.primary,
         borderRadius: BorderRadius.circular(24),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.primary.withOpacity(0.3),
-            blurRadius: 20,
-            offset: Offset(0, 10),
-          ),
-        ],
+        boxShadow: Shadows.lg, // Use shared shadow definition
       ),
       child: Column(
         children: [
@@ -56,7 +50,7 @@ class RecordingCTA extends StatelessWidget {
             onPressed: onRecordPressed,
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.white,
-              foregroundColor: AppColors.primary,
+              foregroundColor: Theme.of(context).colorScheme.primary,
               padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
               elevation: 0,
               shape: RoundedRectangleBorder(
@@ -76,3 +70,4 @@ class RecordingCTA extends StatelessWidget {
     );
   }
 }
+

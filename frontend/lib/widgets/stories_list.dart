@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/story_model.dart';
 import 'story_card.dart';
-import '../core/theme.dart';
 
 class StoriesList extends StatelessWidget {
   final List<StoryModel> stories;
@@ -21,7 +20,7 @@ class StoriesList extends StatelessWidget {
   Widget build(BuildContext context) {
     if (isLoading) {
       return Center(
-        child: CircularProgressIndicator(color: AppColors.primary),
+        child: CircularProgressIndicator(color: Theme.of(context).colorScheme.primary),
       );
     }
 
@@ -31,19 +30,19 @@ class StoriesList extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 48),
           child: Column(
             children: [
-              Icon(Icons.notes, size: 48, color: Colors.grey.shade300),
+              Icon(Icons.notes, size: 48, color: Theme.of(context).colorScheme.outline),
               SizedBox(height: 16),
               Text(
                 'No stories yet',
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: AppColors.textMuted,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
               ),
               SizedBox(height: 8),
               Text(
                 'Record your first story above to get started',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: AppColors.textMuted,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
               ),
             ],
@@ -67,3 +66,4 @@ class StoriesList extends StatelessWidget {
     );
   }
 }
+

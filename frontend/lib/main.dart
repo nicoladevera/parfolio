@@ -3,10 +3,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'core/theme.dart';
-import 'models/user_model.dart';
 import 'screens/home_screen.dart';
 import 'screens/login_screen.dart';
-import 'screens/landing_page.dart';
+// import 'screens/landing_page.dart'; // Unused
 import 'services/auth_service.dart';
 import 'firebase_options.dart';
 
@@ -19,7 +18,7 @@ void main() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    runApp(MyApp());
+    runApp(const MyApp());
   } catch (e) {
     print("Authentication error: $e");
     runApp(MaterialApp(
@@ -40,6 +39,8 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Provider<AuthService>.value(
@@ -79,9 +80,10 @@ class _AuthWrapperState extends State<AuthWrapper> {
           return user == null ? LoginScreen() : HomeScreen();
         }
         return Scaffold(
-          body: Center(child: CircularProgressIndicator(color: AppColors.primary)),
+          body: Center(child: CircularProgressIndicator(color: Theme.of(context).colorScheme.primary)),
         );
       },
     );
   }
 }
+
