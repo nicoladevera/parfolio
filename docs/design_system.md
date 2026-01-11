@@ -800,6 +800,18 @@ Card(
 )
 ```
 
+
+#### Recording CTA Pattern
+
+**Specific Layout for the "Hero" Dashboard Moment**:
+
+- **Background**: Lime 50 (`#F7FEE7`)
+- **Structure**: Symmetrical horizontal layout
+- **Left**: `feature_voice_to_par_v3.png` asset
+- **Center**: Headline (Lime 900), Subheadline (Lime 900, 80% opacity), and Primary Button (Lime 500)
+- **Right**: `feature_smart_tagging_v3.png` asset
+- **Responsiveness**: Stacks to vertical layout on narrow screens with center alignment
+
 ---
 
 ### Badges & Chips
