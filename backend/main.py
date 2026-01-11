@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import auth_router
+from routers import auth_router, profile_router
 from firebase_config import firebase_app
 
 app = FastAPI()
@@ -16,6 +16,7 @@ app.add_middleware(
 
 # Include routers
 app.include_router(auth_router.router)
+app.include_router(profile_router.router)
 
 @app.get("/")
 async def root():

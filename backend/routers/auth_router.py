@@ -136,5 +136,13 @@ async def get_current_user_profile(decoded_token: dict = Depends(get_current_use
         email=data.get("email"),
         display_name=data.get("display_name"),
         first_name=data.get("first_name"),
+        last_name=data.get("last_name"),
+        current_role=data.get("current_role"),
+        target_role=data.get("target_role"),
+        current_industry=data.get("current_industry"),
+        target_industry=data.get("target_industry"),
+        career_stage=data.get("career_stage"),
+        transition_types=data.get("transition_types"),
+        profile_photo_url=data.get("profile_photo_url"),
         created_at=datetime.utcnow() # Placeholder
     )
