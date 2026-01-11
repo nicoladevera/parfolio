@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../core/theme.dart';
 
 class ExportButton extends StatelessWidget {
   final Function(String) onExport;
@@ -18,9 +17,9 @@ class ExportButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: Colors.grey.shade200),
+          border: Border.all(color: Theme.of(context).colorScheme.outlineVariant),
         ),
-        child: Icon(Icons.download_rounded, color: AppColors.textMain, size: 20),
+        child: Icon(Icons.download_rounded, color: Theme.of(context).colorScheme.onSurface, size: 20),
       ),
       onSelected: onExport,
       itemBuilder: (context) => [
@@ -28,9 +27,9 @@ class ExportButton extends StatelessWidget {
           value: 'json',
           child: Row(
             children: [
-              Icon(Icons.data_object, color: AppColors.textMain, size: 20),
+              Icon(Icons.data_object, color: Theme.of(context).colorScheme.onSurface, size: 20),
               SizedBox(width: 8),
-              Text('Export as JSON'),
+              Text('Export as JSON', style: Theme.of(context).textTheme.bodyMedium),
             ],
           ),
         ),
@@ -38,9 +37,9 @@ class ExportButton extends StatelessWidget {
           value: 'csv',
           child: Row(
             children: [
-              Icon(Icons.table_chart_outlined, color: AppColors.textMain, size: 20),
+              Icon(Icons.table_chart_outlined, color: Theme.of(context).colorScheme.onSurface, size: 20),
               SizedBox(width: 8),
-              Text('Export as CSV'),
+              Text('Export as CSV', style: Theme.of(context).textTheme.bodyMedium),
             ],
           ),
         ),
@@ -48,9 +47,9 @@ class ExportButton extends StatelessWidget {
           value: 'txt',
           child: Row(
             children: [
-              Icon(Icons.text_snippet_outlined, color: AppColors.textMain, size: 20),
+              Icon(Icons.text_snippet_outlined, color: Theme.of(context).colorScheme.onSurface, size: 20),
               SizedBox(width: 8),
-              Text('Export as Text'),
+              Text('Export as Text', style: Theme.of(context).textTheme.bodyMedium),
             ],
           ),
         ),
@@ -58,3 +57,4 @@ class ExportButton extends StatelessWidget {
     );
   }
 }
+

@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import '../core/theme.dart';
 
 class RecordingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('New Recording', style: TextStyle(color: AppColors.textMain)),
+        title: Text('New Recording', style: TextStyle(color: Theme.of(context).colorScheme.onSurface)),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        iconTheme: IconThemeData(color: AppColors.textMain),
+        iconTheme: IconThemeData(color: Theme.of(context).colorScheme.onSurface),
       ),
       body: Center(
         child: Column(
@@ -18,20 +17,20 @@ class RecordingScreen extends StatelessWidget {
             Container(
               padding: EdgeInsets.all(32),
               decoration: BoxDecoration(
-                color: AppColors.primary.withOpacity(0.1),
+                color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 Icons.mic_none_rounded,
                 size: 80,
-                color: AppColors.primary,
+                color: Theme.of(context).colorScheme.primary,
               ),
             ),
             SizedBox(height: 32),
             Text(
               'Coming Soon',
               style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    color: AppColors.textMain,
+                    color: Theme.of(context).colorScheme.onSurface,
                     fontWeight: FontWeight.bold,
                   ),
             ),
@@ -46,7 +45,7 @@ class RecordingScreen extends StatelessWidget {
               onPressed: () => Navigator.pop(context),
               style: OutlinedButton.styleFrom(
                 padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                side: BorderSide(color: AppColors.primary),
+                side: BorderSide(color: Theme.of(context).colorScheme.primary),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
@@ -59,3 +58,4 @@ class RecordingScreen extends StatelessWidget {
     );
   }
 }
+
