@@ -1,5 +1,5 @@
 from pydantic import BaseModel, EmailStr, Field
-from typing import Optional
+from typing import Optional, List
 from datetime import datetime
 
 class UserRegisterRequest(BaseModel):
@@ -17,6 +17,15 @@ class UserResponse(BaseModel):
     email: str
     display_name: Optional[str] = None
     first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    current_role: Optional[str] = None
+    target_role: Optional[str] = None
+    current_industry: Optional[str] = None
+    target_industry: Optional[str] = None
+    career_stage: Optional[str] = None
+    transition_types: Optional[List[str]] = None
+    profile_photo_url: Optional[str] = None
+
     created_at: datetime
 
     class Config:

@@ -4,7 +4,6 @@ import '../services/auth_service.dart';
 import '../services/story_service.dart';
 import '../models/user_model.dart';
 import '../models/story_model.dart';
-import '../models/story_model.dart';
 import '../widgets/welcome_header.dart';
 import '../widgets/recording_cta.dart';
 import '../widgets/tag_filter_bar.dart';
@@ -12,6 +11,7 @@ import '../widgets/stories_list.dart';
 import '../widgets/export_button.dart';
 import 'recording_screen.dart';
 import 'story_detail_screen.dart';
+import 'user_profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -113,6 +113,16 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
+          IconButton(
+            icon: Icon(Icons.person_outline, color: Theme.of(context).colorScheme.onSurface),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => UserProfileScreen()),
+              ).then((_) => _loadData()); // Refresh data when returning from profile
+            },
+            tooltip: 'Profile',
+          ),
           ExportButton(
             onExport: (format) async {
              _storyService.startExport(format);
