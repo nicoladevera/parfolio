@@ -8,6 +8,8 @@ import '../widgets/welcome_header.dart';
 import '../widgets/recording_cta.dart';
 import '../widgets/tag_filter_bar.dart';
 import '../widgets/stories_list.dart';
+import '../widgets/auth/sunburst_decoration.dart';
+import '../widgets/auth/wavy_line_decoration.dart';
 import '../widgets/export_button.dart';
 import 'recording_screen.dart';
 import 'story_detail_screen.dart';
@@ -100,127 +102,158 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final showDecorations = screenWidth > 600;
+
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest, // Use theme background
-      appBar: AppBar(
-        title: Text(
-          'PARfolio', 
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-          )
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.person_outline, color: Theme.of(context).colorScheme.onSurface),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => UserProfileScreen()),
-              ).then((_) => _loadData()); // Refresh data when returning from profile
-            },
-            tooltip: 'Profile',
-          ),
-          ExportButton(
-            onExport: (format) async {
-             _storyService.startExport(format);
-             ScaffoldMessenger.of(context).showSnackBar(
-               SnackBar(content: Text('Export started for $format format...')),
-             );
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.logout, color: Theme.of(context).colorScheme.onSurface),
-            onPressed: () => Provider.of<AuthService>(context, listen: false).signOut(),
-            tooltip: 'Sign Out',
-          ),
-          SizedBox(width: 8),
-        ],
-      ),
-      body: RefreshIndicator(
-        onRefresh: _loadData,
-        color: Theme.of(context).colorScheme.primary,
-        child: SingleChildScrollView(
-          padding: EdgeInsets.all(24),
-          physics: AlwaysScrollableScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              WelcomeHeader(
-                user: _currentUser,
-                storyCount: _stories.length,
+      backgroundColor: Colors.white, // Clean white background
+      body: Stack(
+        children: [
+          // Static background decorations (desktop only)
+          if (showDecorations) ...[
+            // Bottom-right: Wavy line
+            Positioned(
+              bottom: 40,
+              right: -10,
+              child: Opacity(
+                opacity: 0.5,
+                child: WavyLineDecoration(
+                  color: const Color(0xFFA3E635), // Lime 300
+                  width: 180,
+                  height: 80,
+                ),
               ),
-              SizedBox(height: 32),
-              RecordingCTA(
-                onRecordPressed: () {
-                  Navigator.push(
-                    context, 
-                    MaterialPageRoute(builder: (_) => RecordingScreen()),
-                  );
-                },
-              ),
-              SizedBox(height: 40),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            ),
+          ],
+
+          // Main Content
+          RefreshIndicator(
+            onRefresh: _loadData,
+            color: Theme.of(context).colorScheme.primary,
+            child: SingleChildScrollView(
+              padding: EdgeInsets.all(24),
+              physics: AlwaysScrollableScrollPhysics(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Your Stories',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                   // AppBar effectively
+                   Row(
+                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                     children: [
+                       Text(
+                        'PARfolio', 
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
-                        ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 16),
-              TagFilterBar(
-                selectedTag: _selectedTag,
-                onTagSelected: _onTagSelected,
-              ),
-              SizedBox(height: 16),
-              StoriesList(
-                stories: _stories,
-                isLoading: _isLoading,
-                onStoryTap: (story) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => StoryDetailScreen(
-                        story: story,
-                        onDelete: _deleteStory,
+                          fontSize: 20,
+                        )
                       ),
-                    ),
-                  ).then((_) => _loadData()); // Refresh on return in case of changes
-                },
-                onStoryDelete: (id) {
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: Text('Delete Story'),
-                        content: Text('Are you sure you want to delete this story?'),
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: Text('Cancel'),
-                          ),
-                          TextButton(
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.person_outline, color: Theme.of(context).colorScheme.onSurface),
                             onPressed: () {
-                              Navigator.pop(context);
-                              _deleteStory(id);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (_) => UserProfileScreen()),
+                              ).then((_) => _loadData());
                             },
-                            child: Text('Delete', style: TextStyle(color: Colors.red)),
+                            tooltip: 'Profile',
+                          ),
+                          ExportButton(
+                            onExport: (format) async {
+                             _storyService.startExport(format);
+                             ScaffoldMessenger.of(context).showSnackBar(
+                               SnackBar(content: Text('Export started for $format format...')),
+                             );
+                            },
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.logout, color: Theme.of(context).colorScheme.onSurface),
+                            onPressed: () => Provider.of<AuthService>(context, listen: false).signOut(),
+                            tooltip: 'Sign Out',
                           ),
                         ],
                       ),
-                    );
-                },
+                     ],
+                   ),
+
+                  SizedBox(height: 32),
+                  WelcomeHeader(
+                    user: _currentUser,
+                    storyCount: _stories.length,
+                  ),
+                  SizedBox(height: 32),
+                  RecordingCTA(
+                    onRecordPressed: () {
+                      Navigator.push(
+                        context, 
+                        MaterialPageRoute(builder: (_) => RecordingScreen()),
+                      );
+                    },
+                  ),
+                  SizedBox(height: 40),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Your Stories',
+                        style: Theme.of(context).textTheme.headlineSmall?.copyWith( // Libre Baskerville per plan
+                              fontWeight: FontWeight.bold,
+                              fontSize: 24,
+                            ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 16),
+                  TagFilterBar(
+                    selectedTag: _selectedTag,
+                    onTagSelected: _onTagSelected,
+                  ),
+                  SizedBox(height: 16),
+                  StoriesList(
+                    stories: _stories,
+                    isLoading: _isLoading,
+                    onStoryTap: (story) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => StoryDetailScreen(
+                            story: story,
+                            onDelete: _deleteStory,
+                          ),
+                        ),
+                      ).then((_) => _loadData()); 
+                    },
+                    onStoryDelete: (id) {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: Text('Delete Story'),
+                            content: Text('Are you sure you want to delete this story?'),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: Text('Cancel'),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  _deleteStory(id);
+                                },
+                                child: Text('Delete', style: TextStyle(color: Colors.red)),
+                              ),
+                            ],
+                          ),
+                        );
+                    },
+                  ),
+                  SizedBox(height: 40),
+                ],
               ),
-              SizedBox(height: 40),
-            ],
+            ),
           ),
-        ),
-      ),
+        ],
+      )
     );
   }
 }
