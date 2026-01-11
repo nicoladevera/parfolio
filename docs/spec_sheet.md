@@ -188,3 +188,32 @@ tags/{tagId}
 4. [ ] Create Stories CRUD endpoints
 5. [ ] Design and build Flutter UI for voice recording + story display
 6. [ ] Implement export functionality
+
+### `PUT /profile` — Update User Profile
+**Request:**
+```json
+{
+  "current_role": "Product Manager",
+  "target_role": "Senior Product Manager",
+  "current_industry": "Fintech",
+  "target_industry": "Climate Tech",
+  "career_stage": "mid_career",
+  "transition_types": ["role_change", "industry_change"],
+  "profile_photo_url": "https://firebasestorage.googleapis.com/v0/b/..."
+}
+```
+
+**Response:**
+```json
+{
+  "user_id": "uid_123",
+  "email": "user@example.com",
+  "current_role": "Product Manager",
+  "target_role": "Senior Product Manager",
+  "current_industry": "Fintech",
+  "target_industry": "Climate Tech",
+  "career_stage": "mid_career",
+  "transition_types": ["role_change", "industry_change"],
+  "profile_photo_url": "https://firebasestorage.googleapis.com/v0/b/..."
+}
+```
