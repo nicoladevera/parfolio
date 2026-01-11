@@ -11,86 +11,271 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;800&family=Patrick+Hand&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap"
         rel="stylesheet">
 
-    <!-- Styles -->
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        serif: ['Libre Baskerville', 'Georgia', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom Styles -->
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body class="font-sans text-gray-900 bg-white antialiased">
+
+    <!-- Skip to content link for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
 
     <!-- Navigation -->
-    <nav class="navbar">
-        <div class="logo">PARfolio</div>
-        <div class="nav-links">
-            <a href="#how-it-works">How it Works</a>
-            <a href="#features">Features</a>
-            <a href="#about">About</a>
-            <a href="/app" class="btn-primary">Get Started</a>
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <a href="/" class="text-xl font-bold text-gray-900">PARfolio</a>
+
+                <!-- Desktop Nav Links -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#how-it-works" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">How
+                        it Works</a>
+                    <a href="#features"
+                        class="text-gray-600 hover:text-gray-900 font-medium transition-colors">Features</a>
+                    <a href="#about" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">About</a>
+                    <a href="/app"
+                        class="bg-lime-500 hover:bg-lime-600 text-white font-semibold px-6 py-2.5 rounded-full transition-all hover:shadow-lg hover:-translate-y-0.5">Get
+                        Started</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                    aria-label="Toggle menu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
         </div>
-        <div class="mobile-menu-btn">
-            <span></span>
-            <span></span>
-            <span></span>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100">
+            <div class="px-4 py-4 space-y-3">
+                <a href="#how-it-works" class="block text-gray-600 hover:text-gray-900 font-medium py-2">How it
+                    Works</a>
+                <a href="#features" class="block text-gray-600 hover:text-gray-900 font-medium py-2">Features</a>
+                <a href="#about" class="block text-gray-600 hover:text-gray-900 font-medium py-2">About</a>
+                <a href="/app"
+                    class="block bg-lime-500 hover:bg-lime-600 text-white font-semibold px-6 py-3 rounded-full text-center transition-all">Get
+                    Started</a>
+            </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <header class="hero">
-        <div class="hero-content">
-            <div class="hero-badge">🎤 Voice-First Interview Prep</div>
-            <h1>Turn your work <span class="script-emphasis">chaos</span> into interview <span
-                    class="script-emphasis gold">gold</span></h1>
-            <p>Speak your messy thoughts. We structure them into clear Problem-Action-Result stories so you can
-                interview with confidence.</p>
-            <div class="cta-group">
-                <a href="/app" class="btn-primary btn-lg">Start Recording <span>→</span></a>
-                <a href="#demo" class="btn-secondary">View Demo</a>
-            </div>
-            <div class="decorative-blob blob-1"></div>
-        </div>
-        <div class="hero-image">
-            <div class="image-container">
-                <!-- Placeholder for Hero Image -->
-                <img src="assets/hero_mockup.png" alt="PARfolio App Interface" class="app-mockup">
-            </div>
-            <div class="decorative-blob blob-2"></div>
-            <div class="floating-badge badge-1">🌟 <b>AI Structured</b></div>
-            <div class="floating-badge badge-2">🎯 <b>STAR Method</b></div>
-        </div>
-    </header>
+    <main id="main-content">
+        <header class="pt-20 pb-12 md:pt-24 md:pb-16 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Centered Text Content -->
+                <div class="text-center max-w-4xl mx-auto z-10 relative">
+                    <!-- Badge -->
+                    <span
+                        class="inline-flex items-center px-4 py-2 rounded-full bg-lime-100 text-lime-700 text-sm font-semibold mb-6">
+                        <span class="mr-2">🎤</span> Voice-First Interview Prep
+                    </span>
 
-    <!-- Features Section -->
-    <section id="features" class="features">
-        <div class="section-header">
-            <h2>The best way to <span class="script-text">prep</span> for your next role</h2>
-            <p>Forget the stress of blank pages. Just talk.</p>
-        </div>
+                    <!-- Headline -->
+                    <h1 class="font-serif text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-tight mb-6">
+                        Turn your work
+                        <span class="italic relative inline-block">
+                            chaos
+                            <span class="absolute bottom-1 left-0 w-full h-3 bg-lime-300/50 -z-10"></span>
+                        </span>
+                        into interview
+                        <span class="italic relative inline-block">
+                            gold
+                            <span class="absolute bottom-1 left-0 w-full h-3 bg-amber-300/50 -z-10"></span>
+                        </span>
+                    </h1>
 
-        <div class="feature-grid">
-            <div class="feature-card card-purple">
-                <div class="icon">🎙️</div>
-                <h3>Voice to PAR</h3>
-                <p>Ramble for 5 minutes. We extract the key details and format them into a perfect STAR/PAR answer.</p>
+                    <!-- Subtitle -->
+                    <p class="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto mb-10">
+                        Speak your messy thoughts. We structure them into clear Problem-Action-Result stories so you can
+                        interview with confidence.
+                    </p>
+
+                    <!-- CTA Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <a href="/app"
+                            class="inline-flex items-center justify-center bg-lime-500 hover:bg-lime-600 text-white font-semibold px-8 py-4 rounded-full text-lg transition-all hover:shadow-xl hover:-translate-y-0.5">
+                            Start Recording
+                            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                            </svg>
+                        </a>
+                        <a href="#demo"
+                            class="inline-flex items-center justify-center border-2 border-gray-300 hover:border-gray-400 text-gray-700 font-semibold px-8 py-4 rounded-full text-lg transition-all hover:bg-gray-50">
+                            View Demo
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Hero Image & Floating Cards -->
+                <div class="relative mt-10 md:mt-12 max-w-5xl mx-auto flex justify-center items-center">
+
+                    <!-- Center Phone Image -->
+                    <div class="relative z-10 w-full max-w-[420px] md:max-w-[520px]">
+                        <img src="assets/hero_phone_v4.png" alt="PARfolio App Interface"
+                            class="w-full h-auto drop-shadow-2xl animate-float-slow">
+                    </div>
+
+                    <!-- Floating Card Left: Quote -->
+                    <div
+                        class="absolute top-10 left-0 md:left-10 lg:left-0 z-20 max-w-[220px] md:max-w-[280px] hidden md:block animate-float-delayed-1">
+                        <div class="bg-lime-50 p-4 rounded-2xl shadow-xl border border-lime-100 transform -rotate-2">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-8 h-8 rounded-full bg-lime-100 flex items-center justify-center text-sm">
+                                    👤</div>
+                                <span class="text-xs text-gray-500 font-medium">User Success</span>
+                            </div>
+                            <p class="text-sm text-gray-800 font-medium italic">"I finally nailed my Amazon leadership
+                                principles interview!"</p>
+                        </div>
+                    </div>
+
+                    <!-- Floating Card Right: Category -->
+                    <div
+                        class="absolute top-20 right-0 md:right-10 lg:right-0 z-20 max-w-[240px] hidden md:block animate-float-delayed-2">
+                        <div class="bg-amber-50 p-4 rounded-2xl shadow-xl border border-amber-100 transform rotate-2">
+                            <div class="flex items-center justify-between mb-2">
+                                <span
+                                    class="px-2 py-1 rounded-md bg-amber-100 text-amber-700 text-xs font-bold">Behavioral</span>
+                                <span class="text-xs text-gray-400">2m ago</span>
+                            </div>
+                            <h4 class="font-bold text-gray-900 text-sm mb-1">Conflict Resolution</h4>
+                            <div class="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
+                                <div class="h-full bg-lime-500 w-3/4 rounded-full"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Floating Card Bottom Right: STAR Method -->
+                    <div
+                        class="absolute bottom-10 right-4 md:right-20 lg:right-10 z-20 hidden md:block animate-float-delayed-3">
+                        <div class="bg-lime-50 p-3 rounded-xl shadow-lg border border-lime-100 flex items-center gap-3">
+                            <div
+                                class="w-10 h-10 bg-lime-500 rounded-lg flex items-center justify-center text-white font-bold text-lg">
+                                S</div>
+                            <div>
+                                <p class="font-bold text-gray-900 text-sm">STAR Method</p>
+                                <p class="text-xs text-gray-500">Auto-formatted</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Floating Card Bottom Left: Success Rate -->
+                    <div
+                        class="absolute bottom-12 left-4 md:left-20 lg:left-10 z-20 hidden md:block animate-float-delayed-1">
+                        <div class="bg-amber-50 p-4 rounded-2xl shadow-xl border border-amber-100 transform -rotate-1">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 bg-amber-500 rounded-xl flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-2xl font-bold text-gray-900">95%</p>
+                                    <p class="text-xs text-gray-600 font-medium">Success Rate</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
-            <div class="feature-card card-yellow">
-                <div class="icon">🏷️</div>
-                <h3>Smart Tagging</h3>
-                <p>Organize your stories with auto-tags like "Leadership", "Conflict", and "Strategy".</p>
+        </header>
+
+        <!-- Features Section -->
+        <section id="features" class="py-20 md:py-28 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Section Header -->
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <span class="text-lime-600 font-semibold text-sm uppercase tracking-wider">Features</span>
+                    <h2 class="font-serif mt-4 text-3xl md:text-4xl font-bold text-gray-900">
+                        The best way to <span class="italic">prep</span> for your next role
+                    </h2>
+                    <p class="mt-4 text-lg text-gray-600">
+                        Forget the stress of blank pages. Just talk.
+                    </p>
+                </div>
+
+                <!-- Feature Cards Grid -->
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Feature Card 1 -->
+                    <div
+                        class="feature-card bg-white rounded-2xl shadow-lg overflow-hidden group hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                        <div class="aspect-[4/3] bg-gray-50 flex items-center justify-center p-8">
+                            <img src="assets/feature_voice_to_par_v3.png" alt="Voice to PAR Illustration"
+                                class="w-full h-full object-contain drop-shadow-md transition-transform duration-500 group-hover:scale-105">
+                        </div>
+                        <div class="p-8">
+                            <h3 class="font-serif text-xl font-bold text-gray-900 mb-3">Voice to PAR</h3>
+                            <p class="text-gray-600 leading-relaxed">Just talk. We'll format your experience into interview-ready stories.</p>
+                        </div>
+                    </div>
+
+                    <!-- Feature Card 2 -->
+                    <div
+                        class="feature-card bg-white rounded-2xl shadow-lg overflow-hidden group hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                        <div class="aspect-[4/3] bg-gray-50 flex items-center justify-center p-8">
+                            <img src="assets/feature_smart_tagging_v3.png" alt="Smart Tagging Illustration"
+                                class="w-full h-full object-contain drop-shadow-md transition-transform duration-500 group-hover:scale-105">
+                        </div>
+                        <div class="p-8">
+                            <h3 class="font-serif text-xl font-bold text-gray-900 mb-3">Smart Tagging</h3>
+                            <p class="text-gray-600 leading-relaxed">Organize your stories with auto-tags like
+                                "Leadership", "Conflict", and "Strategy".</p>
+                        </div>
+                    </div>
+
+                    <!-- Feature Card 3 -->
+                    <div
+                        class="feature-card bg-white rounded-2xl shadow-lg overflow-hidden group hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                        <div class="aspect-[4/3] bg-gray-50 flex items-center justify-center p-8">
+                            <img src="assets/feature_story_bank_v3.png" alt="Story Bank Illustration"
+                                class="w-full h-full object-contain drop-shadow-md transition-transform duration-500 group-hover:scale-105">
+                        </div>
+                        <div class="p-8">
+                            <h3 class="font-serif text-xl font-bold text-gray-900 mb-3">Story Bank</h3>
+                            <p class="text-gray-600 leading-relaxed">Build a searchable library of your career wins.
+                                Never forget a project detail again.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="feature-card card-blue">
-                <div class="icon">📂</div>
-                <h3>Story Bank</h3>
-                <p>Build a searchable library of your career wins. Never forget a project detail again.</p>
-            </div>
-        </div>
-    </section>
+        </section>
+
+    </main>
 
     <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <p>&copy; 2026 PARfolio. Nicely done.</p>
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <a href="/" class="text-xl font-bold">PARfolio</a>
+                <p class="text-gray-400 text-sm">&copy; 2026 PARfolio. All rights reserved.</p>
+            </div>
         </div>
     </footer>
 
