@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../services/auth_service.dart';
-import '../core/theme.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -59,7 +57,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        iconTheme: IconThemeData(color: AppColors.textMain),
+        iconTheme: IconThemeData(color: Theme.of(context).colorScheme.onSurface),
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -70,21 +68,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(
-                  'Join the\nClub!',
-                  style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                    color: AppColors.secondary,
-                    shadows: [
-                       Shadow(
-                        offset: Offset(1.0, 1.0),
-                        blurRadius: 0.0,
-                        color: Color(0xFFEBCB8B), // Slightly darker yellow shadow
+                RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontSize: 56, // Enforce large size
+                    ),
+                    children: [
+                      TextSpan(text: 'Join the\n'),
+                      TextSpan(
+                        text: 'Club!',
+                        style: TextStyle(fontStyle: FontStyle.italic),
                       ),
                     ],
                   ),
-                  textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 48),
                 SizedBox(height: 48),
                 Row(
                   children: [
@@ -93,11 +92,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         controller: _firstNameController,
                         decoration: InputDecoration(
                           labelText: 'First Name',
-                          prefixIcon: Icon(Icons.person_outline, color: AppColors.secondary),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            borderSide: BorderSide(color: AppColors.secondary, width: 2),
-                          ),
+                          prefixIcon: Icon(Icons.person_outline),
                         ),
                         validator: (val) => val!.isEmpty ? 'Required' : null,
                       ),
@@ -108,11 +103,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         controller: _lastNameController,
                         decoration: InputDecoration(
                           labelText: 'Last Name',
-                          prefixIcon: Icon(Icons.person_outline, color: AppColors.secondary),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            borderSide: BorderSide(color: AppColors.secondary, width: 2),
-                          ),
+                          prefixIcon: Icon(Icons.person_outline),
                         ),
                         validator: (val) => val!.isEmpty ? 'Required' : null,
                       ),
@@ -124,11 +115,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   controller: _emailController,
                   decoration: InputDecoration(
                     labelText: 'Email',
-                    prefixIcon: Icon(Icons.email_outlined, color: AppColors.secondary),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                        borderSide: BorderSide(color: AppColors.secondary, width: 2),
-                    ),
+                    prefixIcon: Icon(Icons.email_outlined),
                   ),
                   keyboardType: TextInputType.emailAddress,
                   validator: (val) => val!.isEmpty ? 'Please enter email' : null,
@@ -138,11 +125,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   controller: _passwordController,
                   decoration: InputDecoration(
                     labelText: 'Password',
-                    prefixIcon: Icon(Icons.lock_outline, color: AppColors.secondary),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                        borderSide: BorderSide(color: AppColors.secondary, width: 2),
-                    ),
+                    prefixIcon: Icon(Icons.lock_outline),
                   ),
                   obscureText: true,
                   validator: (val) => val!.length < 6 ? 'Password too short' : null,
@@ -150,12 +133,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 SizedBox(height: 32),
                 ElevatedButton(
                   onPressed: _isLoading ? null : _register,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.secondary,
-                    foregroundColor: AppColors.textMain,
-                  ),
+                  // Style is inherited from global theme
                   child: _isLoading 
-                    ? CircularProgressIndicator(color: AppColors.textMain) 
+                    ? CircularProgressIndicator(color: Colors.white) 
                     : Text('Create Account'),
                 ),
                 SizedBox(height: 24),
@@ -179,24 +159,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         if (mounted) setState(() => _isLoading = false);
                       }
                     },
-                    style: OutlinedButton.styleFrom(
-                      side: BorderSide(color: AppColors.secondary),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.login, color: AppColors.textMain),
+                        Icon(Icons.login),
                         SizedBox(width: 12),
                         Text(
                           "Continue with Google",
-                          style: GoogleFonts.outfit(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.textMain,
-                          ),
+                          style: Theme.of(context).textTheme.labelLarge,
                         ),
                       ],
                     ),
@@ -210,3 +180,4 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 }
+

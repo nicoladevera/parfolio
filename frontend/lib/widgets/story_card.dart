@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/story_model.dart';
-import '../core/theme.dart';
+import '../core/colors.dart'; // Add this import
 
 class StoryCard extends StatelessWidget {
   final StoryModel story;
@@ -19,12 +19,7 @@ class StoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.symmetric(vertical: 8),
-      elevation: 0,
-      color: AppColors.bg,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-        side: BorderSide(color: Colors.grey.shade200),
-      ),
+      // Theme handles elevation (0), shape (rounded), color (white)
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(16),
@@ -46,7 +41,7 @@ class StoryCard extends StatelessWidget {
                     ),
                   ),
                   PopupMenuButton<String>(
-                    icon: Icon(Icons.more_horiz, color: AppColors.textMuted),
+                    icon: Icon(Icons.more_horiz, color: Theme.of(context).colorScheme.onSurfaceVariant),
                     onSelected: (value) {
                       if (value == 'delete') onDelete();
                     },
@@ -55,9 +50,9 @@ class StoryCard extends StatelessWidget {
                         value: 'delete',
                         child: Row(
                           children: [
-                            Icon(Icons.delete_outline, color: Colors.red, size: 20),
+                            Icon(Icons.delete_outline, color: Theme.of(context).colorScheme.error, size: 20),
                             SizedBox(width: 8),
-                            Text('Delete', style: TextStyle(color: Colors.red)),
+                            Text('Delete', style: TextStyle(color: Theme.of(context).colorScheme.error)),
                           ],
                         ),
                       ),
@@ -71,18 +66,17 @@ class StoryCard extends StatelessWidget {
                   spacing: 8,
                   runSpacing: 8,
                   children: story.tags.map((tag) {
-                    final color = AppColors.tagColors[tag] ?? AppColors.primary;
+                    final color = Theme.of(context).colorScheme.tagColors[tag] ?? Theme.of(context).colorScheme.primary;
                     return Container(
                       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                       decoration: BoxDecoration(
-                        color: color.withOpacity(0.1),
+                        color: color.withOpacity(0.15),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
                         tag,
-                        style: TextStyle(
+                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
                           color: color,
-                          fontSize: 12,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -93,7 +87,7 @@ class StoryCard extends StatelessWidget {
               Text(
                 DateFormat('MMM d, yyyy').format(story.createdAt),
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AppColors.textMuted,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
               ),
             ],
@@ -103,3 +97,4 @@ class StoryCard extends StatelessWidget {
     );
   }
 }
+

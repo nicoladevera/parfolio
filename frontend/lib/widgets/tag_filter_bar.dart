@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../core/theme.dart';
 
 class TagFilterBar extends StatelessWidget {
   final String selectedTag;
@@ -34,27 +33,28 @@ class TagFilterBar extends StatelessWidget {
         itemBuilder: (context, index) {
           final tag = _tags[index];
           final isSelected = selectedTag == tag;
-          final color = tag == 'All' 
-              ? AppColors.primary 
-              : (AppColors.tagColors[tag] ?? AppColors.primary);
-
+          
           return FilterChip(
             label: Text(tag),
             selected: isSelected,
             onSelected: (_) => onTagSelected(tag),
-            backgroundColor: Colors.transparent,
-            selectedColor: color.withOpacity(0.1),
-            checkmarkColor: color,
-            side: BorderSide(
-              color: isSelected ? color : Colors.grey.shade300,
-            ),
-            labelStyle: TextStyle(
-              color: isSelected ? color : AppColors.textMain,
-              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+            // Unselected: Gray 100
+            // Selected: Lime 100 (primaryContainer)
+            backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest, 
+            selectedColor: Theme.of(context).colorScheme.primaryContainer, 
+            checkmarkColor: Theme.of(context).colorScheme.primary, // Lime 700ish
+            side: isSelected
+              ? BorderSide(color: Theme.of(context).colorScheme.primary, width: 2)
+              : BorderSide.none,
+            labelStyle: Theme.of(context).textTheme.labelMedium?.copyWith(
+              color: isSelected 
+                ? Theme.of(context).colorScheme.onPrimaryContainer // Strong text for selected
+                : Theme.of(context).colorScheme.onSurfaceVariant, // Gray 600 for unselected
+              fontWeight: FontWeight.w600,
             ),
             padding: EdgeInsets.symmetric(horizontal: 4),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(999),
             ),
             showCheckmark: false,
           );
@@ -63,3 +63,5 @@ class TagFilterBar extends StatelessWidget {
     );
   }
 }
+
+
