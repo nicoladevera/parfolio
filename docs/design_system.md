@@ -18,6 +18,7 @@
 8. [Icons & Imagery](#icons--imagery)
 9. [Accessibility](#accessibility)
 10. [Dark Mode](#dark-mode-future)
+11. [Decoration & Imagery](#decoration--imagery)
 
 ---
 
@@ -1693,6 +1694,48 @@ When implementing this design system in the Flutter app:
 - [Google Fonts](https://fonts.google.com/)
 - [WCAG 2.1 Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)
 - [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/)
+
+---
+
+## Decoration & Imagery
+
+### Strategy: The Hybrid Approach
+
+We use visual hierarchy to balance delight with utility:
+
+1.  **Hero Moments (3D Clay)**: Used for high-impact emotional beats (Landing Page, Onboarding, "First Story" Celebration).
+    *   *Style*: Playful, tactile, 3D clay renders.
+2.  **Utility & Flow (Abstract Geometric)**: Used for functional screens (Login, Registration, Settings) to keep focus while maintaining brand presence.
+    *   *Style*: Flat, monoline, geometric shapes.
+    *   *Colors*: Lime 300 (Energy), Gray 300 (Structure).
+
+### Geometric Motifs (Growth & Sparks)
+
+For the authentication and utility flows, we use specific motifs to tell the "chaos to gold" story subtly:
+
+#### 1. The Sunburst (Success)
+*   **Visual**: A radiant, 8-point spark or starburst.
+*   **Meaning**: Represents the "Gold" in "Turn experiences into interview gold." It signifies a flash of insight, success, or a polished result.
+*   **Usage**: Top-right corner of cards or screens.
+*   **Implementation**: `SunburstDecoration` widget.
+
+#### 2. The Ripple (Impact)
+*   **Visual**: Concentric organic rings.
+*   **Meaning**: Represents growth, expansion, and the ripple effect of a good story.
+*   **Usage**: Bottom-left corner of cards or screens.
+*   **Implementation**: `RippleDecoration` widget.
+
+#### 3. Polka Dot Grid (Structure)
+*   **Visual**: A rotated grid of small dots.
+*   **Meaning**: Represents the raw data points or "experiences" before they are connected into a story.
+*   **Usage**: Top-left and bottom-right corners (behind cards).
+*   **Implementation**: `PolkaDotRectangle` widget.
+
+#### 4. Wavy Line (Energy)
+*   **Visual**: A smooth, continuous undulating line.
+*   **Meaning**: Represents the flow of conversation and the dynamic nature of storytelling.
+*   **Usage**: Near Polka Dot grids to add movement.
+*   **Implementation**: `WavyLineDecoration` widget.
 
 ---
 
