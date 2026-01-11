@@ -11,6 +11,17 @@ class AppColors {
   static const Color bgSoft = Color(0xFFFAF8FF);
   static const Color textMain = Color(0xFF2D3436);
   static const Color textMuted = Color(0xFF636E72);
+
+  static const Map<String, Color> tagColors = {
+    'Leadership': Color(0xFF6C5CE7),
+    'Communication': Color(0xFF00CEC9),
+    'Impact': Color(0xFFFDCB6E),
+    'Problem-Solving': Color(0xFFE17055),
+    'Collaboration': Color(0xFF74B9FF),
+    'Strategic Thinking': Color(0xFFA29BFE),
+    'Innovation': Color(0xFFFF7675),
+    'Adaptability': Color(0xFF55EFC4),
+  };
 }
 
 class AppTheme {

@@ -34,6 +34,8 @@
 ```
 users/{userId}
 ├── email: string
+├── firstName: string
+├── lastName: string
 ├── displayName: string
 ├── createdAt: timestamp
 └── updatedAt: timestamp
@@ -74,7 +76,7 @@ tags/{tagId}
 ### Authentication
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| `POST` | `/auth/register` | Register new user (Firebase Auth) |
+| `POST` | `/auth/register` | Register new user (requires email, password, first_name, last_name) |
 | `POST` | `/auth/login` | Login and return JWT token |
 | `GET` | `/auth/me` | Get current user profile |
 

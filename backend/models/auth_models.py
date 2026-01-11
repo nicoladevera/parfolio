@@ -5,7 +5,8 @@ from datetime import datetime
 class UserRegisterRequest(BaseModel):
     email: EmailStr
     password: str = Field(..., min_length=6)
-    display_name: Optional[str] = None
+    first_name: str
+    last_name: str
 
 class UserLoginRequest(BaseModel):
     email: EmailStr
@@ -15,6 +16,7 @@ class UserResponse(BaseModel):
     user_id: str
     email: str
     display_name: Optional[str] = None
+    first_name: Optional[str] = None
     created_at: datetime
 
     class Config:

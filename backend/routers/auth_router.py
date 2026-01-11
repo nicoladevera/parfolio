@@ -13,17 +13,22 @@ db = firestore.client()
 @router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
 async def register(request: UserRegisterRequest):
     try:
+        # Construct display name
+        display_name = f"{request.first_name} {request.last_name}".strip()
+        
         # Create user in Firebase Auth
         user_record = auth.create_user(
             email=request.email,
             password=request.password,
-            display_name=request.display_name
+            display_name=display_name
         )
         
         # Create user document in Firestore
         user_data = {
             "email": request.email,
-            "display_name": request.display_name,
+            "first_name": request.first_name,
+            "last_name": request.last_name,
+            "display_name": display_name,
             "created_at": firestore.SERVER_TIMESTAMP,
             "updated_at": firestore.SERVER_TIMESTAMP
         }
@@ -33,7 +38,7 @@ async def register(request: UserRegisterRequest):
         return UserResponse(
             user_id=user_record.uid,
             email=request.email,
-            display_name=request.display_name,
+            display_name=display_name,
             created_at=datetime.utcnow() # Approximate for response
         )
         
@@ -130,5 +135,6 @@ async def get_current_user_profile(decoded_token: dict = Depends(get_current_use
         user_id=uid,
         email=data.get("email"),
         display_name=data.get("display_name"),
+        first_name=data.get("first_name"),
         created_at=datetime.utcnow() # Placeholder
     )
