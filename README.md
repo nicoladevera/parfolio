@@ -53,6 +53,9 @@ parfolio/
 ├── backend/                  # FastAPI server
 │   ├── main.py               # Entry point
 │   ├── firebase_config.py    # Firebase initialization
+│   ├── models/               # Pydantic data models
+│   ├── routers/              # API route handlers
+│   ├── dependencies/         # Auth & shared dependencies
 │   ├── requirements.txt      # Python dependencies
 │   └── .env.example          # Environment template
 ├── marketing/                # Landing Page
@@ -62,7 +65,8 @@ parfolio/
 │   └── assets/               # Images and mockups
 ├── docs/
 │   ├── overview.md           # Product overview & pitch
-│   └── spec_sheet.md         # Technical spec (schema, endpoints)
+│   ├── spec_sheet.md         # Technical spec (schema, endpoints)
+│   └── design_system.md      # Design system documentation
 └── README.md
 ```
 
