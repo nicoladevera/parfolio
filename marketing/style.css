@@ -1,18 +1,32 @@
 /* Custom Animations - PARfolio Landing Page */
 
-/* Floating Clean Animations */
 @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-15px); }
+
+    0%,
+    100% {
+        transform: translateY(0px) rotate(var(--rotate-start, 0deg));
+    }
+
+    50% {
+        transform: translateY(-3px) rotate(var(--rotate-start, 0deg));
+    }
 }
 
 @keyframes float-subtle {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-8px); }
+
+    0%,
+    100% {
+        transform: translateY(0px) rotate(var(--rotate-start, 0deg));
+    }
+
+    50% {
+        transform: translateY(-2px) rotate(var(--rotate-start, 0deg));
+    }
 }
 
 .animate-float-slow {
-    animation: float 6s ease-in-out infinite;
+    --rotate-start: 0deg;
+    animation: float 8s ease-in-out infinite;
 }
 
 .animate-float-delayed-1 {
@@ -54,9 +68,48 @@
     transform: translateY(0);
 }
 
-.feature-card:nth-child(1) { transition-delay: 0.1s; }
-.feature-card:nth-child(2) { transition-delay: 0.2s; }
-.feature-card:nth-child(3) { transition-delay: 0.3s; }
+.feature-card:nth-child(1) {
+    transition-delay: 0.1s;
+}
+
+.feature-card:nth-child(2) {
+    transition-delay: 0.2s;
+}
+
+.feature-card:nth-child(3) {
+    transition-delay: 0.3s;
+}
+
+/* Feature Preview Cards */
+.feature-preview-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    will-change: transform;
+}
+
+.feature-preview-card img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.feature-preview-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 30px 60px rgba(101, 163, 13, 0.15);
+    /* Lime shadow */
+    z-index: 30;
+}
+
+/* Decorative Motifs */
+.hero-decoration {
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
+}
 
 /* Navbar shadow on scroll */
 nav.scrolled {
@@ -65,8 +118,15 @@ nav.scrolled {
 
 /* Reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
-    .floating-badge {
+
+    .floating-badge,
+    .feature-preview-card,
+    .animate-float-slow,
+    .animate-float-delayed-1,
+    .animate-float-delayed-2,
+    .animate-float-delayed-3 {
         animation: none;
+        transition: none;
     }
 
     .reveal,
@@ -80,7 +140,7 @@ nav.scrolled {
 /* Focus styles for accessibility */
 a:focus-visible,
 button:focus-visible {
-    outline: 2px solid #84cc16;
+    outline: 2px solid #65a30d;
     outline-offset: 2px;
 }
 

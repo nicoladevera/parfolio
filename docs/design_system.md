@@ -238,13 +238,20 @@ extension ParfolioColors on ColorScheme {
 
 ### Usage Guidelines
 
-**Primary Actions**: Use Lime 500 for all primary CTAs (Start Recording, Save Story, Create Account)
-**Secondary Actions**: Use Amber 500 or outlined buttons for secondary actions
-**Destructive Actions**: Use Error (Red 500) for delete, cancel, or destructive operations
-**Status Indicators**: Use semantic colors (success, warning, error) for system feedback
-**Tags**: Always use assigned tag colors for consistency across the app
-**Backgrounds**: White for cards and primary surfaces, Gray 50 for subtle section differentiation
 **Text**: Gray 900 for headings, Gray 700 for body, Gray 600 for labels, Gray 400 for tertiary text
+ 
+---
+ 
+### Marketing & Product Color Alignment
+ 
+To maintain a unified brand experience, the PARfolio landing page (`marketing/index.html`) is synchronized with the web app's brand colors using a custom Tailwind configuration.
+ 
+**Key Alignment Strategy:**
+- **Primary CTA Harmony**: Both the landing page and web app use **Lime 500 (#65A30D)** for primary actions (Get Started, Start Recording).
+- **Subtle Badges**: Non-actionable badges on the landing page (e.g., Voice-First badge) utilize a lighter tint (**#ecfccb**) for visual hierarchy, while core interactions remain bold.
+- **Shared Shadows**: Hover effects on the landing page feature a subtle Lime 500 shadow (`rgba(101, 163, 13, 0.15)`) to match the product's interactive feel.
+ 
+---
 
 ---
 
