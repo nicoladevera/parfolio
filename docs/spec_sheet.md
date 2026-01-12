@@ -186,7 +186,7 @@ tags/{tagId}
 2. [x] Implement Firebase Auth flow
 3. [ ] Build `/ai/process` endpoint with OpenAI/Gemini integration
 4. [ ] Create Stories CRUD endpoints
-5. [ ] Design and build Flutter UI for voice recording + story display
+5. [x] Design and build Flutter UI for voice recording + story display
 6. [ ] Implement export functionality
 
 ### `PUT /profile` — Update User Profile
