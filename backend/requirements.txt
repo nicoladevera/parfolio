@@ -4,3 +4,8 @@ firebase-admin
 python-dotenv
 pydantic[email]
 httpx
+langchain
+langchain-google-genai
+langchain-community
+tavily-python
+google-generativeai
