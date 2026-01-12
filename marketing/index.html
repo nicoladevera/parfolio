@@ -21,6 +21,38 @@
         tailwind.config = {
             theme: {
                 extend: {
+                    colors: {
+                        lime: {
+                            50: '#f7fee7',
+                            100: '#dcfce7',
+                            200: '#bef264',
+                            300: '#a3e635',
+                            400: '#84cc16',
+                            500: '#65a30d', // Brand Primary
+                            600: '#4d7c0f', // Hover state
+                            700: '#3f6212',
+                            800: '#3f6212',
+                            900: '#1a2e05',
+                        },
+                        amber: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            300: '#fcd34d',
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        },
+                        gray: {
+                            50: '#f9fafb',
+                            100: '#f3f4f6',
+                            200: '#e5e7eb',
+                            300: '#d1d5db',
+                            400: '#9ca3af',
+                            600: '#4b5563',
+                            700: '#374151',
+                            900: '#111827',
+                        }
+                    },
                     fontFamily: {
                         sans: ['Inter', 'system-ui', 'sans-serif'],
                         serif: ['Libre Baskerville', 'Georgia', 'serif'],
@@ -91,7 +123,7 @@
                 <div class="text-center max-w-4xl mx-auto z-10 relative">
                     <!-- Badge -->
                     <span
-                        class="inline-flex items-center px-4 py-2 rounded-full bg-lime-100 text-lime-700 text-sm font-semibold mb-6">
+                        class="inline-flex items-center px-4 py-2 rounded-full bg-[#ecfccb] text-[#4d7c0f] text-sm font-semibold mb-6">
                         <span class="mr-2">🎤</span> Voice-First Interview Prep
                     </span>
 
@@ -132,74 +164,114 @@
                     </div>
                 </div>
 
-                <!-- Hero Image & Floating Cards -->
-                <div class="relative mt-10 md:mt-12 max-w-5xl mx-auto flex justify-center items-center">
+                <!-- Hero Image & Feature Cards -->
+                <div class="relative mt-10 md:mt-12 max-w-7xl mx-auto flex justify-center items-center min-h-[500px]">
 
-                    <!-- Center Phone Image -->
-                    <div class="relative z-10 w-full max-w-[420px] md:max-w-[520px]">
-                        <img src="assets/hero_phone_v4.png" alt="PARfolio App Interface"
+                    <!-- Decorative Motifs (Background) -->
+                    <!-- Polka Dots (Orange) -->
+                    <div class="hero-decoration top-[0%] left-[5%] opacity-80 hidden md:block z-0">
+                        <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+                            <circle cx="10" cy="10" r="6" fill="#F97316" />
+                            <circle cx="30" cy="10" r="6" fill="#F97316" />
+                            <circle cx="50" cy="10" r="6" fill="#F97316" />
+                            <circle cx="70" cy="10" r="6" fill="#F97316" />
+                            <circle cx="20" cy="30" r="6" fill="#F97316" />
+                            <circle cx="40" cy="30" r="6" fill="#F97316" />
+                            <circle cx="60" cy="30" r="6" fill="#F97316" />
+                            <circle cx="10" cy="50" r="6" fill="#F97316" />
+                            <circle cx="30" cy="50" r="6" fill="#F97316" />
+                            <circle cx="50" cy="50" r="6" fill="#F97316" />
+                            <circle cx="70" cy="50" r="6" fill="#F97316" />
+                            <circle cx="20" cy="70" r="6" fill="#F97316" />
+                            <circle cx="40" cy="70" r="6" fill="#F97316" />
+                            <circle cx="60" cy="70" r="6" fill="#F97316" />
+                        </svg>
+                    </div>
+
+                    <!-- Sunburst (Lime) -->
+                    <div class="hero-decoration top-[10%] right-[10%] opacity-70 hidden md:block z-0">
+                        <svg width="100" height="100" viewBox="0 0 100 100" fill="none">
+                            <circle cx="50" cy="50" r="8" stroke="#84CC16" stroke-width="2" fill="none" />
+                            <line x1="50" y1="10" x2="50" y2="30" stroke="#84CC16" stroke-width="2" />
+                            <line x1="50" y1="70" x2="50" y2="90" stroke="#84CC16" stroke-width="2" />
+                            <line x1="10" y1="50" x2="30" y2="50" stroke="#84CC16" stroke-width="2" />
+                            <line x1="70" y1="50" x2="90" y2="50" stroke="#84CC16" stroke-width="2" />
+                            <line x1="22" y1="22" x2="36" y2="36" stroke="#84CC16" stroke-width="2" />
+                            <line x1="64" y1="64" x2="78" y2="78" stroke="#84CC16" stroke-width="2" />
+                            <line x1="22" y1="78" x2="36" y2="64" stroke="#84CC16" stroke-width="2" />
+                            <line x1="64" y1="36" x2="78" y2="22" stroke="#84CC16" stroke-width="2" />
+                        </svg>
+                    </div>
+
+                    <!-- Wavy Lines (Gray) - Moved to Right for Balance -->
+                    <div class="hero-decoration top-[45%] right-[5%] opacity-40 hidden lg:block z-0">
+                        <svg width="60" height="40" viewBox="0 0 60 40" fill="none">
+                            <path d="M0 10 Q15 0 30 10 T60 10" stroke="#9CA3AF" stroke-width="2" fill="none" />
+                            <path d="M0 25 Q15 15 30 25 T60 25" stroke="#9CA3AF" stroke-width="2" fill="none" />
+                        </svg>
+                    </div>
+
+                    <!-- Dot Grid (Teal/Lime) -->
+                    <div class="hero-decoration bottom-[8%] right-[5%] opacity-50 hidden lg:block">
+                        <svg width="70" height="70" viewBox="0 0 70 70" fill="none">
+                            <circle cx="10" cy="10" r="3" fill="#84CC16" />
+                            <circle cx="30" cy="10" r="3" fill="#84CC16" />
+                            <circle cx="50" cy="10" r="3" fill="#84CC16" />
+                            <circle cx="10" cy="30" r="3" fill="#84CC16" />
+                            <circle cx="30" cy="30" r="3" fill="#84CC16" />
+                            <circle cx="50" cy="30" r="3" fill="#84CC16" />
+                            <circle cx="10" cy="50" r="3" fill="#84CC16" />
+                            <circle cx="30" cy="50" r="3" fill="#84CC16" />
+                            <circle cx="50" cy="50" r="3" fill="#84CC16" />
+                        </svg>
+                    </div>
+
+                    <!-- Ripple Circles (Gray) -->
+                    <div class="hero-decoration bottom-[15%] left-[2%] opacity-30 hidden lg:block">
+                        <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+                            <circle cx="40" cy="40" r="15" stroke="#D1D5DB" stroke-width="2" fill="none" />
+                            <circle cx="40" cy="40" r="25" stroke="#D1D5DB" stroke-width="2" fill="none" />
+                            <circle cx="40" cy="40" r="35" stroke="#D1D5DB" stroke-width="2" fill="none" />
+                        </svg>
+                    </div>
+
+                    <!-- Card 1: Top Left (Q3 Product Launch) -->
+                    <div class="absolute top-[5%] left-[2%] lg:left-[10%] z-20 w-56 hidden lg:block">
+                        <div class="feature-preview-card animate-float-delayed-1 rounded-2xl overflow-hidden shadow-lg"
+                            style="--rotate-start: -2deg;">
+                            <img src="assets/card_story_library_final.png?v=manual" alt="Q3 Product Launch"
+                                class="w-full h-auto">
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Bottom Left (Voice Practice) -->
+                    <div class="absolute bottom-[10%] left-[5%] lg:left-[12%] z-20 w-48 hidden lg:block">
+                        <div class="feature-preview-card animate-float-delayed-2 rounded-2xl overflow-hidden shadow-lg"
+                            style="--rotate-start: 2deg;">
+                            <img src="assets/card_voice_practice_final.jpg" alt="Voice Practice" class="w-full h-auto">
+                        </div>
+                    </div>
+
+                    <!-- Center Phone Image (Reduced Size) -->
+                    <div class="relative z-10 w-full max-w-[270px] md:max-w-[325px]">
+                        <img src="assets/hero_phone_v4.png?v=final" alt="PARfolio App Interface"
                             class="w-full h-auto drop-shadow-2xl animate-float-slow">
                     </div>
 
-                    <!-- Floating Card Left: Quote -->
-                    <div
-                        class="absolute top-10 left-0 md:left-10 lg:left-0 z-20 max-w-[220px] md:max-w-[280px] hidden md:block animate-float-delayed-1">
-                        <div class="bg-lime-50 p-4 rounded-2xl shadow-xl border border-lime-100 transform -rotate-2">
-                            <div class="flex items-center gap-2 mb-2">
-                                <div class="w-8 h-8 rounded-full bg-lime-100 flex items-center justify-center text-sm">
-                                    👤</div>
-                                <span class="text-xs text-gray-500 font-medium">User Success</span>
-                            </div>
-                            <p class="text-sm text-gray-800 font-medium italic">"I finally nailed my Amazon leadership
-                                principles interview!"</p>
+                    <!-- Card 3: Top Right (Smart Tagging) -->
+                    <div class="absolute top-[8%] right-[2%] lg:right-[10%] z-20 w-52 hidden lg:block">
+                        <div class="feature-preview-card animate-float-delayed-3 rounded-2xl overflow-hidden shadow-lg"
+                            style="--rotate-start: 2deg;">
+                            <img src="assets/card_smart_tagging_final.png?v=manual" alt="Smart Tagging"
+                                class="w-full h-auto">
                         </div>
                     </div>
 
-                    <!-- Floating Card Right: Category -->
-                    <div
-                        class="absolute top-20 right-0 md:right-10 lg:right-0 z-20 max-w-[240px] hidden md:block animate-float-delayed-2">
-                        <div class="bg-amber-50 p-4 rounded-2xl shadow-xl border border-amber-100 transform rotate-2">
-                            <div class="flex items-center justify-between mb-2">
-                                <span
-                                    class="px-2 py-1 rounded-md bg-amber-100 text-amber-700 text-xs font-bold">Behavioral</span>
-                                <span class="text-xs text-gray-400">2m ago</span>
-                            </div>
-                            <h4 class="font-bold text-gray-900 text-sm mb-1">Conflict Resolution</h4>
-                            <div class="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
-                                <div class="h-full bg-lime-500 w-3/4 rounded-full"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Floating Card Bottom Right: STAR Method -->
-                    <div
-                        class="absolute bottom-10 right-4 md:right-20 lg:right-10 z-20 hidden md:block animate-float-delayed-3">
-                        <div class="bg-lime-50 p-3 rounded-xl shadow-lg border border-lime-100 flex items-center gap-3">
-                            <div
-                                class="w-10 h-10 bg-lime-500 rounded-lg flex items-center justify-center text-white font-bold text-lg">
-                                S</div>
-                            <div>
-                                <p class="font-bold text-gray-900 text-sm">STAR Method</p>
-                                <p class="text-xs text-gray-500">Auto-formatted</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Floating Card Bottom Left: Success Rate -->
-                    <div
-                        class="absolute bottom-12 left-4 md:left-20 lg:left-10 z-20 hidden md:block animate-float-delayed-1">
-                        <div class="bg-amber-50 p-4 rounded-2xl shadow-xl border border-amber-100 transform -rotate-1">
-                            <div class="flex items-center gap-3">
-                                <div class="w-12 h-12 bg-amber-500 rounded-xl flex items-center justify-center">
-                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <p class="text-2xl font-bold text-gray-900">95%</p>
-                                    <p class="text-xs text-gray-600 font-medium">Success Rate</p>
-                                </div>
-                            </div>
+                    <!-- Card 4: Bottom Right (PAR Story) -->
+                    <div class="absolute bottom-[10%] right-[3%] lg:right-[12%] z-20 w-48 hidden lg:block">
+                        <div class="feature-preview-card animate-float-delayed-1 rounded-2xl overflow-hidden shadow-lg"
+                            style="--rotate-start: -1deg;">
+                            <img src="assets/card_par_story_final.png?v=manual" alt="PAR Story" class="w-full h-auto">
                         </div>
                     </div>
 
@@ -217,7 +289,7 @@
                         The best way to <span class="italic">prep</span> for your next role
                     </h2>
                     <p class="mt-4 text-lg text-gray-600">
-                        Forget the stress of blank pages. Just talk.
+                        Forget the stress of blank pages.
                     </p>
                 </div>
 
@@ -232,7 +304,8 @@
                         </div>
                         <div class="p-8">
                             <h3 class="font-serif text-xl font-bold text-gray-900 mb-3">Voice to PAR</h3>
-                            <p class="text-gray-600 leading-relaxed">Just talk. We'll format your experience into interview-ready stories.</p>
+                            <p class="text-gray-600 leading-relaxed">Just talk. We'll format your experience into
+                                interview-ready stories.</p>
                         </div>
                     </div>
 
