@@ -13,13 +13,15 @@ class TagFilterBar extends StatelessWidget {
   final List<String> _tags = const [
     'All',
     'Leadership',
-    'Communication',
+    'Ownership',
     'Impact',
-    'Problem-Solving',
-    'Collaboration',
+    'Communication',
+    'Conflict',
     'Strategic Thinking',
-    'Innovation',
+    'Execution',
     'Adaptability',
+    'Failure',
+    'Innovation',
   ];
 
   @override
