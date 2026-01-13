@@ -124,16 +124,18 @@ Semantic colors communicate status and provide consistent feedback.
 
 Each skill category has a dedicated color for instant visual recognition.
 
-| Tag Category | Hex Code | RGB | Contrast Ratio |
-|--------------|----------|-----|----------------|
-| **Leadership** | `#8b5cf6` (Purple) | rgb(139, 92, 246) | 4.8:1 on white |
-| **Communication** | `#00CEC9` (Teal) | rgb(0, 206, 201) | 5.1:1 on white |
-| **Impact** | `#f59e0b` (Amber) | rgb(245, 158, 11) | 4.6:1 on white |
-| **Problem-Solving** | `#e17055` (Coral) | rgb(225, 112, 85) | 4.9:1 on white |
-| **Collaboration** | `#60a5fa` (Light Blue) | rgb(96, 165, 250) | 5.2:1 on white |
-| **Strategic Thinking** | `#a78bfa` (Light Purple) | rgb(167, 139, 250) | 5.5:1 on white |
-| **Innovation** | `#f87171` (Light Red) | rgb(248, 113, 113) | 4.7:1 on white |
-| **Adaptability** | `#34d399` (Light Green) | rgb(52, 211, 153) | 5.8:1 on white |
+| Map Key | Display Color | Hex Code |
+|---------|---------------|----------|
+| **Leadership** | Purple | `#8b5cf6` |
+| **Ownership** | Lime Green | `#65a30d` (Primary) |
+| **Impact** | Amber | `#f59e0b` |
+| **Communication** | Teal | `#00CEC9` |
+| **Conflict** | Lime Green | `#65a30d` (Primary) |
+| **Strategic Thinking** | Light Purple | `#a78bfa` |
+| **Execution** | Lime Green | `#65a30d` (Primary) |
+| **Adaptability** | Light Green | `#34d399` |
+| **Failure** | Lime Green | `#65a30d` (Primary) |
+| **Innovation** | Light Red | `#f87171` |
 
 ### Flutter Implementation
 
@@ -817,6 +819,7 @@ Card(
 - **Left**: `feature_voice_to_par_v3.png` asset
 - **Center**: Headline (Lime 900), Subheadline (Lime 900, 80% opacity), and Primary Button (Lime 500)
 - **Right**: `feature_smart_tagging_v3.png` asset
+- **Constraints**: Max-width 750px on desktop to prevent background stretching
 - **Responsiveness**: Stacks to vertical layout on narrow screens with center alignment
 
 #### Tips Box Pattern
@@ -1038,6 +1041,18 @@ AppBarTheme(
   ),
   toolbarHeight: 64,
 )
+```
+
+#### Dashboard Navigation Bar
+
+**Specific Layout for Authenticated Dashboard**:
+
+- **Position**: Fixed top
+- **Background**: White
+- **Border**: Bottom border 1px solid Gray 200 (`#E5E7EB`)
+- **Shadow**: Medium Drop Shadow (`Shadows.md`) for distinct layer separation
+- **Content**: Logo (left), Actions/Profile (right)
+- **Behavior**: Content scrolls independently underneath
 ```
 
 #### Floating Action Button

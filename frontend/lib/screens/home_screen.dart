@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../core/shadows.dart';
 import '../services/auth_service.dart';
 import '../services/story_service.dart';
 import '../models/user_model.dart';
@@ -126,134 +127,164 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
 
-          // Main Content
-          RefreshIndicator(
-            onRefresh: _loadData,
-            color: Theme.of(context).colorScheme.primary,
-            child: SingleChildScrollView(
-              padding: EdgeInsets.all(24),
-              physics: AlwaysScrollableScrollPhysics(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                   // AppBar effectively
-                   Row(
-                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                     children: [
-                       Text(
-                        'PARfolio', 
+          // Main Layout
+          Column(
+            children: [
+              // Fixed Navigation Bar
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border(
+                    bottom: BorderSide(
+                      color: const Color(0xFFE5E7EB), // Gray 200
+                      width: 1,
+                    ),
+                  ),
+                  boxShadow: Shadows.md,
+                ),
+                child: SafeArea(
+                  bottom: false,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'PARfolio',
                         style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        )
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
                       ),
                       Row(
                         children: [
                           IconButton(
-                            icon: Icon(Icons.person_outline, color: Theme.of(context).colorScheme.onSurface),
+                            icon: Icon(Icons.person_outline,
+                                color: Theme.of(context).colorScheme.onSurface),
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (_) => UserProfileScreen()),
+                                MaterialPageRoute(
+                                    builder: (_) => UserProfileScreen()),
                               ).then((_) => _loadData());
                             },
                             tooltip: 'Profile',
                           ),
                           ExportButton(
                             onExport: (format) async {
-                             _storyService.startExport(format);
-                             ScaffoldMessenger.of(context).showSnackBar(
-                               SnackBar(content: Text('Export started for $format format...')),
-                             );
+                              _storyService.startExport(format);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    content: Text('Export started for $format format...')),
+                              );
                             },
                           ),
                           IconButton(
-                            icon: Icon(Icons.logout, color: Theme.of(context).colorScheme.onSurface),
-                            onPressed: () => Provider.of<AuthService>(context, listen: false).signOut(),
+                            icon: Icon(Icons.logout,
+                                color: Theme.of(context).colorScheme.onSurface),
+                            onPressed: () =>
+                                Provider.of<AuthService>(context, listen: false).signOut(),
                             tooltip: 'Sign Out',
                           ),
                         ],
                       ),
-                     ],
-                   ),
-
-                  SizedBox(height: 32),
-                  WelcomeHeader(
-                    user: _currentUser,
-                    storyCount: _stories.length,
-                  ),
-                  SizedBox(height: 32),
-                  RecordingCTA(
-                    onRecordPressed: () {
-                      Navigator.push(
-                        context, 
-                        MaterialPageRoute(builder: (_) => RecordingScreen()),
-                      );
-                    },
-                  ),
-                  SizedBox(height: 40),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Your Stories',
-                        style: Theme.of(context).textTheme.headlineSmall?.copyWith( // Libre Baskerville per plan
-                              fontWeight: FontWeight.bold,
-                              fontSize: 24,
-                            ),
-                      ),
                     ],
                   ),
-                  SizedBox(height: 16),
-                  TagFilterBar(
-                    selectedTag: _selectedTag,
-                    onTagSelected: _onTagSelected,
-                  ),
-                  SizedBox(height: 16),
-                  StoriesList(
-                    stories: _stories,
-                    isLoading: _isLoading,
-                    onStoryTap: (story) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => StoryDetailScreen(
-                            story: story,
-                            onDelete: _deleteStory,
-                          ),
-                        ),
-                      ).then((_) => _loadData()); 
-                    },
-                    onStoryDelete: (id) {
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: Text('Delete Story'),
-                            content: Text('Are you sure you want to delete this story?'),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: Text('Cancel'),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                  _deleteStory(id);
-                                },
-                                child: Text('Delete', style: TextStyle(color: Colors.red)),
-                              ),
-                            ],
-                          ),
-                        );
-                    },
-                  ),
-                  SizedBox(height: 40),
-                ],
+                ),
               ),
-            ),
+
+              // Scrollable Body
+              Expanded(
+                child: RefreshIndicator(
+                  onRefresh: _loadData,
+                  color: Theme.of(context).colorScheme.primary,
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(24),
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 24), // Added spacing for visual separation from nav bar
+                        WelcomeHeader(
+                          user: _currentUser,
+                          storyCount: _stories.length,
+                        ),
+                        SizedBox(height: 32),
+                        RecordingCTA(
+                          onRecordPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (_) => RecordingScreen()),
+                            );
+                          },
+                        ),
+                        SizedBox(height: 40),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Your Stories',
+                              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 24,
+                                  ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 16),
+                        TagFilterBar(
+                          selectedTag: _selectedTag,
+                          onTagSelected: _onTagSelected,
+                        ),
+                        SizedBox(height: 16),
+                        StoriesList(
+                          stories: _stories,
+                          isLoading: _isLoading,
+                          onStoryTap: (story) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => StoryDetailScreen(
+                                  story: story,
+                                  onDelete: _deleteStory,
+                                ),
+                              ),
+                            ).then((_) => _loadData());
+                          },
+                          onStoryDelete: (id) {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: Text('Delete Story'),
+                                content: Text(
+                                    'Are you sure you want to delete this story?'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: Text('Cancel'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      _deleteStory(id);
+                                    },
+                                    child: Text('Delete',
+                                        style: TextStyle(color: Colors.red)),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                        SizedBox(height: 40),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
-      )
+      ),
     );
   }
 }
