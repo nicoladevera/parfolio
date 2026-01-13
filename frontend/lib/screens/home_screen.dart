@@ -5,9 +5,10 @@ import '../services/auth_service.dart';
 import '../services/story_service.dart';
 import '../models/user_model.dart';
 import '../models/story_model.dart';
-import '../widgets/welcome_header.dart';
+import '../widgets/profile_card.dart';
 import '../widgets/recording_cta.dart';
 import '../widgets/tag_filter_bar.dart';
+import '../widgets/welcome_header.dart';
 import '../widgets/stories_list.dart';
 import '../widgets/auth/sunburst_decoration.dart';
 import '../widgets/auth/wavy_line_decoration.dart';
@@ -157,18 +158,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       Row(
                         children: [
-                          IconButton(
-                            icon: Icon(Icons.person_outline,
-                                color: Theme.of(context).colorScheme.onSurface),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => UserProfileScreen()),
-                              ).then((_) => _loadData());
-                            },
-                            tooltip: 'Profile',
-                          ),
+                          // Profile icon removed
+
                           ExportButton(
                             onExport: (format) async {
                               _storyService.startExport(format);
@@ -203,20 +194,79 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 24), // Added spacing for visual separation from nav bar
-                        WelcomeHeader(
-                          user: _currentUser,
-                          storyCount: _stories.length,
-                        ),
-                        SizedBox(height: 32),
-                        RecordingCTA(
-                          onRecordPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (_) => RecordingScreen()),
-                            );
-                          },
-                        ),
+                        SizedBox(height: 24), // Spacing for visual separation from nav bar
+                        screenWidth > 900
+                            ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  WelcomeHeader(
+                                    user: _currentUser,
+                                    storyCount: _stories.length,
+                                  ),
+                                  SizedBox(height: 32),
+                                  IntrinsicHeight(
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                                      children: [
+                                        Expanded(
+                                          flex: 3, // Wider ProfileCard (60%)
+                                          child: ProfileCard(
+                                            user: _currentUser,
+                                            isMobile: false,
+                                            onEditPressed: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (_) => UserProfileScreen()),
+                                              ).then((_) => _loadData());
+                                            },
+                                          ),
+                                        ),
+                                        SizedBox(width: 24),
+                                        Expanded(
+                                          flex: 2, // Narrower RecordingCTA (40%)
+                                          child: RecordingCTA(
+                                            isNarrow: false,
+                                            onRecordPressed: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (_) => RecordingScreen()),
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Column(
+                                children: [
+                                  ProfileCard(
+                                    user: _currentUser,
+                                    isMobile: true,
+                                    onEditPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) => UserProfileScreen()),
+                                      ).then((_) => _loadData());
+                                    },
+                                  ),
+                                  SizedBox(height: 24),
+                                  RecordingCTA(
+                                    isNarrow: true,
+                                    onRecordPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) => RecordingScreen()),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
                         SizedBox(height: 40),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -239,6 +289,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         StoriesList(
                           stories: _stories,
                           isLoading: _isLoading,
+                          onGetStarted: () {
+                             Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (_) => RecordingScreen()),
+                            );
+                          },
                           onStoryTap: (story) {
                             Navigator.push(
                               context,

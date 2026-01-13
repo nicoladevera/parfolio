@@ -70,9 +70,9 @@ Lime green represents growth, action, and success—the transformation from unst
 | **Lime 400** | `#84cc16` | rgb(132, 204, 22) | **Disabled/muted actions** |
 | **Lime 500** | `#65a30d` | rgb(101, 163, 13) | **Primary brand color** (CTAs, key actions) |
 | **Lime 600** | `#4d7c0f` | rgb(77, 124, 15) | Hover states, pressed buttons |
-| **Lime 700** | `#3f6212` | rgb(63, 98, 18) | Text on light backgrounds |
+| **Lime 700** | `#4d7c0f` | rgb(77, 124, 15) | Text on light backgrounds |
 | **Lime 800** | `#3f6212` | rgb(63, 98, 18) | Text on Amber backgrounds (Tips Box) |
-| **Lime 900** | `#1a2e05` | rgb(26, 46, 5) | Darkest shade for depth |
+| **Lime 900** | `#365314` | rgb(54, 83, 20) | Darkest shade for depth |
 
 **Note:** Primary CTA color is **Lime 500 (`#65a30d`)** for better contrast and readability. Lime 400 (`#84cc16`) is used for disabled states and subtle highlights.
 
@@ -810,17 +810,28 @@ Card(
 ```
 
 
+#### Profile Card Pattern
+
+**Specific Layout for User Information on the Dashboard**:
+
+- **Background**: White (Desktop), Transparent (Mobile)
+- **Structure**: Horizontal layer on desktop, centered column on mobile
+- **Border**: Subtle Gray (`Colors.grey.withOpacity(0.2)`), 1px width
+- **Shadow**: Shadows.md (matches Navigation Bar)
+- **Profile Photo**: 120px circular, 3px Dark Lime border (`#65A30D`), Lime shadow
+- **Text**: Both Name and Role use **Lime 900 (`#365314`)** for a unified look
+- **Edit Action**: Subtitled text button below name/role
+
 #### Recording CTA Pattern
 
 **Specific Layout for the "Hero" Dashboard Moment**:
 
 - **Background**: Lime 50 (`#F7FEE7`)
-- **Structure**: Symmetrical horizontal layout
-- **Left**: `feature_voice_to_par_v3.png` asset
-- **Center**: Headline (Lime 900), Subheadline (Lime 900, 80% opacity), and Primary Button (Lime 500)
-- **Right**: `feature_smart_tagging_v3.png` asset
-- **Constraints**: Max-width 750px on desktop to prevent background stretching
-- **Responsiveness**: Stacks to vertical layout on narrow screens with center alignment
+- **Text**: Pure Black for maximum contrast and readability
+- **Structure**: Left-aligned Column on desktop, compact Horizontal Row on mobile
+- **Icon**: Mic icon in a Lime 500 circular container
+- **Button**: Primary ElevatedButton (Lime 500)
+- **Shadow**: Shadows.md (matches Navigation Bar)
 
 #### Tips Box Pattern
 
@@ -916,8 +927,8 @@ class TagChip extends StatelessWidget {
 
 **Specifications**:
 - **Unselected**: Background → Gray 100, Text → Gray 700
-- **Selected**: Background → Lime 100, Text → Lime 700, Border → 2px Lime 500
-- **Padding**: 16px horizontal, 8px vertical
+- **Selected**: Background → `#ECFCCB` (Light Lime), Text → `#4D7C0F` (Dark Lime), Border → 2px `#4D7C0F`
+- **Padding**: 12px horizontal, 8px vertical
 - **Border Radius**: 999px (fully rounded)
 - **Height**: 40px
 
@@ -927,21 +938,21 @@ FilterChip(
   selected: isSelected,
   onSelected: onSelected,
   backgroundColor: const Color(0xFFF3F4F6), // Gray 100
-  selectedColor: const Color(0xFFDCFCE7), // Lime 100
+  selectedColor: const Color(0xFFECFCCB), // Light Lime (Landing Page Label)
   labelStyle: GoogleFonts.inter(
     fontSize: 14,
     fontWeight: FontWeight.w600,
     color: isSelected
-      ? const Color(0xFF3F6212)  // Lime 700
-      : const Color(0xFF374151), // Gray 700
+      ? const Color(0xFF4D7C0F)  // Dark Lime
+      : const Color(0xFF4B5563), // Gray 600
   ),
   side: isSelected
-    ? const BorderSide(color: Color(0xFF65A30D), width: 2) // Lime 500
+    ? const BorderSide(color: Color(0xFF4D7C0F), width: 2) // Dark Lime
     : BorderSide.none,
   shape: RoundedRectangleBorder(
     borderRadius: BorderRadius.circular(999),
   ),
-  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
 )
 ```
 

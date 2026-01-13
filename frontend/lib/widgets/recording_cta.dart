@@ -1,122 +1,128 @@
 import 'package:flutter/material.dart';
-import '../core/shadows.dart'; // Add this import
+import '../core/shadows.dart';
 
 class RecordingCTA extends StatelessWidget {
-  final VoidCallback onRecordPressed;
+  final VoidCallback? onRecordPressed;
+  final bool isNarrow;
 
   const RecordingCTA({
     Key? key,
-    required this.onRecordPressed,
+    this.onRecordPressed,
+    this.isNarrow = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final isNarrow = constraints.maxWidth < 600;
-        
-        return Center(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              maxWidth: isNarrow ? double.infinity : 750,
-            ),
-            child: Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: const Color(0xFFF7FEE7), // Lime 50 (Light background)
-                borderRadius: BorderRadius.circular(24),
-                boxShadow: Shadows.lg,
-              ),
-              padding: EdgeInsets.all(isNarrow ? 20 : 32),
-              child: isNarrow 
-                // Mobile: Text content centered
-                ? Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      // Center-aligned text content
-                      Text(
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        // Both Mobile and Desktop: Lime 50
+        color: const Color(0xFFF7FEE7),
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: Shadows.md,
+        border: isNarrow ? null : Border.all(color: Colors.grey.withOpacity(0.2)),
+      ),
+      padding: EdgeInsets.all(isNarrow ? 16 : 32),
+      child: isNarrow 
+        // Mobile: Compact Horizontal Bar
+        ? Row(
+            children: [
+               // Icon container
+               Container(
+                 padding: const EdgeInsets.all(10),
+                 decoration: BoxDecoration(
+                   color: const Color(0xFF65A30D), // Lime 500
+                   shape: BoxShape.circle,
+                 ),
+                 child: const Icon(Icons.mic_none_rounded, color: Colors.white, size: 20),
+               ),
+               const SizedBox(width: 12),
+               // Text - Matching desktop content
+               Expanded(
+                 child: Column(
+                   crossAxisAlignment: CrossAxisAlignment.start,
+                   mainAxisSize: MainAxisSize.min,
+                   children: [
+                     Text(
                         'Record a New Story',
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.headlineSmall?.copyWith( 
-                          color: const Color(0xFF365314), // Lime 900
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
-                          fontSize: 22, 
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        'Turn your work experience into interview gold.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: const Color(0xFF365314).withOpacity(0.8), // Lime 900 reduced opacity
-                          fontSize: 15,
-                          height: 1.4,
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      ElevatedButton.icon(
-                        onPressed: onRecordPressed,
-                        icon: Icon(Icons.mic_none_rounded, size: 20, color: Colors.white),
-                        label: Text('Start Recording'),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Theme.of(context).colorScheme.primary, // Dark Lime Button
-                          foregroundColor: Colors.white, // White Text/Icon
-                          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                        ),
-                      ),
-                    ],
-                  )
-                // Desktop: Simplified centered layout
-                : Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'Record a New Story',
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.headlineSmall?.copyWith( 
-                          color: const Color(0xFF365314), // Lime 900
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24, 
-                        ),
-                      ),
-                      SizedBox(height: 12),
-                      Text(
-                        'Turn your work experience into interview gold.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: const Color(0xFF365314).withOpacity(0.8), // Lime 900 reduced opacity
+                          color: Colors.black, // Pure black for readability
                           fontSize: 16,
-                          height: 1.4,
                         ),
-                      ),
-                      SizedBox(height: 24),
-                      ElevatedButton.icon(
-                        onPressed: onRecordPressed,
-                        icon: Icon(Icons.mic_none_rounded, size: 20, color: Colors.white),
-                        label: Text(
-                          'Start Recording',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                          ),
+                     ),
+                     Text(
+                        'Turn your work experience into interview gold.',
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Colors.black.withOpacity(0.7),
                         ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Theme.of(context).colorScheme.primary, // Dark Lime Button
-                          foregroundColor: Colors.white, // White Text/Icon
-                          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-                          elevation: 2,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                        ),
-                      ),
-                    ],
+                        maxLines: 2, // Allow wrapping
+                        overflow: TextOverflow.ellipsis,
+                     ),
+                   ],
+                 ),
+               ),
+               const SizedBox(width: 12),
+               // Button
+               ElevatedButton(
+                  onPressed: onRecordPressed,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF65A30D),
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                   ),
-            ),
+                  child: const Text('Start Recording', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+               ),
+            ],
+          )
+        // Desktop: Left-aligned Column layout that fills height
+        : Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start, // Left align content
+            children: [
+              Text(
+                'Record a New Story',
+                textAlign: TextAlign.left,
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith( 
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24, 
+                ),
+              ),
+              SizedBox(height: 8),
+              Text(
+                'Turn your work experience into interview gold.',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  color: Colors.black.withOpacity(0.7),
+                  fontSize: 16,
+                  height: 1.4,
+                ),
+              ),
+              SizedBox(height: 20),
+              ElevatedButton.icon(
+                onPressed: onRecordPressed,
+                icon: Icon(Icons.mic_none_rounded, size: 20, color: Colors.white),
+                label: Text(
+                  'Start Recording',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF65A30D),
+                  foregroundColor: Colors.white,
+                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+                  elevation: 2,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+              ),
+            ],
           ),
-        );
-      }
     );
   }
 }
