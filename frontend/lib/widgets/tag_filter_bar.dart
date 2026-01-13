@@ -47,18 +47,18 @@ class TagFilterBar extends StatelessWidget {
             // Unselected: Gray 100
             // Selected: Lime 100 (primaryContainer)
             backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest, 
-            selectedColor: Theme.of(context).colorScheme.primaryContainer, 
-            checkmarkColor: Theme.of(context).colorScheme.primary, // Lime 700ish
+            selectedColor: const Color(0xFFECFCCB), // Light Lime (Landing Page Label)
+            checkmarkColor: const Color(0xFF4D7C0F), // Dark Lime
             side: isSelected
-              ? BorderSide(color: Theme.of(context).colorScheme.primary, width: 2)
+              ? const BorderSide(color: Color(0xFF4D7C0F), width: 2) // Reverted to thicker border
               : BorderSide.none,
             labelStyle: Theme.of(context).textTheme.labelMedium?.copyWith(
               color: isSelected 
-                ? Theme.of(context).colorScheme.onPrimaryContainer // Strong text for selected
-                : Theme.of(context).colorScheme.onSurfaceVariant, // Gray 600 for unselected
+                ? const Color(0xFF4D7C0F) // Dark Lime (Landing Page Label)
+                : Theme.of(context).colorScheme.onSurfaceVariant,
               fontWeight: FontWeight.w600,
             ),
-            padding: EdgeInsets.symmetric(horizontal: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 12), // Increased padding for better spacing
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(999),
             ),
