@@ -34,7 +34,7 @@ PARfolio's design system bridges the gap between our marketing presence and the 
 Every element serves a purpose. We use clean typography, generous whitespace, and clear visual hierarchy to help users focus on what matters—their career stories.
 
 **2. Approachability**
-Professional doesn't mean sterile. Our design is warm and inviting, using soft colors, rounded corners, and playful illustrations to create an encouraging environment for reflection and growth.
+Professional doesn't mean sterile. Our design is warm and inviting, using intentional colors, rounded corners, and flat layered paper cut-out illustrations with texture to create an encouraging environment for reflection and growth.
 
 **3. Professional Warmth**
 We balance credibility with accessibility. Serif headings add authority, while lime green accents bring energy and optimism to the interview preparation journey.
@@ -47,7 +47,7 @@ From marketing site to mobile app, users experience one unified brand. Component
 Our visual language supports the user's journey:
 
 - **Discovery (Landing Page)**: Bold serif headlines with italic emphasis ("chaos" → "gold") immediately communicate transformation
-- **Onboarding**: Playful 3D illustrations reduce intimidation and build confidence
+- **Onboarding**: Flat layered paper cut-out illustrations with texture create approachability while maintaining professionalism and structure
 - **Daily Use**: Clean cards and organized layouts make story management effortless
 - **Achievement**: Lime green celebrates completed stories and coaching insights
 
@@ -1425,27 +1425,35 @@ Match icon colors to text hierarchy:
 
 ### Illustration Style
 
-**Aesthetic**: 3D playful, modern, approachable
+**Aesthetic**: Flat layered paper cut-out with texture, modern, intentional
 **Reference**: Marketing assets in `/marketing/assets/`
 
 **Characteristics**:
-- Soft shadows and gradients
-- Rounded, friendly shapes
-- Primary colors: Lime, amber, teal, coral
-- Floating/layered composition
-- Subtle depth and dimensionality
+- **Paper texture**: Visible grain and tactile surface quality throughout
+- **Flat color blocks**: Solid colors with hard edges, no gradients
+- **Layered composition**: Depth created through overlapping paper-like layers, not shadows
+- **Intentional colors**: Distinct shades of lime (#65A30D, #84CC16, #A3E635) and amber (#F59E0B, #FBB042, #FCD34D)
+- **Full coverage**: No white space within illustrations—every area intentionally colored
+- **Semi-literal shapes**: Geometric representations of concepts (microphone, tags, folders)
+- **Precise color zones**: Each color occupies a deliberate area with clear boundaries
+
+**Reference Assets**:
+- `/marketing/assets/feature_voice_to_par_v3.png` - Voice to PAR feature
+- `/marketing/assets/feature_smart_tagging_v3.png` - Smart Tagging feature
+- `/marketing/assets/feature_story_bank_v3.png` - Story Bank feature
+- Hero phone image - Layered phone with textured surfaces
 
 **Use Cases**:
-- Empty states (no stories yet)
+- Landing page hero and feature cards
 - Onboarding screens
+- Empty states (no stories yet)
 - Feature highlights
-- Error pages
 - Success confirmations
 
 ### Image Treatments
 
 **Border Radius**: 16-20px for feature images, 12px for thumbnails
-**Shadows**: Use `Shadows.md` for subtle depth
+**Shadows**: Use `Shadows.md` for subtle depth on image containers (not within illustrations themselves—the new flat layered paper cut-out style uses layering for depth)
 **Aspect Ratios**: 4:3 for feature cards, 16:9 for hero images, 1:1 for avatars
 **Loading**: Show gray skeleton with subtle pulse animation
 
@@ -1732,8 +1740,10 @@ When implementing this design system in the Flutter app:
 
 We use visual hierarchy to balance delight with utility:
 
-1.  **Hero Moments (3D Clay)**: Used for high-impact emotional beats (Landing Page, Onboarding, "First Story" Celebration).
-    *   *Style*: Playful, tactile, 3D clay renders.
+1.  **Hero Moments (Flat Layered Paper Cut-Out)**: Used for high-impact emotional beats (Landing Page, Onboarding, "First Story" Celebration).
+    *   *Style*: Flat, layered paper cut-out illustrations with texture and grain. Semi-literal geometric shapes with intentional color blocking.
+    *   *Colors*: Lime shades (#65A30D, #84CC16, #A3E635) and Amber shades (#F59E0B, #FBB042, #FCD34D).
+    *   *Technique*: Depth through layering, not shadows. Full coverage compositions with tactile paper texture.
 2.  **Utility & Flow (Abstract Geometric)**: Used for functional screens (Login, Registration, Settings) to keep focus while maintaining brand presence.
     *   *Style*: Flat, monoline, geometric shapes.
     *   *Colors*: Lime 300 (Energy), Gray 300 (Structure).
