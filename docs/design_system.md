@@ -819,6 +819,7 @@ Card(
 - **Border**: Subtle Gray (`Colors.grey.withOpacity(0.2)`), 1px width
 - **Shadow**: Shadows.md (matches Navigation Bar)
 - **Profile Photo**: 120px circular, 3px Dark Lime border (`#65A30D`), Lime shadow
+    - *Placeholder*: Background → Lime 50 (`#F7FEE7`), Text → Dark Lime (`#4D7C0F`), font-weight: Bold
 - **Text**: Both Name and Role use **Lime 900 (`#365314`)** for a unified look
 - **Edit Action**: Subtitled text button below name/role
 
@@ -926,33 +927,35 @@ class TagChip extends StatelessWidget {
 **Use**: Selectable filters in horizontal scroll
 
 **Specifications**:
-- **Unselected**: Background → Gray 100, Text → Gray 700
-- **Selected**: Background → `#ECFCCB` (Light Lime), Text → `#4D7C0F` (Dark Lime), Border → 2px `#4D7C0F`
+- **Unselected**: Background → White, Border → 1px Gray 200
+- **Selected**: Background → Lime 50 (`#F7FEE7`), Text → Dark Lime (`#4D7C0F`), Border → 1px Dark Lime (`#4D7C0F`)
 - **Padding**: 12px horizontal, 8px vertical
-- **Border Radius**: 999px (fully rounded)
-- **Height**: 40px
+- **Border Radius**: 8px (to match input field radius)
+- **Height**: 48px (to match input field height)
+- **Typography**: Inter, 16px, Regular (400) — matches input field text weight and size
 
 ```dart
 FilterChip(
   label: Text(tag),
   selected: isSelected,
   onSelected: onSelected,
-  backgroundColor: const Color(0xFFF3F4F6), // Gray 100
-  selectedColor: const Color(0xFFECFCCB), // Light Lime (Landing Page Label)
+  backgroundColor: Colors.white,
+  selectedColor: const Color(0xFFF7FEE7), // Lime 50
   labelStyle: GoogleFonts.inter(
-    fontSize: 14,
-    fontWeight: FontWeight.w600,
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
     color: isSelected
       ? const Color(0xFF4D7C0F)  // Dark Lime
-      : const Color(0xFF4B5563), // Gray 600
+      : const Color(0xFF111827), // Gray 900
   ),
-  side: isSelected
-    ? const BorderSide(color: Color(0xFF4D7C0F), width: 2) // Dark Lime
-    : BorderSide.none,
+  side: BorderSide(
+    color: isSelected ? const Color(0xFF4D7C0F) : const Color(0xFFE5E7EB),
+    width: 1,
+  ),
   shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(999),
+    borderRadius: BorderRadius.circular(8),
   ),
-  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
 )
 ```
 
@@ -1029,10 +1032,11 @@ InputDecorationTheme(
 **Specifications**:
 - **Background**: White
 - **Height**: 64px
-- **Elevation**: 0 (default), 2 (scrolled)
-- **Title**: Gray 900, Inter, 20px, Semi-Bold
+- **Elevation**: 0 (default), 2 (always on dashboard/scrolled)
+- **Title**: Gray 900, Inter, 20px, Bold
 - **Icon Buttons**: Gray 700, 24x24dp
-- **Border Bottom**: 1px solid Gray 200 (when not elevated)
+- **Border Bottom**: 1px solid Gray 200 (`#E5E7EB`)
+- **Shadow**: Shadows.md (for distinct layer separation)
 
 **Flutter Implementation**:
 ```dart

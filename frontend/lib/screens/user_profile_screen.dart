@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../models/user_model.dart';
 import '../services/profile_service.dart';
+import '../core/shadows.dart';
 
 class UserProfileScreen extends StatefulWidget {
   @override
@@ -171,19 +173,46 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     
     return Scaffold(
       backgroundColor: theme.colorScheme.surfaceContainerHighest,
-      appBar: AppBar(
-        title: Text('Your Profile', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: theme.colorScheme.onSurface),
-          onPressed: () => Navigator.pop(context),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(kToolbarHeight + 1),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border(
+              bottom: BorderSide(
+                color: const Color(0xFFE5E7EB), // Gray 200
+                width: 1,
+              ),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+              BoxShadow(
+                color: Colors.black.withOpacity(0.06),
+                blurRadius: 2,
+                offset: const Offset(0, 1),
+              ),
+            ],
+            ),
+          child: AppBar(
+            title: Text('Your Profile', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
+            backgroundColor: Colors.white,
+            elevation: 0,
+            scrolledUnderElevation: 0,
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back, color: Color(0xFF374151)), // Gray 700
+              onPressed: () => Navigator.pop(context),
+            ),
+          ),
         ),
       ),
       body: _isLoading 
         ? Center(child: CircularProgressIndicator())
         : SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
             child: Form(
               key: _formKey,
               child: Column(
@@ -202,7 +231,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         backgroundColor: Color(0xFF65A30D),
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(27)),
-                        elevation: 0,
+                        elevation: 2,
                       ),
                       child: _isSaving 
                         ? CircularProgressIndicator(color: Colors.white) 
@@ -234,13 +263,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       decoration: BoxDecoration(
         color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(24),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.02),
-            blurRadius: 10,
-            offset: Offset(0, 4),
-          ),
-        ],
+        boxShadow: Shadows.md,
       ),
       child: Row(
         children: [
@@ -256,7 +279,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   },
                   child: CircleAvatar(
                     radius: 40,
-                    backgroundColor: theme.colorScheme.primaryContainer,
+                    backgroundColor: Color(0xFF65A30D).withOpacity(0.15),
                     backgroundImage: avatarImage,
                     child: !hasImage
                       ? Text(
@@ -264,7 +287,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           style: TextStyle(
                             fontSize: 32, 
                             fontWeight: FontWeight.bold, 
-                            color: theme.colorScheme.primary
+                            color: Color(0xFF4D7C0F), // Darker lime green
                           ),
                         )
                       : null,
@@ -348,6 +371,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             color: theme.colorScheme.surface,
             borderRadius: BorderRadius.circular(20),
             border: Border.all(color: theme.colorScheme.outlineVariant.withOpacity(0.5)),
+            boxShadow: Shadows.md,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -391,14 +415,15 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       setState(() => _selectedCareerStage = selected ? stage : null);
                     },
                     selectedColor: Color(0xFF65A30D).withOpacity(0.15),
-                    labelStyle: TextStyle(
-                      color: isSelected ? Color(0xFF65A30D) : theme.colorScheme.onSurface,
-                      fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                    labelStyle: GoogleFonts.inter(
+                      color: isSelected ? Color(0xFF4D7C0F) : theme.colorScheme.onSurface,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16,
                     ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                       side: BorderSide(
-                        color: isSelected ? Color(0xFF65A30D) : theme.colorScheme.outlineVariant,
+                        color: isSelected ? Color(0xFF4D7C0F) : theme.colorScheme.outlineVariant,
                       ),
                     ),
                   );
@@ -426,14 +451,15 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       });
                     },
                     selectedColor: Color(0xFF65A30D).withOpacity(0.15),
-                    labelStyle: TextStyle(
-                      color: isSelected ? Color(0xFF65A30D) : theme.colorScheme.onSurface,
-                      fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                    labelStyle: GoogleFonts.inter(
+                      color: isSelected ? Color(0xFF4D7C0F) : theme.colorScheme.onSurface,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16,
                     ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                       side: BorderSide(
-                        color: isSelected ? Color(0xFF65A30D) : theme.colorScheme.outlineVariant,
+                        color: isSelected ? Color(0xFF4D7C0F) : theme.colorScheme.outlineVariant,
                       ),
                     ),
                   );
