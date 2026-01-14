@@ -32,7 +32,7 @@ class PlaybackControls extends StatelessWidget {
           data: SliderTheme.of(context).copyWith(
             trackHeight: 8.0,
             activeTrackColor: Theme.of(context).colorScheme.primary,
-            inactiveTrackColor: const Color(0xFFDCFCE7), // Lime 100
+            inactiveTrackColor: const Color(0xFFECFCCB), // Light lime (previously DCFCE7)
             thumbColor: Theme.of(context).colorScheme.primary,
             overlayColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
             thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8.0),
