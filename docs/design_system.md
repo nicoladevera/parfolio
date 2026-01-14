@@ -71,7 +71,7 @@ Lime green represents growth, action, and success—the transformation from unst
 | **Lime 500** | `#65a30d` | rgb(101, 163, 13) | **Primary brand color** (CTAs, key actions) |
 | **Lime 600** | `#4d7c0f` | rgb(77, 124, 15) | Hover states, pressed buttons |
 | **Lime 700** | `#4d7c0f` | rgb(77, 124, 15) | Text on light backgrounds |
-| **Lime 800** | `#3f6212` | rgb(63, 98, 18) | Text on Amber backgrounds (Tips Box) |
+| **Lime 800** | `#3f6212` | rgb(63, 98, 18) | Darkest lime for strong emphasis |
 | **Lime 900** | `#365314` | rgb(54, 83, 20) | Darkest shade for depth |
 
 **Note:** Primary CTA color is **Lime 500 (`#65a30d`)** for better contrast and readability. Lime 400 (`#84cc16`) is used for disabled states and subtle highlights.
@@ -838,10 +838,12 @@ Card(
 
 **Specific Layout for Helper Tips (e.g., Recording Screen)**:
 
-- **Background**: Amber 50 (`#FFFBEB`)
-- **Border**: Amber 200 (`#FDE68A`)
-- **Text/Icons**: Lime 800 (`#3F6212`) for high contrast
-- **Structure**: Icon + Title row, followed by bulleted list
+- **Background**: Gray 50 (`#F9FAFB`)
+- **Border**: Gray 200 (`#E5E7EB`)
+- **Icons**: Lime 500 (`#65A30D`)
+- **Title Text**: Gray 700 (`#374151`)
+- **Body Text**: Gray 600 (`#4B5563`)
+- **Structure**: Icon + Title row, followed by bulleted list (using checkmark icons)
 - **Corner Radius**: 16px
 
 ---

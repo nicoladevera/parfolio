@@ -337,14 +337,14 @@ class _RecordingScreenState extends State<RecordingScreen> {
             // --- Main Content ---
             Center(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 64),
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 480),
                   child: Card(
                     elevation: 4,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
                     child: Padding(
-                      padding: const EdgeInsets.all(32),
+                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -367,14 +367,9 @@ class _RecordingScreenState extends State<RecordingScreen> {
                             ),
                             textAlign: TextAlign.center,
                           ),
-                          const SizedBox(height: 24),
+                          const SizedBox(height: 16),
 
-                          // Tips (visible only when idle)
-                          if (_state == RecordingState.idle)
-                            const Padding(
-                              padding: EdgeInsets.only(bottom: 24.0),
-                              child: RecordingTipsBox(),
-                            ),
+
 
                           // Mic Button
                           if (_state != RecordingState.completed)
@@ -386,13 +381,13 @@ class _RecordingScreenState extends State<RecordingScreen> {
                                   amplitudeStream: _recordingService.getAmplitudeStream(),
                                 ),
                                 if (_state == RecordingState.idle) ...[
-                                  const SizedBox(height: 12),
+                                    const SizedBox(height: 4),
                                   Text(
                                     'Tap to start recording',
                                     style: GoogleFonts.inter(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500,
-                                      color: const Color(0xFF65A30D).withOpacity(0.8), // Lime 500
+                                      color: const Color(0xFF4D7C0F), // Darker lime (Lime 600)
                                     ),
                                   ),
                                 ],
@@ -464,7 +459,15 @@ class _RecordingScreenState extends State<RecordingScreen> {
                              ),
                           ],
                         
+                        
                           const SizedBox(height: 8),
+
+                          // Tips (visible only when idle) - Moved to bottom
+                          if (_state == RecordingState.idle)
+                            const Padding(
+                              padding: EdgeInsets.only(top: 4.0),
+                              child: RecordingTipsBox(),
+                            ),
                         ],
                       ),
                     ),
