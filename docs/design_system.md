@@ -1801,10 +1801,21 @@ The primary hero experience uses a multi-panel landscape format to visually narr
   - **Depth**: Soft, baked-in shadows under cut-outs to create a layered "paper" feel.
   - **Interaction Elements**: Vibrant, colorful speech/thought bubbles (Lime, Amber, Orange) to signify internal thought vs. external confidence.
 
+### Feature-Level Illustrations: "Structured Metaphors"
+
+For the "Features" section and secondary cards, we use object-centric paper cut-out illustrations to maintain focus on functionality without visual clutter.
+
+**Visual Construction:**
+- **Style**: Layered paper cardstock constructions using the same "sticker" white outline as the hero.
+- **Metaphors**: Use semi-literal objects to represent features (e.g., Microphone for voice, Tags for organizing, Shelves for the "Bank").
+- **Composition**: Centered or dynamic object arrangements against a clean, textured paper background (#f7fee7 or white).
+- **Colors**: Strict adherence to the Lime and Amber palette to signify growth and achievement.
+- **Aspect Ratio**: Standardized at **3:2** for landing page feature cards to ensure consistency across the grid.
+
 **Technical Standards:**
-- **Background**: Assets must be generated on a high-contrast magenta background (`#FF00FF`) for precise chroma key removal.
-- **Transparency**: Final assets are exported as 24-bit PNGs with soft alpha masking to ensure they blend seamlessly into the landing page's background gradient.
-- **Responsiveness**: Images must maintain a landscape aspect ratio, scaling down for mobile while preserving the visibility of all four narrative panels.
+- **Dimensions**: Source assets should be high-resolution (min 1024x682) to support retina displays.
+- **Style Consistency**: All elements within a feature illustration must have the same "depth" (shadow distance) and paper texture.
+- **No Humans**: Reserve human figures for "Hero Moments" and "Onboarding" to maintain a clear visual hierarchy.
 
 2.  **Utility & Flow (Abstract Geometric)**: Used for functional screens (Login, Registration, Settings) to keep focus while maintaining brand presence.
     *   *Style*: Flat, monoline, geometric shapes.
