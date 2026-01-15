@@ -24,7 +24,8 @@
 |--------|---------|
 | **Storage** | Persistent Firebase store for all structured stories |
 | **Retrieval** | Browse, search, and filter stories by competency tags |
-| **Export** | One-click export to Notion, Google Sheets, or plain text |
+| **Export (Bulk)** | Download collection of PAR-formatted stories for export to Notion, Google Sheets, or as plain text/JSON/CSV |
+| **Export (Individual)** | Download raw transcript as a text file for any individual story |
 
 ---
 
@@ -130,9 +131,10 @@ tags/{tagId}
 ### Export
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| `POST` | `/export/notion` | Export stories to Notion |
-| `POST` | `/export/sheets` | Export stories to Google Sheets |
-| `GET` | `/export/download` | Download stories as JSON/CSV/TXT |
+| `POST` | `/export/notion` | Export PAR-formatted stories to Notion |
+| `POST` | `/export/sheets` | Export PAR-formatted stories to Google Sheets |
+| `GET` | `/export/download` | Download collection of PAR-formatted stories as JSON/CSV/TXT |
+| `GET` | `/stories/{story_id}/transcript` | Download raw transcript for a single story as a text file |
 
 ---
 
