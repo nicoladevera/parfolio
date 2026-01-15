@@ -54,7 +54,8 @@ users/{userId}
 stories/{storyId}
 ├── userId: string (FK → users)
 ├── title: string (auto-generated)
-├── rawTranscript: string (original voice input)
+├── audioUrl: string (optional, Firebase Storage URL to original recording)
+├── rawTranscriptUrl: string (Firebase Storage URL to transcript text file)
 ├── problem: string (PAR - Problem)
 ├── action: string (PAR - Action)
 ├── result: string (PAR - Result)
@@ -67,6 +68,8 @@ stories/{storyId}
 ├── status: string ("draft" | "complete")
 ├── createdAt: timestamp
 └── updatedAt: timestamp
+
+> **Note**: Audio files should be subject to a retention policy (e.g., auto-delete after 30 days or when story is marked complete) to manage storage costs. Users should have the option to manually delete recordings.
 ```
 
 ### Collection: `tags` (Optional — for predefined competencies)
@@ -167,7 +170,7 @@ tags/{tagId}
 {
   "story_id": "abc123",
   "title": "Led Cross-Functional Team to Ship New Feature",
-  "rawTranscript": "So there was this time when our team was really struggling...",
+  "rawTranscriptUrl": "https://firebasestorage.googleapis.com/v0/b/parfolio/o/transcripts%2Fabc123.txt?alt=media",
   "problem": "Our product team faced a critical deadline with unclear requirements and siloed communication across engineering, design, and marketing.",
   "action": "I initiated daily standups, created a shared Notion doc for requirements, and facilitated a workshop to align stakeholders on priorities.",
   "result": "We shipped the feature 2 days early, reduced miscommunication by 60%, and the process became our team's standard for cross-functional projects.",
