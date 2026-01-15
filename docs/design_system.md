@@ -74,6 +74,17 @@ Lime green represents growth, action, and success—the transformation from unst
 | **Lime 800** | `#3f6212` | rgb(63, 98, 18) | Darkest lime for strong emphasis |
 | **Lime 900** | `#365314` | rgb(54, 83, 20) | Darkest shade for depth |
 
+#### Hero Transformation Scale (Dynamic)
+
+Used in multi-panel hero imagery to represent the progression from "chaos" to "gold".
+
+| Step | Hex Code | Usage |
+|------|----------|-------|
+| **Step 1 (Pale)** | `#dcfce7` | Left-most panel (Initial confusion) |
+| **Step 2 (Light)** | `#bef264` | Middle-left panel (Discovery) |
+| **Step 3 (Medium)** | `#84cc16` | Middle-right panel (Structure) |
+| **Step 4 (Vibrant)** | `#65a30d` | Right-most panel (Confidence/Result) |
+
 **Note:** Primary CTA color is **Lime 500 (`#65a30d`)** for better contrast and readability. Lime 400 (`#84cc16`) is used for disabled states and subtle highlights.
 
 #### Secondary: Amber/Gold
@@ -1776,6 +1787,25 @@ We use visual hierarchy to balance delight with utility:
     *   *Style*: Flat, layered paper cut-out illustrations with texture and grain. Semi-literal geometric shapes with intentional color blocking.
     *   *Colors*: Lime shades (#65A30D, #84CC16, #A3E635) and Amber shades (#F59E0B, #FBB042, #FCD34D).
     *   *Technique*: Depth through layering, not shadows. Full coverage compositions with tactile paper texture.
+
+### Landscape Hero Moment: "The Transformation Journey"
+
+The primary hero experience uses a multi-panel landscape format to visually narrate the user's progress.
+
+**Visual Construction:**
+- **Layout**: Four tall vertical panels with generous rounded corners (20px+).
+- **Color Progression**: Panels transition from palest lime (Left) to vibrant brand lime (Right).
+- **Imagery**: Desaturated grayscale/sepia professional photography with high contrast.
+- **Styling**:
+  - **Paper Cut-Out**: People are isolated with a soft white "sticker" border (3-5px).
+  - **Depth**: Soft, baked-in shadows under cut-outs to create a layered "paper" feel.
+  - **Interaction Elements**: Vibrant, colorful speech/thought bubbles (Lime, Amber, Orange) to signify internal thought vs. external confidence.
+
+**Technical Standards:**
+- **Background**: Assets must be generated on a high-contrast magenta background (`#FF00FF`) for precise chroma key removal.
+- **Transparency**: Final assets are exported as 24-bit PNGs with soft alpha masking to ensure they blend seamlessly into the landing page's background gradient.
+- **Responsiveness**: Images must maintain a landscape aspect ratio, scaling down for mobile while preserving the visibility of all four narrative panels.
+
 2.  **Utility & Flow (Abstract Geometric)**: Used for functional screens (Login, Registration, Settings) to keep focus while maintaining brand presence.
     *   *Style*: Flat, monoline, geometric shapes.
     *   *Colors*: Lime 300 (Energy), Gray 300 (Structure).
