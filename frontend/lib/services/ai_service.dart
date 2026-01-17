@@ -25,7 +25,7 @@ class AIService {
 
   /// Upload audio file to Firebase Storage
   ///
-  /// Uploads the audio file to the path: {userId}/audio/{storyId}.{ext}
+  /// Uploads the audio file to the path: users/{userId}/audio/{storyId}.{ext}
   /// Returns the download URL for the uploaded file.
   ///
   /// Throws an exception if:
@@ -64,6 +64,7 @@ class AIService {
       // Create Firebase Storage reference
       final storageRef = FirebaseStorage.instance
           .ref()
+          .child('users')
           .child(userId)
           .child('audio')
           .child('$storyId.$ext');
@@ -203,6 +204,7 @@ class AIService {
         try {
           final storageRef = FirebaseStorage.instance
               .ref()
+              .child('users')
               .child(userId)
               .child('audio')
               .child('$storyId.$ext');
