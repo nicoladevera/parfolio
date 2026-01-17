@@ -52,12 +52,13 @@ parfolio/
 │   └── web/                  # Web entry point
 ├── backend/                  # FastAPI server
 │   ├── main.py               # Entry point
-│   ├── ai/                   # LangChain logic & Whisper transcriber
+│   ├── ai/                   # LangChain logic (chains, schemas, prompts) & Whisper
 │   ├── firebase_config.py    # Firebase initialization
 │   ├── firebase_storage.py   # Firebase Storage utilities
 │   ├── models/               # Pydantic data models
 │   ├── routers/              # API route handlers
 │   ├── dependencies/         # Auth & shared dependencies
+│   ├── tests/                # Verification and unit tests
 │   ├── requirements.txt      # Python dependencies
 │   └── .env.example          # Environment template
 ├── marketing/                # Landing Page
@@ -103,6 +104,11 @@ parfolio/
 5. Start the server:
    ```bash
    uvicorn main:app --reload
+   ```
+
+6. **AI Verification**: Run tests against AI endpoints using sample data:
+   ```bash
+   python tests/test_ai_tagging.py
    ```
 
 ### App Setup (Flutter)
