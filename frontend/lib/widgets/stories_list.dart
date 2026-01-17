@@ -8,6 +8,7 @@ class StoriesList extends StatelessWidget {
   final bool isLoading;
   final Function(StoryModel) onStoryTap;
   final Function(String) onStoryDelete;
+  final Function(StoryModel)? onStoryEdit;
   final VoidCallback? onGetStarted;
 
   const StoriesList({
@@ -16,6 +17,7 @@ class StoriesList extends StatelessWidget {
     required this.isLoading,
     required this.onStoryTap,
     required this.onStoryDelete,
+    this.onStoryEdit,
     this.onGetStarted,
   }) : super(key: key);
 
@@ -33,7 +35,6 @@ class StoriesList extends StatelessWidget {
       );
     }
 
-
     return ListView.builder(
       physics: NeverScrollableScrollPhysics(), // Scroll handled by parent
       shrinkWrap: true,
@@ -44,9 +45,9 @@ class StoriesList extends StatelessWidget {
           story: story,
           onTap: () => onStoryTap(story),
           onDelete: () => onStoryDelete(story.id),
+          onEdit: onStoryEdit != null ? () => onStoryEdit!(story) : null,
         );
       },
     );
   }
 }
-

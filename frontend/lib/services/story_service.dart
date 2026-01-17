@@ -12,14 +12,17 @@ class StoryService {
     return await _firebaseAuth.currentUser?.getIdToken();
   }
 
-  Future<List<StoryModel>> getStories({String? tag}) async {
+  Future<List<StoryModel>> getStories({String? tag, String? status}) async {
     try {
       final token = await _getIdToken();
       if (token == null) throw Exception('User not authenticated');
 
       var uri = Uri.parse('${AuthService.baseUrl}/stories');
-      if (tag != null && tag != 'All') {
-        uri = uri.replace(queryParameters: {'tag': tag});
+      final queryParams = <String, String>{};
+      if (tag != null && tag != 'All') queryParams['tag'] = tag;
+      if (status != null) queryParams['status'] = status;
+      if (queryParams.isNotEmpty) {
+        uri = uri.replace(queryParameters: queryParams);
       }
 
       final response = await http.get(

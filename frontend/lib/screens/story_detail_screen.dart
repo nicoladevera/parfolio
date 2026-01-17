@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/story_model.dart';
 import '../core/colors.dart';
+import 'story_review_screen.dart';
 
 class StoryDetailScreen extends StatelessWidget {
   final StoryModel story;
   final Function(String) onDelete;
+  final VoidCallback? onEdit;
 
   const StoryDetailScreen({
     Key? key,
     required this.story,
     required this.onDelete,
+    this.onEdit,
   }) : super(key: key);
 
   void _confirmDelete(BuildContext context) {
@@ -48,9 +51,20 @@ class StoryDetailScreen extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.edit_outlined, color: Theme.of(context).colorScheme.onSurface),
             onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Edit coming soon!')),
-              );
+              if (onEdit != null) {
+                onEdit!();
+              } else {
+                // Default behavior: navigate to edit screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => StoryReviewScreen(
+                      storyId: story.id,
+                      isEditMode: true,
+                    ),
+                  ),
+                );
+              }
             },
           ),
           IconButton(

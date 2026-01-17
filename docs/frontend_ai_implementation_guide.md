@@ -2,7 +2,7 @@
 
 > **Purpose**: Comprehensive guide for implementing the frontend AI-related flows in PARfolio.
 >
-> **Status**: Phase 1-3 Complete ✅ | Phase 4-5 Pending
+> **Status**: Phase 1-4 Complete ✅ | Phase 5 Pending
 
 ---
 
@@ -28,7 +28,7 @@ This guide covers the frontend implementation required to complete the AI-powere
 **To Be Implemented:**
 - Enhanced processing loading screen with stages (Phase 2) ✅
 - Story review/edit screen (Phase 3)
-- Enhanced dashboard with P/A/R preview (Phase 4)
+- Enhanced dashboard with P/A/R preview (Phase 4) ✅
 - Memory screen for document uploads (Phase 5)
 
 > [!IMPORTANT]
@@ -394,8 +394,18 @@ void _discardStory() async {
 
 ---
 
-### Phase 4: Enhanced Dashboard ⬜
+### Phase 4: Enhanced Dashboard ✅
 **Goal**: Show complete stories with P/A/R preview snippets.
+
+**Status**: Complete (January 17, 2026)
+
+**Modified Files:**
+- `lib/services/story_service.dart` - Added status filter parameter
+- `lib/widgets/story_card.dart` - Added P/A/R preview with responsive layout
+- `lib/widgets/stories_list.dart` - Added onEdit callback
+- `lib/screens/home_screen.dart` - Filter by complete status, edit navigation
+- `lib/screens/story_detail_screen.dart` - Edit button navigation
+- `lib/screens/story_review_screen.dart` - Added isEditMode parameter
 
 **Modified Files:**
 - `lib/widgets/story_card.dart` - Add P/A/R preview
@@ -471,12 +481,12 @@ final stories = await _storyService.getStories(
 ```
 
 **Tasks:**
-- [ ] Update `StoryCard` widget with P/A/R preview sections
-- [ ] Implement responsive layout (wide vs. narrow)
-- [ ] Add text truncation for preview snippets
-- [ ] Update `StoryService.getStories()` to support status filter
-- [ ] Update dashboard to only fetch complete stories
-- [ ] Update `StoryDetailScreen` to allow returning to edit mode
+- [x] Update `StoryCard` widget with P/A/R preview sections
+- [x] Implement responsive layout (wide vs. narrow)
+- [x] Add text truncation for preview snippets
+- [x] Update `StoryService.getStories()` to support status filter
+- [x] Update dashboard to only fetch complete stories
+- [x] Update `StoryDetailScreen` to allow returning to edit mode
 
 ---
 
@@ -712,11 +722,11 @@ dependencies:
 | Phase 0 | Stories CRUD Backend | 2-3 hours | ✅ Complete |
 | Phase 1 | AI Service Integration | 3-4 hours | ✅ Complete |
 | Phase 2 | Processing Loading Screen | 3-4 hours | ✅ Complete |
-| Phase 3 | Story Review & Edit | 4-5 hours | ⬜ Pending |
-| Phase 4 | Enhanced Dashboard | 2-3 hours | ⬜ Pending |
+| Phase 3 | Story Review & Edit | 4-5 hours | ✅ Complete |
+| Phase 4 | Enhanced Dashboard | 2-3 hours | ✅ Complete |
 | Phase 5 | Memory Screen | 3-4 hours | ⬜ Pending |
 
-**Total**: ~17-23 hours | **Completed**: ~9-11 hours | **Remaining**: ~8-12 hours
+**Total**: ~17-23 hours | **Completed**: ~15-19 hours | **Remaining**: ~3-4 hours
 
 ---
 
