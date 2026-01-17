@@ -51,10 +51,32 @@ class StoryModel {
   }
 }
 
+class CoachingInsightModel {
+  final String overview;
+  final String detail;
+
+  CoachingInsightModel({
+    required this.overview,
+    required this.detail,
+  });
+
+  factory CoachingInsightModel.fromJson(Map<String, dynamic> json) {
+    return CoachingInsightModel(
+      overview: json['overview'] ?? '',
+      detail: json['detail'] ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'overview': overview,
+        'detail': detail,
+      };
+}
+
 class CoachingModel {
-  final String strength;
-  final String gap;
-  final String suggestion;
+  final CoachingInsightModel strength;
+  final CoachingInsightModel gap;
+  final CoachingInsightModel suggestion;
 
   CoachingModel({
     required this.strength,
@@ -64,9 +86,15 @@ class CoachingModel {
 
   factory CoachingModel.fromJson(Map<String, dynamic> json) {
     return CoachingModel(
-      strength: json['strength'] ?? '',
-      gap: json['gap'] ?? '',
-      suggestion: json['suggestion'] ?? '',
+      strength: CoachingInsightModel.fromJson(json['strength'] ?? {}),
+      gap: CoachingInsightModel.fromJson(json['gap'] ?? {}),
+      suggestion: CoachingInsightModel.fromJson(json['suggestion'] ?? {}),
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        'strength': strength.toJson(),
+        'gap': gap.toJson(),
+        'suggestion': suggestion.toJson(),
+      };
 }
