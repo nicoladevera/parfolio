@@ -18,6 +18,25 @@ class StructureResponse(BaseModel):
     confidence_score: float
     warnings: List[str]
 
+class ProcessRequest(BaseModel):
+    audio_url: str
+
+class TagRequest(BaseModel):
+    """Request model for /ai/tag endpoint"""
+    problem: str
+    action: str
+    result: str
+
+class TagAssignmentResponse(BaseModel):
+    """Individual tag assignment in API response"""
+    tag: str
+    confidence: float
+    reasoning: str
+
+class TagResponseModel(BaseModel):
+    """Response model for /ai/tag endpoint"""
+    tags: List[TagAssignmentResponse]
+
 class TranscribeRequest(BaseModel):
     """Request model for /ai/transcribe"""
     audio_url: str  # Firebase Storage URL (gs:// or https://)

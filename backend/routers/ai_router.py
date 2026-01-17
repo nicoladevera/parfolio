@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends
-from models.ai_models import StructureRequest, StructureResponse, TranscribeRequest, TranscribeResponse
-from ai.chains import get_structure_chain
+from models.ai_models import StructureRequest, StructureResponse, TranscribeRequest, TranscribeResponse, TagRequest, TagResponseModel
+from ai.chains import get_structure_chain, get_tagging_chain
 from ai.transcriber import transcribe_audio_file
 from firebase_storage import download_audio_from_storage, upload_transcript_to_storage
 import os
@@ -82,3 +82,37 @@ async def transcribe_audio(request: TranscribeRequest):
                 os.remove(temp_audio_path)
             except:
                 pass
+
+
+@router.post("/tag", response_model=TagResponseModel)
+async def tag_story(request: TagRequest):
+    """
+    Auto-assign 1-3 behavioral competency tags to a PAR story.
+    
+    Analyzes the Problem-Action-Result narrative and identifies
+    the most relevant competency tags with confidence scores and reasoning.
+    """
+    try:
+        chain = get_tagging_chain()
+        
+        # Invoke the chain with PAR components
+        result = chain.invoke({
+            "problem": request.problem,
+            "action": request.action,
+            "result": request.result
+        })
+        
+        # Convert to API response format
+        tag_assignments = [
+            {"tag": ta.tag, "confidence": ta.confidence, "reasoning": ta.reasoning}
+            for ta in result.tags
+        ]
+        
+        return TagResponseModel(tags=tag_assignments)
+        
+    except Exception as e:
+        print(f"Error in /ai/tag: {str(e)}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Tagging failed: {str(e)}"
+        )
