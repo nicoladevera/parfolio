@@ -121,36 +121,6 @@ class _ProcessingScreenState extends State<ProcessingScreen>
     }
   }
 
-  void _showWarningSnackbar(List<String> warnings) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Processed with ${warnings.length} warning(s)'),
-        backgroundColor: Theme.of(context).colorScheme.warning,
-        action: SnackBarAction(
-          label: 'Details',
-          textColor: Colors.white,
-          onPressed: () {
-            showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                title: const Text('Processing Warnings'),
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: warnings.map((w) => Text('• $w')).toList(),
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: const Text('Close'),
-                  ),
-                ],
-              ),
-            );
-          },
-        ),
-      ),
-    );
-  }
 
   void _retry() {
     setState(() {
@@ -293,7 +263,33 @@ class _ProcessingScreenState extends State<ProcessingScreen>
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton(
-                onPressed: _retry,
+                onPressed: () {
+            if (!mounted) return;
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text('Retry Processing'),
+                  content: const Text('Are you sure you want to try processing the audio again?'),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop(); // Dismiss dialog
+                      },
+                      child: const Text('Cancel'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop(); // Dismiss dialog
+                        _retry(); // Call the retry function
+                      },
+                      child: const Text('Retry'),
+                    ),
+                  ],
+                );
+              },
+            );
+          },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: colorScheme.primary,
                   foregroundColor: colorScheme.onPrimary,

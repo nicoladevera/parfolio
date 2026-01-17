@@ -160,7 +160,7 @@ def _format_story_doc(doc):
         raw_transcript_url=data.get("raw_transcript_url"),
         audio_url=data.get("audio_url"),
         status=data.get("status", "draft"),
-        warnings=data.get("warnings", []),
+        warnings=[w for w in data.get("warnings", []) if "failed" in w.lower()],
         coaching=data.get("coaching"),
         created_at=created_at or datetime.now(),
         updated_at=updated_at or datetime.now()
