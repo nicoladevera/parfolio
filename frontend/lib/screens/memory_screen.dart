@@ -186,7 +186,7 @@ class _MemoryScreenState extends State<MemoryScreen> {
                   icon: Icons.psychology_outlined,
                   title: 'No memories yet',
                   message: 'Upload a document to give the AI context about your career.',
-                  onAction: () {}, // Handled by UploadCTA
+                  onGetStarted: () {}, // Handled by UploadCTA
                   actionLabel: '',
                 )
               else

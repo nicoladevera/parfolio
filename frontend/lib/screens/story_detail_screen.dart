@@ -125,9 +125,9 @@ class StoryDetailScreen extends StatelessWidget {
                     ),
               ),
               SizedBox(height: 16),
-              _buildInsightCard(context, 'Strength', story.coaching!.strength, Theme.of(context).colorScheme.success),
-              _buildInsightCard(context, 'Gap', story.coaching!.gap, Theme.of(context).colorScheme.warning),
-              _buildInsightCard(context, 'Suggestion', story.coaching!.suggestion, Theme.of(context).colorScheme.info),
+              _buildInsightCard(context, 'Strength', story.coaching!.strength.overview, Theme.of(context).colorScheme.success),
+              _buildInsightCard(context, 'Gap', story.coaching!.gap.overview, Theme.of(context).colorScheme.warning),
+              _buildInsightCard(context, 'Suggestion', story.coaching!.suggestion.overview, Theme.of(context).colorScheme.info),
             ],
             
             SizedBox(height: 48),
