@@ -226,7 +226,10 @@ tags/{tagId}
 4. [x] Build `/ai/transcribe` endpoint with Whisper Local (Phase 2)
 5. [x] Create Stories CRUD endpoints
 6. [x] Design and build Flutter UI for voice recording + story display
-7. [ ] Implement export functionality
+7. [x] Implement AI Service Integration (Frontend Phase 1) - Audio upload, AI processing, story creation
+8. [ ] Implement enhanced processing screen with stages (Frontend Phase 2)
+9. [ ] Implement story review/edit screen (Frontend Phase 3)
+10. [ ] Implement export functionality
 
 ### `PUT /profile` — Update User Profile
 **Request:**
