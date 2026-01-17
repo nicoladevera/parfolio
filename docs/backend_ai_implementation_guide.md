@@ -49,9 +49,9 @@ Build each AI processing step individually, then create the all-in-one orchestra
 **Tasks**:
 - [x] Integrate Google Cloud Speech-to-Text or OpenAI Whisper (implemented Whisper Local)
 - [x] Handle audio format conversion (Whisper handles many natively)
-- [ ] Store audio files in Firebase Storage (e.g., `gs://bucket/{userId}/audio/{storyId}.wav`)
+- [ ] Store audio files in Firebase Storage (at `gs://bucket/users/{userId}/audio/{storyId}.wav`)
 - [ ] Store the audio URL in Firestore (`audioUrl`) as optional field
-- [x] Save transcript text to Firebase Storage as `.txt` file (at `{userId}/transcripts/{storyId}.txt`)
+- [x] Save transcript text to Firebase Storage as `.txt` file (at `gs://bucket/users/{userId}/transcripts/{storyId}.txt`)
 - [x] Store the transcript URL in Firestore (`rawTranscriptUrl`)
 - [ ] Connect to `/ai/structure` for end-to-end flow
 
@@ -176,9 +176,9 @@ Build each AI processing step individually, then create the all-in-one orchestra
 - Test prompts with diverse story types (technical, leadership, interpersonal)
 
 ### Error Handling
-- Graceful degradation: if tagging fails, still return PAR structure
-- Retry logic for transient API failures
-- User-friendly error messages
+- Graceful degradation: if tagging fails, still return PAR structure.
+- **UX Filtering**: AI-generated suggestions from the structuring phase (e.g., "Result lacks metrics") are filtered out of the `warnings` array to prevent cluttering the UI with technical-looking warnings for coaching issues. Only actual system failures (Transcription failed, Tagging failed) are surfaced as warnings.
+- Retry logic for transient API failures.
 
 ### Cost Optimization
 - Cache transcriptions (don't re-transcribe on re-structure)
@@ -188,13 +188,13 @@ Build each AI processing step individually, then create the all-in-one orchestra
 ### Storage Pattern for Audio & Transcripts
 
 **Audio Files**:
-- Store original recordings in Firebase Storage: `gs://bucket/audio/{storyId}.wav` (or `.mp3`, `.m4a`)
+- Store original recordings in Firebase Storage: `gs://bucket/users/{userId}/audio/{storyId}.wav` (or `.mp3`, `.m4a`)
 - Store the URL in Firestore as `audioUrl` (optional field)
-- Path convention: `gs://bucket/audio/{storyId}.{extension}`
+- Path convention: `gs://bucket/users/{userId}/audio/{storyId}.{extension}`
 
 **Transcripts**:
 - Store raw transcripts as text files in Firebase Storage (similar to profile photos)
-- Path convention: `gs://bucket/{userId}/transcripts/{storyId}.txt`
+- Path convention: `gs://bucket/users/{userId}/transcripts/{storyId}.txt`
 - Store the Firebase Storage URL in Firestore as `rawTranscriptUrl`
 - Benefits: GDPR-friendly (per-user folders), no Firestore document size limits, better performance
 - The `/stories/{story_id}/transcript` endpoint can directly serve the file from Storage

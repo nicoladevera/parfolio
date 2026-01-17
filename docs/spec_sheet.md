@@ -52,7 +52,7 @@ users/{userId}
 ├── targetIndustry: string (optional)
 ├── careerStage: enum (optional) ["early_career", "mid_career", "senior_leadership"]
 ├── transitionTypes: array of enums (optional) ["same_role_new_company", "role_change", "industry_change", "company_type_shift"]
-├── profilePhotoUrl: string (optional)
+├── profilePhotoUrl: string (optional, path: users/{userId}/profile_photo.jpg)
 ├── createdAt: timestamp
 └── updatedAt: timestamp
 ```
@@ -62,8 +62,8 @@ users/{userId}
 stories/{storyId}
 ├── userId: string (FK → users)
 ├── title: string (auto-generated)
-├── audioUrl: string (optional, Firebase Storage URL to original recording)
-├── rawTranscriptUrl: string (Firebase Storage URL to transcript text file)
+├── audioUrl: string (optional, Firebase Storage URL to original recording at users/{userId}/audio/{storyId}.{ext})
+├── rawTranscriptUrl: string (Firebase Storage URL to transcript text file at users/{userId}/transcripts/{storyId}.txt)
 ├── problem: string (PAR - Problem)
 ├── action: string (PAR - Action)
 ├── result: string (PAR - Result)
@@ -127,7 +127,7 @@ tags/{tagId}
 | `POST` | `/ai/structure` | Convert raw transcript → PAR format + title |
 | `POST` | `/ai/tag` | Auto-tag story with behavioral competencies (1-3 tags, confidence, reasoning) |
 | `POST` | `/ai/coach` | **Tool-calling agent**: Generates insights, autonomously retrieves context from Memory DB if needed |
-| `POST` | `/ai/process` | **All-in-one orchestrator**: transcribe → structure → tag → coach (uses tool-calling agent for coaching) |
+| `POST` | `/ai/process` | **All-in-one orchestrator**: transcribe → structure → tag → coach (uses tool-calling agent for coaching). *Note: AI-generated structuring warnings are filtered out for UX clarity.* |
 
 ---
 
