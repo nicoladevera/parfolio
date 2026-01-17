@@ -38,7 +38,7 @@ PARfolio listens to your rambling work stories, automatically structures them in
 | **Backend** | FastAPI (Python) |
 | **Database** | Firebase Firestore |
 | **Auth** | Firebase Authentication |
-| **Speech-to-Text** | Google Cloud Speech-to-Text / Whisper |
+| **Speech-to-Text** | OpenAI Whisper (Local) |
 | **AI/LLM** | Google Gemini 2.0/2.5 Pro (Primary) / OpenAI GPT-4o / Anthropic Claude 3.5 Sonnet |
 
 ---
@@ -52,10 +52,11 @@ parfolio/
 │   └── web/                  # Web entry point
 ├── backend/                  # FastAPI server
 │   ├── main.py               # Entry point
-│   ├── ai/                   # [NEW] LangChain logic (schemas, prompts, chains)
+│   ├── ai/                   # LangChain logic & Whisper transcriber
 │   ├── firebase_config.py    # Firebase initialization
-│   ├── models/               # Pydantic data models (including ai_models.py)
-│   ├── routers/              # API route handlers (including ai_router.py)
+│   ├── firebase_storage.py   # Firebase Storage utilities
+│   ├── models/               # Pydantic data models
+│   ├── routers/              # API route handlers
 │   ├── dependencies/         # Auth & shared dependencies
 │   ├── requirements.txt      # Python dependencies
 │   └── .env.example          # Environment template
@@ -77,7 +78,11 @@ parfolio/
 
 ### Backend Setup
 
-1. Navigate to the `backend` directory:
+1. **System Dependencies**: Ensure `ffmpeg` is installed on your system (required for Whisper).
+   - On Mac: `brew install ffmpeg`
+   - Linux: `sudo apt install ffmpeg`
+
+2. Navigate to the `backend` directory:
    ```bash
    cd backend
    ```

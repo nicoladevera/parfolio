@@ -149,7 +149,7 @@ tags/{tagId}
 | **Backend** | FastAPI (Python) |
 | **Database** | Firebase Firestore |
 | **Auth** | Firebase Authentication |
-| **Speech-to-Text** | Google Cloud Speech-to-Text / Whisper |
+| **Speech-to-Text** | OpenAI Whisper (Local) |
 | **AI/LLM** | Google Gemini 2.0/2.5 Pro (Primary) / OpenAI GPT-4o / Anthropic Claude 3.5 Sonnet |
 | **Hosting** | Firebase Hosting (frontend) + Cloud Run / Railway (backend) |
 
@@ -190,9 +190,10 @@ tags/{tagId}
 1. [x] Set up Flutter project structure (Web)
 2. [x] Implement Firebase Auth flow
 3. [x] Build `/ai/structure` endpoint with Gemini integration (Phase 1)
-4. [ ] Create Stories CRUD endpoints
-5. [x] Design and build Flutter UI for voice recording + story display
-6. [ ] Implement export functionality
+4. [x] Build `/ai/transcribe` endpoint with Whisper Local (Phase 2)
+5. [ ] Create Stories CRUD endpoints
+6. [x] Design and build Flutter UI for voice recording + story display
+7. [ ] Implement export functionality
 
 ### `PUT /profile` — Update User Profile
 **Request:**

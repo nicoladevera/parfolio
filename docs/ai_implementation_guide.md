@@ -43,20 +43,20 @@ Build each AI processing step individually, then create the all-in-one orchestra
 
 ---
 
-### Phase 2: Audio Transcription
+### Phase 2: Audio Transcription ✅ (Complete)
 **Endpoint**: `POST /ai/transcribe`
 
 **Tasks**:
-- Integrate Google Cloud Speech-to-Text or OpenAI Whisper
-- Handle audio format conversion (WAV, MP3, etc.)
-- Store audio files in Firebase Storage (e.g., `gs://bucket/audio/{storyId}.wav`)
-- Store the audio URL in Firestore (`audioUrl`) as optional field
-- Save transcript text to Firebase Storage as `.txt` file (e.g., `gs://bucket/transcripts/{storyId}.txt`)
-- Store the transcript URL in Firestore (`rawTranscriptUrl`)
-- Connect to `/ai/structure` for end-to-end flow
+- [x] Integrate Google Cloud Speech-to-Text or OpenAI Whisper (implemented Whisper Local)
+- [x] Handle audio format conversion (Whisper handles many natively)
+- [ ] Store audio files in Firebase Storage (e.g., `gs://bucket/{userId}/audio/{storyId}.wav`)
+- [ ] Store the audio URL in Firestore (`audioUrl`) as optional field
+- [x] Save transcript text to Firebase Storage as `.txt` file (at `{userId}/transcripts/{storyId}.txt`)
+- [x] Store the transcript URL in Firestore (`rawTranscriptUrl`)
+- [ ] Connect to `/ai/structure` for end-to-end flow
 
-**Input**: `audio_url` (Firebase Storage URL)  
-**Output**: `audio_url` (stored in Firestore), `raw_transcript_url` (Firebase Storage URL to transcript text file)
+**Input**: `audio_url`, `story_id`, `user_id`
+**Output**: `audio_url`, `raw_transcript`, `raw_transcript_url` (Firebase Storage URL to transcript text file)
 
 ---
 
@@ -157,9 +157,9 @@ Build each AI processing step individually, then create the all-in-one orchestra
 
 **Transcripts**:
 - Store raw transcripts as text files in Firebase Storage (similar to profile photos)
-- Path convention: `gs://bucket/transcripts/{storyId}.txt`
+- Path convention: `gs://bucket/{userId}/transcripts/{storyId}.txt`
 - Store the Firebase Storage URL in Firestore as `rawTranscriptUrl`
-- Benefits: No Firestore document size limits, better performance, cost-effective for long transcripts
+- Benefits: GDPR-friendly (per-user folders), no Firestore document size limits, better performance
 - The `/stories/{story_id}/transcript` endpoint can directly serve the file from Storage
 
 **Audio Retention Policy**:
