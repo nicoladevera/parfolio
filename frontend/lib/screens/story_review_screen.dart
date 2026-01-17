@@ -35,17 +35,21 @@ class _StoryReviewScreenState extends State<StoryReviewScreen> {
   String _action = '';
   String _result = '';
   List<String> _tags = [];
+  List<String> _warnings = [];
+  late FocusNode _titleFocusNode;
 
   @override
   void initState() {
     super.initState();
     _titleController = TextEditingController();
+    _titleFocusNode = FocusNode();
     _loadStory();
   }
 
   @override
   void dispose() {
     _titleController.dispose();
+    _titleFocusNode.dispose();
     super.dispose();
   }
 
@@ -60,6 +64,7 @@ class _StoryReviewScreenState extends State<StoryReviewScreen> {
           _action = story.action;
           _result = story.result;
           _tags = List<String>.from(story.tags);
+          _warnings = List<String>.from(story.warnings);
           _isLoading = false;
         });
       }
@@ -174,6 +179,31 @@ class _StoryReviewScreenState extends State<StoryReviewScreen> {
       }
     }
   }
+  
+  void _showWarningDetails(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('AI Analysis Warnings'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: _warnings
+              .map((w) => Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Text('• $w'),
+                  ))
+              .toList(),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Close'),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -236,6 +266,7 @@ class _StoryReviewScreenState extends State<StoryReviewScreen> {
                   Expanded(
                     child: TextFormField(
                       controller: _titleController,
+                      focusNode: _titleFocusNode,
                       style: theme.textTheme.headlineSmall?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: colorScheme.gray900,
@@ -247,9 +278,14 @@ class _StoryReviewScreenState extends State<StoryReviewScreen> {
                       maxLines: null,
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 8.0),
-                    child: Icon(Icons.edit_outlined, size: 20, color: Color(0xFF9CA3AF)),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4.0),
+                    child: IconButton(
+                      icon: const Icon(Icons.edit_outlined, size: 20, color: Color(0xFF9CA3AF)),
+                      onPressed: () => _titleFocusNode.requestFocus(),
+                      constraints: const BoxConstraints(),
+                      padding: const EdgeInsets.all(4),
+                    ),
                   ),
                 ],
               ),
@@ -300,47 +336,78 @@ class _StoryReviewScreenState extends State<StoryReviewScreen> {
             ],
           ),
         ),
-        bottomNavigationBar: Container(
-          padding: const EdgeInsets.all(Spacing.lg),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.05),
-                blurRadius: 10,
-                offset: const Offset(0, -5),
+          ),
+        ),
+        bottomNavigationBar: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (_warnings.isNotEmpty)
+              Container(
+                color: const Color(0xFFF97316), // Orange 500
+                padding: const EdgeInsets.symmetric(horizontal: Spacing.lg, vertical: 8),
+                child: Row(
+                  children: [
+                    const Icon(Icons.warning_amber_rounded, color: Colors.white, size: 20),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        'Processed with ${_warnings.length} warning(s)',
+                        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () => _showWarningDetails(context),
+                      child: const Text(
+                        'Details',
+                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, decoration: TextDecoration.underline),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ],
-          ),
-          child: SafeArea(
-            child: Row(
-              children: [
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: _isSaving ? null : _discardStory,
-                    style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-                    ),
-                    child: const Text('Discard'),
+            Container(
+              padding: const EdgeInsets.all(Spacing.lg),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 10,
+                    offset: const Offset(0, -5),
                   ),
-                ),
-                const SizedBox(width: Spacing.base),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: _isSaving ? null : _saveStory,
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                ],
+              ),
+              child: SafeArea(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: _isSaving ? null : _discardStory,
+                        style: OutlinedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                        ),
+                        child: const Text('Discard'),
+                      ),
                     ),
-                    child: _isSaving
-                        ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
-                        : const Text('Save Story'),
-                  ),
+                    const SizedBox(width: Spacing.base),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: _isSaving ? null : _saveStory,
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                        ),
+                        child: _isSaving
+                            ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                            : const Text('Save Story'),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );

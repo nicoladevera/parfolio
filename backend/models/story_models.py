@@ -21,6 +21,7 @@ class StoryBase(BaseModel):
     raw_transcript_url: Optional[str] = None
     audio_url: Optional[str] = None
     status: str = "draft"  # "draft" | "complete"
+    warnings: List[str] = []
 
 class StoryCreate(StoryBase):
     coaching: Optional[CoachingModel] = None

@@ -235,6 +235,13 @@ async def process_story(request: ProcessRequest):
                 print(f"Transcription failed in /ai/process: {str(e)}")
                 raise HTTPException(status_code=500, detail=f"Transcription failed: {str(e)}")
 
+        # 2.5 Validation: Ensure transcript is not empty
+        if not transcript_text or not transcript_text.strip():
+            raise HTTPException(
+                status_code=400, 
+                detail="Transcription failed or audio was empty. Please try recording again."
+            )
+
         # 3. Structure
         try:
             structure_chain = get_structure_chain()

@@ -9,6 +9,7 @@ class StoryModel {
   final List<String> tags;
   final CoachingModel? coaching;
   final String status; // "draft" | "complete"
+  final List<String> warnings;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -23,6 +24,7 @@ class StoryModel {
     required this.tags,
     this.coaching,
     required this.status,
+    required this.warnings,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -41,6 +43,7 @@ class StoryModel {
           ? CoachingModel.fromJson(json['coaching'])
           : null,
       status: json['status'] ?? 'draft',
+      warnings: List<String>.from(json['warnings'] ?? []),
       createdAt: json['created_at'] != null 
           ? DateTime.parse(json['created_at']) 
           : DateTime.now(),
