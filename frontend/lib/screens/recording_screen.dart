@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 // Services
 import '../services/audio_recording_service.dart';
 import '../services/audio_playback_service.dart';
+
+// Screens
+import 'processing_screen.dart';
 
 // Widgets
 import '../widgets/auth/polka_dot_rectangle.dart';
@@ -245,13 +249,42 @@ class _RecordingScreenState extends State<RecordingScreen> {
     }
   }
 
-  void _saveAndProcessing() {
-    // Placeholder for save logic
+  Future<void> _saveAndProcessing() async {
+    // Validate recording exists
+    if (_recordedFilePath == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No recording found')),
+      );
+      return;
+    }
+
+    // Validate user is authenticated
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+    if (userId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('You must be logged in')),
+      );
+      return;
+    }
+
+    // Show brief feedback
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Saving and processing... (Mock)')),
+      const SnackBar(
+        content: Text('Preparing your story...'),
+        duration: Duration(seconds: 2),
+      ),
     );
-     // Navigate back or to success screen
-     Navigator.pop(context);
+
+    // Navigate to ProcessingScreen (Phase 2)
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ProcessingScreen(
+          audioFilePath: _recordedFilePath!,
+          userId: userId,
+        ),
+      ),
+    );
   }
 
   // --- UI Construction ---

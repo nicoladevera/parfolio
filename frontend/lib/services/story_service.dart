@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import '../models/story_model.dart';
+import '../models/ai_models.dart';
 import 'auth_service.dart'; // Import to access baseUrl
 
 class StoryService {
@@ -80,6 +81,109 @@ class StoryService {
       }
     } catch (e) {
       throw Exception('Error deleting story: $e');
+    }
+  }
+
+  /// Create a new story from AI-processed data
+  ///
+  /// Takes the processed story data from the AI pipeline and creates a new
+  /// story in Firestore with status 'draft'.
+  ///
+  /// Returns the created [StoryModel] with all fields populated including
+  /// the server-generated story_id and timestamps.
+  Future<StoryModel> createStory({
+    required ProcessedStoryResponse aiData,
+    required String audioUrl,
+  }) async {
+    try {
+      final token = await _getIdToken();
+      if (token == null) throw Exception('User not authenticated');
+
+      // Build request payload mapping ProcessedStoryResponse to StoryCreate schema
+      final requestBody = {
+        'title': aiData.title,
+        'problem': aiData.problem,
+        'action': aiData.action,
+        'result': aiData.result,
+        'tags': aiData.tags.map((t) => t.tag).toList(), // Extract tag names only
+        'raw_transcript': aiData.rawTranscript,
+        'raw_transcript_url': aiData.rawTranscriptUrl,
+        'audio_url': audioUrl,
+        'status': 'draft', // Initial status
+        'coaching': {
+          'strength': {
+            'overview': aiData.coaching.strength.overview,
+            'detail': aiData.coaching.strength.detail,
+          },
+          'gap': {
+            'overview': aiData.coaching.gap.overview,
+            'detail': aiData.coaching.gap.detail,
+          },
+          'suggestion': {
+            'overview': aiData.coaching.suggestion.overview,
+            'detail': aiData.coaching.suggestion.detail,
+          },
+        },
+      };
+
+      final response = await http.post(
+        Uri.parse('${AuthService.baseUrl}/stories'),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(requestBody),
+      );
+
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        return StoryModel.fromJson(jsonDecode(response.body));
+      } else {
+        throw Exception('Failed to create story: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Error creating story: $e');
+    }
+  }
+
+  /// Update an existing story
+  ///
+  /// Allows partial updates to story fields. Commonly used for:
+  /// - Editing PAR sections
+  /// - Updating tags
+  /// - Marking story as complete
+  ///
+  /// Example usage:
+  /// ```dart
+  /// await storyService.updateStory(storyId, {'status': 'complete'});
+  /// await storyService.updateStory(storyId, {
+  ///   'problem': editedProblem,
+  ///   'action': editedAction,
+  /// });
+  /// ```
+  Future<StoryModel> updateStory(
+    String storyId,
+    Map<String, dynamic> updates,
+  ) async {
+    try {
+      final token = await _getIdToken();
+      if (token == null) throw Exception('User not authenticated');
+
+      final response = await http.put(
+        Uri.parse('${AuthService.baseUrl}/stories/$storyId'),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(updates),
+      );
+
+      if (response.statusCode == 200) {
+        return StoryModel.fromJson(jsonDecode(response.body));
+      } else {
+        throw Exception('Failed to update story: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Error updating story: $e');
     }
   }
 
