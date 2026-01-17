@@ -103,9 +103,13 @@ parfolio/
 
 4. Create a `.env` file based on `.env.example`
 
-5. Start the server:
+5. Start the server (ensure virtual environment is active):
    ```bash
+   # If venv is activated (from step 2):
    uvicorn main:app --reload
+   
+   # Or run directly without activation:
+   ./venv/bin/uvicorn main:app --reload
    ```
 
 6. **AI Verification**: Run tests against AI and Stories endpoints:
