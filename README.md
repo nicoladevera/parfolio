@@ -22,6 +22,7 @@ PARfolio listens to your rambling work stories, automatically structures them in
 - 🏗️ **AI PAR Structuring**: Automatically convert rambling transcripts into structured Problem-Action-Result narratives.
 - 🏷️ **Behavioral Tagging**: Auto-assign competency tags (Leadership, Impact, etc.) to your stories.
 - 💡 **Personalized Coaching**: Receive specific insights on strengths, gaps, and improvements, tailored to your name and career context.
+- ⚡ **All-in-One Pipeline**: Orchestrate the entire flow from raw audio/text to polished PAR story in a single API call.
 - 📁 **Story Bank**: Manage, filter, and export your polished narratives.
 
 ---

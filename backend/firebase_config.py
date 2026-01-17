@@ -1,6 +1,6 @@
 import os
 import firebase_admin
-from firebase_admin import credentials
+from firebase_admin import credentials, firestore
 from dotenv import load_dotenv
 
 # Load environment variables from .env
@@ -31,3 +31,11 @@ def initialize_firebase():
 
 # Initialize once when the module is imported
 firebase_app = initialize_firebase()
+
+def get_user_profile(user_id: str) -> dict:
+    """Fetch user profile from Firestore for coaching context."""
+    db = firestore.client()
+    doc = db.collection("users").document(user_id).get()
+    if doc.exists:
+        return doc.to_dict()
+    return {}
