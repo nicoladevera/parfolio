@@ -224,7 +224,7 @@ tags/{tagId}
 2. [x] Implement Firebase Auth flow
 3. [x] Build `/ai/structure` endpoint with Gemini integration (Phase 1)
 4. [x] Build `/ai/transcribe` endpoint with Whisper Local (Phase 2)
-5. [ ] Create Stories CRUD endpoints
+5. [x] Create Stories CRUD endpoints
 6. [x] Design and build Flutter UI for voice recording + story display
 7. [ ] Implement export functionality
 

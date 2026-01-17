@@ -108,9 +108,14 @@ parfolio/
    uvicorn main:app --reload
    ```
 
-6. **AI Verification**: Run tests against AI endpoints using sample data:
+6. **AI Verification**: Run tests against AI and Stories endpoints:
    ```bash
+   # Test AI Tagging
    python tests/test_ai_tagging.py
+   
+   # Test Stories CRUD (Standard pytest)
+   export PYTHONPATH=$PYTHONPATH:.
+   pytest tests/test_stories_unit.py
    ```
 
 ### App Setup (Flutter)
@@ -142,7 +147,7 @@ Simply open `marketing/index.html` in your browser. No build process required.
 - [Product Overview](docs/overview.md) — User persona, problem, solution, and pitch
 - [Technical Spec Sheet](docs/spec_sheet.md) — Data schema, API endpoints, and examples
 - [Design System](docs/design_system.md) — Visual language, colors, and component specs
-- [AI Implementation Guide](docs/ai_implementation_guide.md) — Strategy for building the AI pipeline
+- [AI Implementation Guide](docs/backend_ai_implementation_guide.md) — Strategy for building the AI pipeline
 
 ---
 

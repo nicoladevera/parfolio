@@ -1,4 +1,4 @@
-# AI Implementation Guide
+# Backend AI Implementation Guide
 
 > **Purpose**: High-level strategy for implementing PARfolio's AI processing features systematically.
 > 
