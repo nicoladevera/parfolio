@@ -29,3 +29,34 @@ class PARStructure(BaseModel):
         default_factory=list,
         description="List of specific warnings or suggestions for improvement (e.g., 'Result lacks metrics', 'Problem context is vague')."
     )
+
+class TagAssignment(BaseModel):
+    """
+    Individual tag assignment with confidence and reasoning.
+    """
+    tag: str = Field(
+        ...,
+        description="The assigned competency tag (must be one of the 10 predefined tags)."
+    )
+    confidence: float = Field(
+        ...,
+        ge=0.0,
+        le=1.0,
+        description="Confidence score for this tag assignment (0.0 to 1.0)."
+    )
+    reasoning: str = Field(
+        ...,
+        description="Brief explanation (1-2 sentences) of why this tag was assigned based on the PAR story."
+    )
+
+class TagResponse(BaseModel):
+    """
+    Structured output for behavioral tagging.
+    Returns 1-3 tags with confidence and reasoning.
+    """
+    tags: List[TagAssignment] = Field(
+        ...,
+        min_length=1,
+        max_length=3,
+        description="List of 1-3 assigned competency tags with metadata."
+    )

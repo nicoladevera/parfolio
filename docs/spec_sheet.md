@@ -117,7 +117,7 @@ tags/{tagId}
 |--------|----------|-------------|
 | `POST` | `/ai/transcribe` | Convert audio file → text transcript |
 | `POST` | `/ai/structure` | Convert raw transcript → PAR format + title |
-| `POST` | `/ai/tag` | Auto-tag story with behavioral competencies |
+| `POST` | `/ai/tag` | Auto-tag story with behavioral competencies (1-3 tags, confidence, reasoning) |
 | `POST` | `/ai/coach` | Generate coaching insights for a story |
 | `POST` | `/ai/process` | **All-in-one**: transcribe → structure → tag → coach |
 
