@@ -9,10 +9,12 @@ import '../widgets/review/coaching_display.dart';
 
 class StoryReviewScreen extends StatefulWidget {
   final String storyId;
+  final bool isEditMode;
 
   const StoryReviewScreen({
     super.key,
     required this.storyId,
+    this.isEditMode = false,
   });
 
   @override
@@ -74,14 +76,18 @@ class _StoryReviewScreenState extends State<StoryReviewScreen> {
   Future<void> _saveStory() async {
     setState(() => _isSaving = true);
     try {
-      await _storyService.updateStory(widget.storyId, {
+      final updates = {
         'title': _titleController.text,
         'problem': _problem,
         'action': _action,
         'result': _result,
         'tags': _tags,
-        'status': 'complete',
-      });
+      };
+      // Only set status to complete for new stories, not edit mode
+      if (!widget.isEditMode) {
+        updates['status'] = 'complete';
+      }
+      await _storyService.updateStory(widget.storyId, updates);
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -103,6 +109,33 @@ class _StoryReviewScreenState extends State<StoryReviewScreen> {
   }
 
   Future<void> _discardStory() async {
+    // In edit mode, just go back without deleting
+    if (widget.isEditMode) {
+      final confirm = await showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Discard Changes?'),
+          content: const Text('Your unsaved changes will be lost.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('Keep Editing'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context, true),
+              style: TextButton.styleFrom(foregroundColor: Theme.of(context).colorScheme.error),
+              child: const Text('Discard'),
+            ),
+          ],
+        ),
+      );
+      if (confirm == true && mounted) {
+        Navigator.pop(context);
+      }
+      return;
+    }
+
+    // For new drafts, delete the story
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
@@ -179,7 +212,7 @@ class _StoryReviewScreenState extends State<StoryReviewScreen> {
             icon: const Icon(Icons.arrow_back),
             onPressed: _discardStory,
           ),
-          title: const Text('Review Your Story'),
+          title: Text(widget.isEditMode ? 'Edit Story' : 'Review Your Story'),
           backgroundColor: Colors.white,
           elevation: 0,
           foregroundColor: colorScheme.gray900,
