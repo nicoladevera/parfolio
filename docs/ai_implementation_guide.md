@@ -189,6 +189,11 @@ Build each AI processing step individually, then create the all-in-one orchestra
 
 ---
 
+## Testing Resources
+- **Sample Transcripts**: Located in `backend/samples/`. Use these for testing Phase 1 (Structuring) and Phase 3 (Tagging) to ensure the AI handles various narrative styles and behavioral signals correctly.
+
+---
+
 ## Reference
 
 See `spec_sheet.md` for:
