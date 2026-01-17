@@ -1,7 +1,7 @@
 import os
 from langchain_google_genai import ChatGoogleGenerativeAI
-from ai.schemas import PARStructure, TagResponse
-from ai.prompts import PAR_STRUCTURING_PROMPT, TAGGING_PROMPT
+from ai.schemas import PARStructure, TagResponse, CoachingResult
+from ai.prompts import PAR_STRUCTURING_PROMPT, TAGGING_PROMPT, COACHING_PROMPT
 
 def get_structure_chain():
     """
@@ -46,3 +46,25 @@ def get_tagging_chain():
     tagging_chain = TAGGING_PROMPT | llm.with_structured_output(TagResponse)
     
     return tagging_chain
+
+def get_coaching_chain():
+    """
+    Creates and returns the LangChain runnable for coaching insights.
+    Expects 'first_name', 'problem', 'action', 'result', 'tags', 'user_profile' as input.
+    Returns CoachingResult object.
+    """
+    api_key = os.getenv("GOOGLE_API_KEY")
+    if not api_key:
+        raise ValueError("GOOGLE_API_KEY environment variable not set")
+
+    # Higher temperature for coaching for slightly more diverse feedback
+    llm = ChatGoogleGenerativeAI(
+        model="gemini-2.0-flash",
+        google_api_key=api_key,
+        temperature=0.7
+    )
+
+    # Bind structured output schema
+    coaching_chain = COACHING_PROMPT | llm.with_structured_output(CoachingResult)
+    
+    return coaching_chain

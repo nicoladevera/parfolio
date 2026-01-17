@@ -18,14 +18,11 @@ PARfolio listens to your rambling work stories, automatically structures them in
 
 ## Key Features
 
-| Feature | Description |
-|---------|-------------|
-| 🎙️ **Voice → PAR Story Builder** | Speak your messy work story, get a clean PAR narrative with an auto-generated title |
-| 🏷️ **Behavioral Tagging** | Auto-assign 1–3 competency tags (e.g., Leadership, Communication, Impact) |
-| 👤 **User Profile** | Capture role, industry, and career stage to provide high-context AI coaching |
-| 💡 **Lightweight Coaching** | Get 2–3 insights per story: strengths, gaps, and suggestions |
-| 📚 **Story Portfolio** | Browse, search, and filter your stories by tag |
-| 📤 **Export** | One-click export to Notion, Google Sheets, or plain text |
+- 🎙️ **Voice-First Recording**: Capture your work stories naturally through speech.
+- 🏗️ **AI PAR Structuring**: Automatically convert rambling transcripts into structured Problem-Action-Result narratives.
+- 🏷️ **Behavioral Tagging**: Auto-assign competency tags (Leadership, Impact, etc.) to your stories.
+- 💡 **Personalized Coaching**: Receive specific insights on strengths, gaps, and improvements, tailored to your name and career context.
+- 📁 **Story Bank**: Manage, filter, and export your polished narratives.
 
 ---
 

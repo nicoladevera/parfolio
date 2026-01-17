@@ -60,3 +60,14 @@ class TagResponse(BaseModel):
         max_length=3,
         description="List of 1-3 assigned competency tags with metadata."
     )
+
+class CoachingInsightSchema(BaseModel):
+    """Single coaching insight with overview + detail for LLM parsing"""
+    overview: str = Field(..., description="1-2 sentence summary of the insight.")
+    detail: str = Field(..., description="Detailed paragraph providing context and examples from the PAR story.")
+
+class CoachingResult(BaseModel):
+    """Structured output for coaching generation."""
+    strength: CoachingInsightSchema = Field(..., description="What the user did well in this story.")
+    gap: CoachingInsightSchema = Field(..., description="What could be improved or what is missing from the story.")
+    suggestion: CoachingInsightSchema = Field(..., description="Actionable advice on how to make the story more impactful.")
