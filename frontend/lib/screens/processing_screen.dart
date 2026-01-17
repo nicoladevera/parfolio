@@ -87,10 +87,7 @@ class _ProcessingScreenState extends State<ProcessingScreen>
         audioFilePath: widget.audioFilePath,
       );
 
-      // Handle warnings
-      if (processingResult.aiResult.warnings.isNotEmpty && mounted) {
-        _showWarningSnackbar(processingResult.aiResult.warnings);
-      }
+      // Warnings are now persisted and shown on the review screen
 
       final story = await _storyService.createStory(
         aiData: processingResult.aiResult,
