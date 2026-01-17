@@ -1,15 +1,12 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import '../core/colors.dart';
+import '../core/spacing.dart';
 import '../services/ai_service.dart';
 import '../services/story_service.dart';
+import '../widgets/processing/stage_progress_indicator.dart';
+import '../widgets/processing/rotating_message.dart';
 
-/// Minimal Processing Screen for Phase 1
-///
-/// This is a simplified version that shows a loading indicator while processing.
-/// Phase 2 will add:
-/// - Stage-by-stage progress (transcribing → structuring → tagging → coaching)
-/// - Rotating messages
-/// - Time estimates
-/// - Better error UI
 class ProcessingScreen extends StatefulWidget {
   final String audioFilePath;
   final String userId;
@@ -24,58 +21,90 @@ class ProcessingScreen extends StatefulWidget {
   State<ProcessingScreen> createState() => _ProcessingScreenState();
 }
 
-class _ProcessingScreenState extends State<ProcessingScreen> {
+class _ProcessingScreenState extends State<ProcessingScreen>
+    with TickerProviderStateMixin {
   final AIService _aiService = AIService();
   final StoryService _storyService = StoryService();
 
+  late AnimationController _pulseController;
+  int _currentStage = 0;
+  int _elapsedSeconds = 0;
+  Timer? _stageTimer;
   bool _isProcessing = true;
   String? _error;
-  String _currentStage = 'Preparing...';
+
+  final List<String> _stageLabels = [
+    'Transcribing',
+    'Structuring',
+    'Tagging',
+    'Coaching',
+  ];
 
   @override
   void initState() {
     super.initState();
+    _pulseController = AnimationController(
+      duration: const Duration(milliseconds: 700),
+      vsync: this,
+    )..repeat(reverse: true);
+
+    _startTimers();
     _processAudio();
   }
 
-  /// Process the audio recording through the AI pipeline
+  void _startTimers() {
+    _stageTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (mounted) {
+        setState(() {
+          _elapsedSeconds++;
+          // Time-based stage progression logic
+          if (_elapsedSeconds < 8) {
+            _currentStage = 0;
+          } else if (_elapsedSeconds < 15) {
+            _currentStage = 1;
+          } else if (_elapsedSeconds < 22) {
+            _currentStage = 2;
+          } else {
+            _currentStage = 3;
+          }
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _pulseController.dispose();
+    _stageTimer?.cancel();
+    super.dispose();
+  }
+
   Future<void> _processAudio() async {
     try {
-      // Step 1: Upload and process with AI
-      setState(() => _currentStage = 'Processing your story...');
-
       final processingResult = await _aiService.processRecording(
         userId: widget.userId,
         audioFilePath: widget.audioFilePath,
       );
 
-      // Step 2: Check for warnings (partial failures)
-      if (processingResult.aiResult.warnings.isNotEmpty) {
-        debugPrint('AI Processing Warnings: ${processingResult.aiResult.warnings}');
-        // TODO Phase 2: Show warning dialog to user
-        // For now, just log them
+      // Handle warnings
+      if (processingResult.aiResult.warnings.isNotEmpty && mounted) {
+        _showWarningSnackbar(processingResult.aiResult.warnings);
       }
-
-      // Step 3: Create story in Firestore
-      setState(() => _currentStage = 'Saving your story...');
 
       final story = await _storyService.createStory(
         aiData: processingResult.aiResult,
         audioUrl: processingResult.audioUrl,
       );
 
-      // Step 4: Navigate to home on success
       if (mounted) {
-        // Show success message
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Story "${story.title}" created successfully!'),
-            backgroundColor: Colors.green,
+            backgroundColor: Theme.of(context).colorScheme.success,
             duration: const Duration(seconds: 3),
           ),
         );
 
-        // Navigate to home
         Navigator.pushNamedAndRemoveUntil(
           context,
           '/home',
@@ -83,130 +112,207 @@ class _ProcessingScreenState extends State<ProcessingScreen> {
         );
       }
     } catch (e) {
-      // Handle errors
-      setState(() {
-        _error = e.toString();
-        _isProcessing = false;
-      });
+      if (mounted) {
+        setState(() {
+          _error = e.toString();
+          _isProcessing = false;
+        });
+        _stageTimer?.cancel();
+      }
     }
   }
 
-  /// Retry processing after an error
-  void _retry() {
-    setState(() {
-      _isProcessing = true;
-      _error = null;
-      _currentStage = 'Preparing...';
-    });
-    _processAudio();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Processing'),
-        // Don't allow back navigation while processing
-        automaticallyImplyLeading: !_isProcessing,
-      ),
-      body: Center(
-        child: _error != null
-            ? _buildErrorState()
-            : _buildLoadingState(),
+  void _showWarningSnackbar(List<String> warnings) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Processed with ${warnings.length} warning(s)'),
+        backgroundColor: Theme.of(context).colorScheme.warning,
+        action: SnackBarAction(
+          label: 'Details',
+          textColor: Colors.white,
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: const Text('Processing Warnings'),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: warnings.map((w) => Text('• $w')).toList(),
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('Close'),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
 
-  /// Build the loading state UI
-  Widget _buildLoadingState() {
+  void _retry() {
+    setState(() {
+      _isProcessing = true;
+      _error = null;
+      _currentStage = 0;
+      _elapsedSeconds = 0;
+    });
+    _startTimers();
+    _processAudio();
+  }
+
+  String _getTimeEstimate() {
+    if (_elapsedSeconds < 30) {
+      return 'Usually takes 15-30 seconds';
+    } else if (_elapsedSeconds < 60) {
+      return 'Taking a bit longer...';
+    } else {
+      return 'Still working, please wait...';
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: const Text('Generating Story'),
+        automaticallyImplyLeading: !_isProcessing,
+        backgroundColor: Colors.white,
+        elevation: 0,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1.0),
+          child: Container(
+            color: colorScheme.gray200,
+            height: 1.0,
+          ),
+        ),
+      ),
+      body: SafeArea(
+        child: Center(
+          child: _error != null ? _buildErrorState(colorScheme) : _buildProcessingState(colorScheme),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProcessingState(ColorScheme colorScheme) {
     return Padding(
-      padding: const EdgeInsets.all(24.0),
+      padding: const EdgeInsets.all(Spacing.lg),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const CircularProgressIndicator(),
-          const SizedBox(height: 24),
-          Text(
-            _currentStage,
-            style: Theme.of(context).textTheme.titleMedium,
-            textAlign: TextAlign.center,
+          _buildPulsingCircles(colorScheme),
+          const SizedBox(height: Spacing.xl),
+          StageProgressIndicator(
+            currentStage: _currentStage,
+            stageLabels: _stageLabels,
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: Spacing.lg),
+          RotatingMessage(currentStage: _currentStage),
+          const SizedBox(height: Spacing.base),
           Text(
-            'This usually takes 15-30 seconds',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Colors.grey[600],
+            _getTimeEstimate(),
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: colorScheme.gray400,
                 ),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 32),
-          const Text(
-            '⚡ AI is working its magic:\n'
-            '• Transcribing your audio\n'
-            '• Structuring into PAR format\n'
-            '• Identifying competencies\n'
-            '• Generating coaching insights',
-            style: TextStyle(height: 1.6),
-            textAlign: TextAlign.center,
           ),
         ],
       ),
     );
   }
 
-  /// Build the error state UI
-  Widget _buildErrorState() {
+  Widget _buildPulsingCircles(ColorScheme colorScheme) {
+    return SizedBox(
+      height: 160,
+      width: 160,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          _buildPulsingCircle(colorScheme.lime50, 120, 0),
+          _buildPulsingCircle(colorScheme.lime300, 80, 200),
+          _buildPulsingCircle(colorScheme.lime500, 40, 400),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPulsingCircle(Color color, double size, int delayMs) {
+    return AnimatedBuilder(
+      animation: _pulseController,
+      builder: (context, child) {
+        // Simple staggered opacity pulse
+        final t = (_pulseController.value + (delayMs / 700)) % 1.0;
+        final opacity = 0.6 + (0.4 * (1.0 - (t - 0.5).abs() * 2));
+        
+        return Container(
+          width: size,
+          height: size,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: color.withOpacity(opacity.clamp(0.0, 1.0)),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildErrorState(ColorScheme colorScheme) {
     return Padding(
-      padding: const EdgeInsets.all(24.0),
+      padding: const EdgeInsets.all(Spacing.lg),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(
+          Icon(
             Icons.error_outline,
             size: 64,
-            color: Colors.red,
+            color: colorScheme.error,
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: Spacing.lg),
           Text(
             'Processing Failed',
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: Colors.red,
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  color: colorScheme.error,
+                  fontWeight: FontWeight.bold,
                 ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: Spacing.base),
           Text(
             _error ?? 'An unknown error occurred',
-            style: Theme.of(context).textTheme.bodyMedium,
             textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: colorScheme.gray700,
+                ),
           ),
-          const SizedBox(height: 32),
+          const SizedBox(height: Spacing.xl),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton.icon(
+              ElevatedButton(
                 onPressed: _retry,
-                icon: const Icon(Icons.refresh),
-                label: const Text('Try Again'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).primaryColor,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 12,
-                  ),
+                  backgroundColor: colorScheme.primary,
+                  foregroundColor: colorScheme.onPrimary,
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
                 ),
+                child: const Text('Try Again'),
               ),
-              const SizedBox(width: 16),
-              OutlinedButton.icon(
+              const SizedBox(width: Spacing.base),
+              OutlinedButton(
                 onPressed: () => Navigator.pop(context),
-                icon: const Icon(Icons.arrow_back),
-                label: const Text('Go Back'),
                 style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 12,
-                  ),
+                  foregroundColor: colorScheme.gray700,
+                  side: BorderSide(color: colorScheme.gray300),
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
                 ),
+                child: const Text('Go Back'),
               ),
             ],
           ),
