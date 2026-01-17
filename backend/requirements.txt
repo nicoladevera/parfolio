@@ -9,3 +9,4 @@ langchain-google-genai
 langchain-community
 tavily-python
 google-generativeai
+openai-whisper
