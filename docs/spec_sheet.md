@@ -16,7 +16,7 @@
 ### 2. Behavioral Tagging & Lightweight Coaching
 | Aspect | Details |
 |--------|---------|
-| **Tags** | Auto-assign 1–3 tags per story from 8–10 predefined competencies (e.g., Leadership, Communication, Impact, Problem-Solving, Collaboration, Strategic Thinking, Innovation, Adaptability) |
+| **Tags** | Auto-assign 1–3 tags per story from the 10 predefined competencies: Leadership, Ownership, Impact, Communication, Conflict, Strategic Thinking, Execution, Adaptability, Failure, and Innovation. |
 | **Coaching** | Generate 2–3 concise insights: strength, gap, and improvement suggestion |
 
 ### 3. Story Storage, Retrieval & Export
@@ -174,7 +174,7 @@ tags/{tagId}
   "problem": "Our product team faced a critical deadline with unclear requirements and siloed communication across engineering, design, and marketing.",
   "action": "I initiated daily standups, created a shared Notion doc for requirements, and facilitated a workshop to align stakeholders on priorities.",
   "result": "We shipped the feature 2 days early, reduced miscommunication by 60%, and the process became our team's standard for cross-functional projects.",
-  "tags": ["Leadership", "Communication", "Problem-Solving"],
+  "tags": ["Leadership", "Communication", "Strategic Thinking"],
   "coaching": {
     "strength": "Strong demonstration of initiative and stakeholder management.",
     "gap": "Consider adding specific metrics for the 'reduced miscommunication' claim.",

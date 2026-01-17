@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 
 class TagFilterBar extends StatelessWidget {
   final String selectedTag;
+  final List<String> tags;
   final Function(String) onTagSelected;
 
   const TagFilterBar({
     Key? key,
     required this.selectedTag,
+    required this.tags,
     required this.onTagSelected,
   }) : super(key: key);
 
-  final List<String> _tags = const [
+  static const List<String> defaultTags = [
     'All',
     'Leadership',
     'Ownership',
@@ -30,10 +32,10 @@ class TagFilterBar extends StatelessWidget {
       height: 40,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
-        itemCount: _tags.length,
+        itemCount: tags.length,
         separatorBuilder: (context, index) => SizedBox(width: 8),
         itemBuilder: (context, index) {
-          final tag = _tags[index];
+          final tag = tags[index];
           final isSelected = selectedTag == tag;
           
           return FilterChip(
