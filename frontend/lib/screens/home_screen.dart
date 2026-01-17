@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../core/shadows.dart';
 import '../services/auth_service.dart';
 import '../services/story_service.dart';
+import '../services/tag_service.dart';
 import '../models/user_model.dart';
 import '../models/story_model.dart';
 import '../widgets/profile_card.dart';
@@ -24,9 +25,11 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final StoryService _storyService = StoryService();
+  final TagService _tagService = TagService();
   
   UserModel? _currentUser;
   List<StoryModel> _stories = [];
+  List<String> _tags = ['All'];
   bool _isLoading = true;
   String _selectedTag = 'All';
 
@@ -63,6 +66,23 @@ class _HomeScreenState extends State<HomeScreen> {
     } catch (e) {
       // Stories endpoint may not exist yet - that's ok
       print('Error loading stories: $e');
+    }
+
+    // Fetch tags
+    try {
+      final tags = await _tagService.getTags();
+      if (mounted) {
+        setState(() {
+          _tags = ['All', ...tags];
+        });
+      }
+    } catch (e) {
+      print('Error loading tags: $e');
+      if (mounted) {
+        setState(() {
+          _tags = TagFilterBar.defaultTags;
+        });
+      }
     }
     
     if (mounted) {
@@ -283,6 +303,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(height: 16),
                         TagFilterBar(
                           selectedTag: _selectedTag,
+                          tags: _tags,
                           onTagSelected: _onTagSelected,
                         ),
                         SizedBox(height: 16),
