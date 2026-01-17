@@ -266,7 +266,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (_) => RecordingScreen()),
-                                              );
+                                              ).then((_) => _loadData());
                                             },
                                           ),
                                         ),
@@ -296,7 +296,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (_) => RecordingScreen()),
-                                      );
+                                      ).then((_) => _loadData());
                                     },
                                   ),
                                 ],
@@ -325,10 +325,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           stories: _stories,
                           isLoading: _isLoading,
                           onGetStarted: () {
-                             Navigator.push(
+                            Navigator.push(
                               context,
                               MaterialPageRoute(builder: (_) => RecordingScreen()),
-                            );
+                            ).then((_) => _loadData());
                           },
                           onStoryTap: (story) {
                             Navigator.push(
