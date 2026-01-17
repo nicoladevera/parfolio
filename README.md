@@ -19,9 +19,10 @@ PARfolio listens to your rambling work stories, automatically structures them in
 ## Key Features
 
 - 🎙️ **Voice-First Recording**: Capture your work stories naturally through speech.
-- 🏗️ **AI PAR Structuring**: Automatically convert rambling transcripts into structured Problem-Action-Result narratives.
-- 🏷️ **Behavioral Tagging**: Auto-assign competency tags (Leadership, Impact, etc.) to your stories.
-- 💡 **Personalized Coaching**: Receive specific insights on strengths, gaps, and improvements, tailored to your name and career context.
+- 🤖 **AI Orchestrator**: Converts rambling speech into structured PAR (Problem-Action-Result) stories.
+- 🧠 **Personal Memory**: Upload resumes/LinkedIn data for AI-powered semantic search and personalized coaching.
+- 🛠️ **Agentic Coaching**: AI agent autonomously retrieves user context from memory to personalize feedback.
+- 🏷️ **Behavioral Tagging**: Auto-assigns competencies like Leadership, Communication, and Impact.
 - ⚡ **All-in-One Pipeline**: Orchestrate the entire flow from raw audio/text to polished PAR story in a single API call.
 - 📁 **Story Bank**: Manage, filter, and export your polished narratives.
 
@@ -37,6 +38,7 @@ PARfolio listens to your rambling work stories, automatically structures them in
 | **Database** | Firebase Firestore |
 | **Auth** | Firebase Authentication |
 | **Speech-to-Text** | OpenAI Whisper (Local) |
+| **Vector DB** | ChromaDB (Local) |
 | **AI/LLM** | Google Gemini 2.0/2.5 Pro (Primary) / OpenAI GPT-4o / Anthropic Claude 3.5 Sonnet |
 
 ---
@@ -50,6 +52,8 @@ parfolio/
 │   └── web/                  # Web entry point
 ├── backend/                  # FastAPI server
 │   ├── main.py               # Entry point
+│   ├── memory/               # Personal memory logic (ChromaDB, parsing, chunking)
+│   ├── data/                 # Local data storage (ChromaDB persistence)
 │   ├── ai/                   # LangChain logic (chains, schemas, prompts) & Whisper
 │   ├── firebase_config.py    # Firebase initialization
 │   ├── firebase_storage.py   # Firebase Storage utilities

@@ -71,3 +71,8 @@ class CoachingResult(BaseModel):
     strength: CoachingInsightSchema = Field(..., description="What the user did well in this story.")
     gap: CoachingInsightSchema = Field(..., description="What could be improved or what is missing from the story.")
     suggestion: CoachingInsightSchema = Field(..., description="Actionable advice on how to make the story more impactful.")
+
+class MemoryEntryStructure(BaseModel):
+    summary: str = Field(..., description="A concise, 1-2 sentence factual summary of the experience or skill.")
+    category: str = Field(..., description="Category: 'experience', 'skill', 'education', 'achievement', or 'other'.")
+    context: str = Field(..., description="Relevant keywords or context for better retrieval indexing.")
