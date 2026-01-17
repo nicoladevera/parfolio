@@ -18,6 +18,7 @@ import 'recording_screen.dart';
 import 'story_detail_screen.dart';
 import 'story_review_screen.dart';
 import 'user_profile_screen.dart';
+import 'memory_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -182,8 +183,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       Row(
                         children: [
-                          // Profile icon removed
-
+                          IconButton(
+                            icon: Icon(Icons.psychology_outlined,
+                                color: Theme.of(context).colorScheme.onSurface),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (_) => MemoryScreen()),
+                              ).then((_) => _loadData());
+                            },
+                            tooltip: 'Memory Bank',
+                          ),
                           ExportButton(
                             onExport: (format) async {
                               _storyService.startExport(format);

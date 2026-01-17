@@ -230,7 +230,8 @@ tags/{tagId}
 8. [x] Implement enhanced processing screen with stages (Frontend Phase 2)
 9. [x] Implement story review/edit screen (Frontend Phase 3)
 10. [x] Implement enhanced dashboard with P/A/R preview (Frontend Phase 4)
-11. [ ] Implement export functionality
+11. [x] Implement personal memory bank (Frontend Phase 5)
+12. [ ] Implement export functionality
 
 ### `PUT /profile` — Update User Profile
 **Request:**
