@@ -47,7 +47,7 @@ async def structure_transcript(request: StructureRequest):
             action=result.action,
             result=result.result,
             confidence_score=result.confidence_score,
-            warnings=result.warnings
+            warnings=[] # AI suggestions are now handled by Coaching Insights
         )
         
     except Exception as e:
@@ -246,7 +246,8 @@ async def process_story(request: ProcessRequest):
         try:
             structure_chain = get_structure_chain()
             structure_result = structure_chain.invoke({"raw_transcript": transcript_text})
-            warnings.extend(structure_result.warnings)
+            # Skip structure_result.warnings as they are redundant with Coaching Insights
+            pass
         except Exception as e:
             print(f"Structuring failed in /ai/process: {str(e)}")
             raise HTTPException(status_code=500, detail=f"Structuring failed: {str(e)}")

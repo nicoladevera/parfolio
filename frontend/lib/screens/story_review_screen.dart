@@ -336,8 +336,6 @@ class _StoryReviewScreenState extends State<StoryReviewScreen> {
             ],
           ),
         ),
-          ),
-        ),
         bottomNavigationBar: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
