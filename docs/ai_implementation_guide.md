@@ -64,8 +64,8 @@ Build each AI processing step individually, then create the all-in-one orchestra
 **Endpoint**: `POST /ai/tag`
 
 **Tasks**:
-- Define 8-10 competency tags (Leadership, Communication, Problem-Solving, etc.)
-- Design classification prompt
+- Use the 10 predefined competency tags from the frontend: Leadership, Ownership, Impact, Communication, Conflict, Strategic Thinking, Execution, Adaptability, Failure, and Innovation.
+- Design classification prompt using these specific tags.
 - Ensure 1-3 tags per story
 - Test with existing PAR stories from Phase 1
 
