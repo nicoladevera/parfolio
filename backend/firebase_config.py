@@ -20,8 +20,12 @@ def initialize_firebase():
         try:
             if os.path.exists(cred_path):
                 cred = credentials.Certificate(cred_path)
-                firebase_admin.initialize_app(cred)
-                print("Firebase Admin SDK initialized successfully.")
+                bucket_name = os.getenv("FIREBASE_STORAGE_BUCKET")
+                
+                firebase_admin.initialize_app(cred, {
+                    'storageBucket': bucket_name
+                })
+                print(f"Firebase Admin SDK initialized successfully with bucket: {bucket_name}")
             else:
                 print(f"Warning: Firebase credentials file not found at {cred_path}. Firebase functionality will be limited.")
         except Exception as e:

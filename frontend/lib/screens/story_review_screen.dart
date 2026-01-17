@@ -96,7 +96,7 @@ class _StoryReviewScreenState extends State<StoryReviewScreen> {
             backgroundColor: Color(0xFF10B981), // Green 500
           ),
         );
-        Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+        Navigator.popUntil(context, (route) => route.isFirst);
       }
     } catch (e) {
       if (mounted) {
@@ -109,6 +109,8 @@ class _StoryReviewScreenState extends State<StoryReviewScreen> {
   }
 
   Future<void> _discardStory() async {
+    if (_isSaving) return;
+
     // In edit mode, just go back without deleting
     if (widget.isEditMode) {
       final confirm = await showDialog<bool>(
@@ -160,7 +162,7 @@ class _StoryReviewScreenState extends State<StoryReviewScreen> {
       try {
         await _storyService.deleteStory(widget.storyId);
         if (mounted) {
-          Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+          Navigator.popUntil(context, (route) => route.isFirst);
         }
       } catch (e) {
         if (mounted) {
@@ -202,6 +204,7 @@ class _StoryReviewScreenState extends State<StoryReviewScreen> {
 
     return WillPopScope(
       onWillPop: () async {
+        if (_isSaving) return false;
         await _discardStory();
         return false;
       },
@@ -210,7 +213,7 @@ class _StoryReviewScreenState extends State<StoryReviewScreen> {
         appBar: AppBar(
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
-            onPressed: _discardStory,
+            onPressed: _isSaving ? null : _discardStory,
           ),
           title: Text(widget.isEditMode ? 'Edit Story' : 'Review Your Story'),
           backgroundColor: Colors.white,

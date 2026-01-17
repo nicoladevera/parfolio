@@ -1,4 +1,6 @@
-import 'dart:io';
+import 'dart:io' show File, SocketException;
+import 'dart:typed_data';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:convert';
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -41,13 +43,23 @@ class AIService {
       final validExtensions = ['wav', 'm4a', 'aac', 'mp3'];
       final ext = validExtensions.contains(extension) ? extension : 'wav';
 
-      // Read audio file as bytes
-      final File audioFile = File(audioFilePath);
-      if (!await audioFile.exists()) {
-        throw Exception('Audio file not found at: $audioFilePath');
+      // Retrieve bytes based on platform
+      final Uint8List bytes;
+      if (kIsWeb) {
+        // On Web, audioFilePath is a blob URL from the 'record' package
+        final response = await http.get(Uri.parse(audioFilePath));
+        if (response.statusCode != 200) {
+          throw Exception('Failed to fetch audio from blob URL: ${response.statusCode}');
+        }
+        bytes = response.bodyBytes;
+      } else {
+        // On Mobile/Desktop, audioFilePath is a local file path
+        final File audioFile = File(audioFilePath);
+        if (!await audioFile.exists()) {
+          throw Exception('Audio file not found at: $audioFilePath');
+        }
+        bytes = await audioFile.readAsBytes();
       }
-
-      final bytes = await audioFile.readAsBytes();
 
       // Create Firebase Storage reference
       final storageRef = FirebaseStorage.instance
