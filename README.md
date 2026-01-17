@@ -99,6 +99,7 @@ parfolio/
 3. Install dependencies:
    ```bash
    pip install -r requirements.txt
+   # Note: Includes ChromaDB for vector storage
    ```
 
 4. Create a `.env` file based on `.env.example`

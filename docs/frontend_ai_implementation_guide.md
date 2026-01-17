@@ -107,7 +107,7 @@ class AIService {
     required String audioFilePath,
   }) async {
     // 1. Generate story ID (UUID)
-    // 2. Upload audio to Firebase Storage: {userId}/audio/{storyId}.wav
+    // 2. Upload audio to Firebase Storage: users/{userId}/audio/{storyId}.wav
     // 3. Call POST /ai/process with audio_url
     // 4. Return parsed response
   }
@@ -264,6 +264,7 @@ try {
 - [x] Implement time-based stage progression
 - [x] Add error state with retry functionality
 - [x] Add warning dialog for partial failures
+- [x] **Context Safety**: Implemented `if (!mounted) return;` checks before context-dependent calls (e.g., `showDialog` in SnackBars) to prevent crashes on unmounted widgets.
 
 ---
 
@@ -486,6 +487,7 @@ final stories = await _storyService.getStories(
 - [x] Update `StoryService.getStories()` to support status filter
 - [x] Update dashboard to only fetch complete stories
 - [x] Update `StoryDetailScreen` to allow returning to edit mode
+- [x] **Auto-Refresh**: Implemented `.then((_) => _loadData())` in navigation callbacks to ensure dashboard updates automatically after a story is saved or edited.
 
 ---
 
