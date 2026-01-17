@@ -147,7 +147,8 @@ Simply open `marketing/index.html` in your browser. No build process required.
 - [Product Overview](docs/overview.md) — User persona, problem, solution, and pitch
 - [Technical Spec Sheet](docs/spec_sheet.md) — Data schema, API endpoints, and examples
 - [Design System](docs/design_system.md) — Visual language, colors, and component specs
-- [AI Implementation Guide](docs/backend_ai_implementation_guide.md) — Strategy for building the AI pipeline
+- [Backend AI Implementation Guide](docs/backend_ai_implementation_guide.md) — Strategy for building the AI pipeline
+- [Frontend AI Implementation Guide](docs/frontend_ai_implementation_guide.md) — Phase-by-phase frontend implementation
 
 ---
 
