@@ -1,6 +1,11 @@
 from fastapi import APIRouter, HTTPException, Depends
-from models.ai_models import StructureRequest, StructureResponse, TranscribeRequest, TranscribeResponse, TagRequest, TagResponseModel
-from ai.chains import get_structure_chain, get_tagging_chain
+from models.ai_models import (
+    StructureRequest, StructureResponse,
+    TranscribeRequest, TranscribeResponse,
+    TagRequest, TagResponseModel,
+    CoachRequest, CoachResponse
+)
+from ai.chains import get_structure_chain, get_tagging_chain, get_coaching_chain
 from ai.transcriber import transcribe_audio_file
 from firebase_storage import download_audio_from_storage, upload_transcript_to_storage
 import os
@@ -18,11 +23,11 @@ async def structure_transcript(request: StructureRequest):
     try:
         # Get the chain
         chain = get_structure_chain()
-        
+
         # Invoke the chain
         # The chain returns a PARStructure Pydantic object
         result = chain.invoke({"raw_transcript": request.raw_transcript})
-        
+
         # Convert to API response model (they share the same structure)
         return StructureResponse(
             title=result.title,
@@ -115,4 +120,47 @@ async def tag_story(request: TagRequest):
         raise HTTPException(
             status_code=500,
             detail=f"Tagging failed: {str(e)}"
+        )
+
+@router.post("/coach", response_model=CoachResponse)
+async def coach_story(request: CoachRequest):
+    """
+    Generate coaching insights for a PAR story.
+    
+    Provides:
+    - Strength: What the user did well
+    - Gap: What's missing or could be stronger
+    - Suggestion: Actionable improvement tip
+    
+    Personalized with first name and optional career context.
+    """
+    try:
+        chain = get_coaching_chain()
+        
+        # Prepare optional inputs
+        tags_str = ", ".join(request.tags) if request.tags else "None provided"
+        # UserProfileContext is converted to dict for the prompt
+        profile_dict = request.user_profile.model_dump(exclude_none=True) if request.user_profile else {}
+        profile_str = str(profile_dict) if profile_dict else "None provided"
+        
+        result = chain.invoke({
+            "first_name": request.first_name,
+            "problem": request.problem,
+            "action": request.action,
+            "result": request.result,
+            "tags": tags_str,
+            "user_profile": profile_str
+        })
+        
+        return CoachResponse(
+            strength=result.strength.model_dump(),
+            gap=result.gap.model_dump(),
+            suggestion=result.suggestion.model_dump()
+        )
+        
+    except Exception as e:
+        print(f"Error in /ai/coach: {str(e)}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Coaching failed: {str(e)}"
         )

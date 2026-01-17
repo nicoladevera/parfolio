@@ -2,7 +2,7 @@
 
 > **Purpose**: High-level strategy for implementing PARfolio's AI processing features systematically.
 > 
-> **Status**: In Progress. Phase 1 (Core PAR Structuring) is complete. Reference this document alongside `spec_sheet.md` for remaining phases.
+> **Status**: In Progress. Phase 1-4 are complete. Reference this document alongside `spec_sheet.md` for remaining phases.
 
 ---
 
@@ -74,13 +74,15 @@ Build each AI processing step individually, then create the all-in-one orchestra
 
 ---
 
-### Phase 4: Coaching Insights
+### Phase 4: Coaching Insights ✅ (Complete)
 **Endpoint**: `POST /ai/coach`
 
 **Tasks**:
-- Generate strength, gap, and improvement suggestion
-- Ensure actionable, specific feedback
-- Test with diverse story types
+- [x] Generate strength, gap, and improvement suggestion
+- [x] Ensure actionable, specific feedback with hybrid format (overview + detail)
+- [x] Personalized with user's first name
+- [x] Contextual awareness of tags and user profile
+- [x] Test with diverse story types
 
 **Input**: `problem`, `action`, `result`, `tags`  
 **Output**: `coaching` object (`strength`, `gap`, `suggestion`)
@@ -161,6 +163,9 @@ Build each AI processing step individually, then create the all-in-one orchestra
 - Store the Firebase Storage URL in Firestore as `rawTranscriptUrl`
 - Benefits: GDPR-friendly (per-user folders), no Firestore document size limits, better performance
 - The `/stories/{story_id}/transcript` endpoint can directly serve the file from Storage
+
+### AI Features (Personalized Context)
+The AI now supports personalized coaching by incorporating the user's first name and career context from their profile.
 
 **Audio Retention Policy**:
 - Implement auto-deletion of audio files after 30 days (or when story is marked "complete")

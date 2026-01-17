@@ -118,7 +118,7 @@ tags/{tagId}
 | `POST` | `/ai/transcribe` | Convert audio file → text transcript |
 | `POST` | `/ai/structure` | Convert raw transcript → PAR format + title |
 | `POST` | `/ai/tag` | Auto-tag story with behavioral competencies (1-3 tags, confidence, reasoning) |
-| `POST` | `/ai/coach` | Generate coaching insights for a story |
+| `POST` | `/ai/coach` | Generate personalized coaching insights (strength, gap, suggestion) with hybrid format |
 | `POST` | `/ai/process` | **All-in-one**: transcribe → structure → tag → coach |
 
 ---
@@ -176,9 +176,18 @@ tags/{tagId}
   "result": "We shipped the feature 2 days early, reduced miscommunication by 60%, and the process became our team's standard for cross-functional projects.",
   "tags": ["Leadership", "Communication", "Strategic Thinking"],
   "coaching": {
-    "strength": "Strong demonstration of initiative and stakeholder management.",
-    "gap": "Consider adding specific metrics for the 'reduced miscommunication' claim.",
-    "suggestion": "Include how you personally handled any conflicts or pushback during alignment."
+    "strength": {
+       "overview": "Strong demonstration of initiative and stakeholder management.",
+       "detail": "Your proactive stance in 'initiating daily standups' and 'creating a shared Notion doc' directly addressed the communication silos. This shows senior-level ownership and the ability to establish repeatable processes."
+    },
+    "gap": {
+       "overview": "Consider adding specific metrics for the 'reduced miscommunication' claim.",
+       "detail": "While you mentioned a 60% reduction, clarifying how this was measured (e.g., speed of delivery or team feedback) would make the result more undeniable during an interview."
+    },
+    "suggestion": {
+       "overview": "Include how you personally handled any conflicts or pushback.",
+       "detail": "Adding a sentence about navigating a specific disagreement during the workshops would strengthen the 'Leadership' and 'Conflict Resolution' signals in this story."
+    }
   }
 }
 ```
