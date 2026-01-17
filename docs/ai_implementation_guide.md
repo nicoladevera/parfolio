@@ -2,13 +2,13 @@
 
 > **Purpose**: High-level strategy for implementing PARfolio's AI processing features systematically.
 > 
-> **Status**: Complete. Phases 1-5 are implemented and verified.
+> **Status**: Complete. Phases 1-6 are implemented and verified.
 
 ---
 
 ## Overview
 
-PARfolio's AI processing pipeline transforms voice recordings into structured PAR stories with tags and coaching insights. This guide outlines the recommended implementation approach.
+PARfolio's AI processing pipeline transforms voice recordings into structured PAR stories with tags and coaching insights. It also maintains a **Personal Memory Database** using vector storage for personalized context retrieval.
 
 ---
 
@@ -103,6 +103,40 @@ Build each AI processing step individually, then create the all-in-one orchestra
 
 ---
 
+### Phase 6: Personal Memory Database ✅ (Complete)
+**Base Path**: `/memory`
+
+**Tasks**:
+- [x] Integrate ChromaDB for local vector persistence
+- [x] Implement file parsing for PDF, DOCX, TXT, and Markdown
+- [x] Design semantic chunking strategy with LangChain
+- [x] Implement AI-powered summarization of context chunks
+- [x] Build semantic search for personalized record retrieval
+
+**Endpoints**:
+- `POST /memory/upload`: Process and store context files
+- `POST /memory/search`: Semantic search across user memory
+- `GET /memory/entries/{user_id}`: List stored memory blocks
+- `DELETE /memory/entries/{user_id}/{entry_id}`: Remove specific memory
+
+---
+
+### Phase 6b: Memory Tool Integration ✅ (Complete)
+**Objective**: Transform the Personal Memory Database into a tool for the AI agent to enable autonomous personalization.
+
+**Tasks**:
+- [x] Create `ai/tools.py` with `search_personal_memory` LangChain tool
+- [x] Implement tool-calling coaching agent in `ai/chains.py`
+- [x] Update coaching prompts to guide agentic tool usage
+- [x] Integrate agentic coaching into `/ai/coach` and `/ai/process` endpoints
+- [x] Implement JSON response parsing and graceful fallbacks
+
+**Capabilities**:
+- **Autonomous Retrieval**: The AI agent decides if context (resumes, past projects) is needed to improve coaching.
+- **Improved Contextualization**: Feedback references specific skills and experiences found in the user's memory database.
+
+---
+
 ## Endpoint Architecture
 
 ### Individual Endpoints
@@ -131,8 +165,9 @@ Build each AI processing step individually, then create the all-in-one orchestra
 ## Technical Considerations
 
 ### AI Model Selection
-- **Transcription**: Google Cloud Speech-to-Text or OpenAI Whisper
-- **Structuring/Tagging/Coaching**: Google Gemini 2.0/2.5 Pro (Primary) or OpenAI GPT-4/Anthropic Claude
+- **Transcription**: OpenAI Whisper (Local)
+- **Structuring/Tagging/Coaching/Memory**: Google Gemini 2.0/2.5 Pro
+- **Vector Database**: ChromaDB (Local Persistence)
 
 ### Prompt Engineering Best Practices
 - Use few-shot examples for PAR structuring

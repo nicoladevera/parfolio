@@ -19,7 +19,15 @@
 | **Tags** | Auto-assign 1–3 tags per story from the 10 predefined competencies: Leadership, Ownership, Impact, Communication, Conflict, Strategic Thinking, Execution, Adaptability, Failure, and Innovation. |
 | **Coaching** | Generate 2–3 concise insights: strength, gap, and improvement suggestion |
 
-### 3. Story Storage, Retrieval & Export
+### 3. AI Orchestration & Personalization
+| Aspect | Details |
+|--------|---------|
+| **AI Orchestrator** | Converts rambling speech into structured PAR (Problem-Action-Result) stories. |
+| **Personal Memory** | Upload resumes/LinkedIn data for AI-powered semantic search and personalized coaching. |
+| **Agentic Coaching** | AI agent autonomously retrieves user context from memory to personalize feedback. |
+| **Behavioral Tagging** | Auto-assigns competencies like Leadership, Communication, and Impact. |
+
+### 4. Story Storage, Retrieval & Export
 | Aspect | Details |
 |--------|---------|
 | **Storage** | Persistent Firebase store for all structured stories |
@@ -118,8 +126,18 @@ tags/{tagId}
 | `POST` | `/ai/transcribe` | Convert audio file → text transcript |
 | `POST` | `/ai/structure` | Convert raw transcript → PAR format + title |
 | `POST` | `/ai/tag` | Auto-tag story with behavioral competencies (1-3 tags, confidence, reasoning) |
-| `POST` | `/ai/coach` | Generate personalized coaching insights (strength, gap, suggestion) with hybrid format |
-| `POST` | `/ai/process` | **All-in-one orchestrator**: transcribe → structure → tag → coach (accepts audio or raw transcript) |
+| `POST` | `/ai/coach` | **Tool-calling agent**: Generates insights, autonomously retrieves context from Memory DB if needed |
+| `POST` | `/ai/process` | **All-in-one orchestrator**: transcribe → structure → tag → coach (uses tool-calling agent for coaching) |
+
+---
+
+### Memory
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/memory/upload` | Upload context file (PDF/DOCX/TXT) → Parse → Chunk → Summarize → Store in ChromaDB |
+| `POST` | `/memory/search` | Semantic search across user's personal memory entries |
+| `GET` | `/memory/entries/{user_id}` | List all memory entries for a specific user |
+| `DELETE` | `/memory/entries/{user_id}/{entry_id}` | Delete a specific memory entry |
 
 ---
 
