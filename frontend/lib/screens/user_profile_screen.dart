@@ -112,8 +112,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           if (userId != null) {
             final storageRef = FirebaseStorage.instance
                 .ref()
-                .child('profile_photos')
-                .child('$userId.jpg');
+                .child('users')
+                .child(userId)
+                .child('profile_photo.jpg');
             
             debugPrint('Uploading to: ${storageRef.fullPath}');
             

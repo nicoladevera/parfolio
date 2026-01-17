@@ -38,11 +38,11 @@ def download_audio_from_storage(storage_url: str) -> str:
 
 def upload_transcript_to_storage(user_id: str, story_id: str, transcript_text: str) -> str:
     """
-    Uploads transcript text to Firebase Storage at {user_id}/transcripts/{story_id}.txt.
+    Uploads transcript text to Firebase Storage at users/{user_id}/transcripts/{story_id}.txt.
     Returns the public URL of the uploaded file.
     """
     bucket = get_bucket()
-    blob_path = f"{user_id}/transcripts/{story_id}.txt"
+    blob_path = f"users/{user_id}/transcripts/{story_id}.txt"
     blob = bucket.blob(blob_path)
     
     # Upload text
