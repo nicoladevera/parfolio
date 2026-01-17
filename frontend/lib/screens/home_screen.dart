@@ -16,6 +16,7 @@ import '../widgets/auth/wavy_line_decoration.dart';
 import '../widgets/export_button.dart';
 import 'recording_screen.dart';
 import 'story_detail_screen.dart';
+import 'story_review_screen.dart';
 import 'user_profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -57,7 +58,10 @@ class _HomeScreenState extends State<HomeScreen> {
     
     // Fetch stories separately (can fail without affecting user profile)
     try {
-      final stories = await _storyService.getStories(tag: _selectedTag);
+      final stories = await _storyService.getStories(
+        tag: _selectedTag,
+        status: 'complete', // Only show completed stories on dashboard
+      );
       if (mounted) {
         setState(() {
           _stories = stories;
@@ -350,6 +354,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ],
                               ),
                             );
+                          },
+                          onStoryEdit: (story) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => StoryReviewScreen(
+                                  storyId: story.id,
+                                  isEditMode: true,
+                                ),
+                              ),
+                            ).then((_) => _loadData());
                           },
                         ),
                         SizedBox(height: 40),

@@ -229,7 +229,8 @@ tags/{tagId}
 7. [x] Implement AI Service Integration (Frontend Phase 1) - Audio upload, AI processing, story creation
 8. [x] Implement enhanced processing screen with stages (Frontend Phase 2)
 9. [x] Implement story review/edit screen (Frontend Phase 3)
-10. [ ] Implement export functionality
+10. [x] Implement enhanced dashboard with P/A/R preview (Frontend Phase 4)
+11. [ ] Implement export functionality
 
 ### `PUT /profile` — Update User Profile
 **Request:**
