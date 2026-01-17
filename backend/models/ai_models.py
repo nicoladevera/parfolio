@@ -18,8 +18,6 @@ class StructureResponse(BaseModel):
     confidence_score: float
     warnings: List[str]
 
-class ProcessRequest(BaseModel):
-    audio_url: str
 
 class TagRequest(BaseModel):
     """Request model for /ai/tag endpoint"""
@@ -74,3 +72,23 @@ class TranscribeResponse(BaseModel):
     audio_url: str           # Echo back for reference
     raw_transcript: str      # The transcribed text
     raw_transcript_url: str  # Firebase Storage URL to saved .txt file
+
+class ProcessRequest(BaseModel):
+    """Request model for /ai/process (all-in-one)"""
+    audio_url: Optional[str] = None      # Firebase Storage URL
+    raw_transcript: Optional[str] = None # Skip transcription if provided
+    story_id: str                         # For transcript storage path
+    user_id: str                          # For storage path + profile fetch
+
+class ProcessResponse(BaseModel):
+    """Complete story payload from /ai/process"""
+    title: str
+    raw_transcript: str
+    raw_transcript_url: Optional[str] = None  # Only set if transcribed
+    problem: str
+    action: str
+    result: str
+    tags: List[TagAssignmentResponse]
+    coaching: CoachResponse
+    confidence_score: float
+    warnings: List[str]  # Accumulates warnings from all steps

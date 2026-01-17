@@ -119,7 +119,7 @@ tags/{tagId}
 | `POST` | `/ai/structure` | Convert raw transcript → PAR format + title |
 | `POST` | `/ai/tag` | Auto-tag story with behavioral competencies (1-3 tags, confidence, reasoning) |
 | `POST` | `/ai/coach` | Generate personalized coaching insights (strength, gap, suggestion) with hybrid format |
-| `POST` | `/ai/process` | **All-in-one**: transcribe → structure → tag → coach |
+| `POST` | `/ai/process` | **All-in-one orchestrator**: transcribe → structure → tag → coach (accepts audio or raw transcript) |
 
 ---
 
@@ -161,9 +161,15 @@ tags/{tagId}
 **Request:**
 ```json
 {
-  "audio_url": "gs://bucket/audio/recording.wav"
+  "audio_url": "gs://bucket/audio/recording.wav",
+  "story_id": "abc123",
+  "user_id": "uid_456",
+  "raw_transcript": null
 }
 ```
+
+> [!TIP]
+> You can provide `raw_transcript` instead of `audio_url` to skip the transcription step. If both are provided, `raw_transcript` takes precedence.
 
 **Response:**
 ```json
