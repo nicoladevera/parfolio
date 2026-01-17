@@ -6,6 +6,7 @@ import '../services/ai_service.dart';
 import '../services/story_service.dart';
 import '../widgets/processing/stage_progress_indicator.dart';
 import '../widgets/processing/rotating_message.dart';
+import 'story_review_screen.dart';
 
 class ProcessingScreen extends StatefulWidget {
   final String audioFilePath;
@@ -105,10 +106,11 @@ class _ProcessingScreenState extends State<ProcessingScreen>
           ),
         );
 
-        Navigator.pushNamedAndRemoveUntil(
+        Navigator.pushReplacement(
           context,
-          '/home',
-          (route) => false,
+          MaterialPageRoute(
+            builder: (context) => StoryReviewScreen(storyId: story.id),
+          ),
         );
       }
     } catch (e) {
