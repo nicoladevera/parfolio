@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import auth_router, profile_router, tags_router, ai_router, memory_router
+from routers import auth_router, profile_router, tags_router, ai_router, memory_router, stories_router
 from firebase_config import firebase_app
 
 app = FastAPI()
@@ -20,6 +20,8 @@ app.include_router(profile_router.router)
 app.include_router(tags_router.router, prefix="/tags", tags=["tags"])
 app.include_router(memory_router.router, prefix="/memory", tags=["memory"])
 app.include_router(ai_router.router)
+app.include_router(stories_router.router)
+
 
 @app.get("/")
 async def root():
