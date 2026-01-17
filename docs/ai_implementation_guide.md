@@ -2,7 +2,7 @@
 
 > **Purpose**: High-level strategy for implementing PARfolio's AI processing features systematically.
 > 
-> **Status**: Not yet implemented. Reference this document alongside `spec_sheet.md` when ready to build AI features.
+> **Status**: In Progress. Phase 1 (Core PAR Structuring) is complete. Reference this document alongside `spec_sheet.md` for remaining phases.
 
 ---
 
@@ -27,16 +27,16 @@ Build each AI processing step individually, then create the all-in-one orchestra
 
 ## Implementation Order
 
-### Phase 1: Core PAR Structuring (Start Here!)
+### Phase 1: Core PAR Structuring ✅ (Complete)
 **Endpoint**: `POST /ai/structure`
 
 **Why first?** Test with hardcoded text transcripts to focus on prompt engineering without audio complexity.
 
 **Tasks**:
-- Design prompt to convert rambling speech → Problem/Action/Result format
-- Generate concise, descriptive story titles
-- Handle edge cases (short stories, unclear narratives, missing PAR elements)
-- Test with sample transcripts
+- [x] Design prompt to convert rambling speech → Problem/Action/Result format
+- [x] Generate concise, descriptive story titles
+- [x] Handle edge cases (short stories, unclear narratives, missing PAR elements)
+- [x] Test with sample transcripts
 
 **Input**: `raw_transcript` (string)  
 **Output**: `problem`, `action`, `result`, `title`
@@ -130,7 +130,7 @@ Build each AI processing step individually, then create the all-in-one orchestra
 
 ### AI Model Selection
 - **Transcription**: Google Cloud Speech-to-Text or OpenAI Whisper
-- **Structuring/Tagging/Coaching**: OpenAI GPT-4 or Anthropic Claude (per `spec_sheet.md`)
+- **Structuring/Tagging/Coaching**: Google Gemini 2.0/2.5 Pro (Primary) or OpenAI GPT-4/Anthropic Claude
 
 ### Prompt Engineering Best Practices
 - Use few-shot examples for PAR structuring

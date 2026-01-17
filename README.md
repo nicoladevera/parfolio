@@ -39,7 +39,7 @@ PARfolio listens to your rambling work stories, automatically structures them in
 | **Database** | Firebase Firestore |
 | **Auth** | Firebase Authentication |
 | **Speech-to-Text** | Google Cloud Speech-to-Text / Whisper |
-| **AI/LLM** | OpenAI GPT-5.2 / Anthropic Claude Sonnet 4.5 or Opus 4.5 |
+| **AI/LLM** | Google Gemini 2.0/2.5 Pro (Primary) / OpenAI GPT-4o / Anthropic Claude 3.5 Sonnet |
 
 ---
 
@@ -52,9 +52,10 @@ parfolio/
 │   └── web/                  # Web entry point
 ├── backend/                  # FastAPI server
 │   ├── main.py               # Entry point
+│   ├── ai/                   # [NEW] LangChain logic (schemas, prompts, chains)
 │   ├── firebase_config.py    # Firebase initialization
-│   ├── models/               # Pydantic data models
-│   ├── routers/              # API route handlers
+│   ├── models/               # Pydantic data models (including ai_models.py)
+│   ├── routers/              # API route handlers (including ai_router.py)
 │   ├── dependencies/         # Auth & shared dependencies
 │   ├── requirements.txt      # Python dependencies
 │   └── .env.example          # Environment template

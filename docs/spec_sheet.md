@@ -150,7 +150,7 @@ tags/{tagId}
 | **Database** | Firebase Firestore |
 | **Auth** | Firebase Authentication |
 | **Speech-to-Text** | Google Cloud Speech-to-Text / Whisper |
-| **AI/LLM** | OpenAI GPT-5.2 / Anthropic Claude Sonnet 4.5 or Opus 4.5 (for PAR structuring, tagging, coaching) |
+| **AI/LLM** | Google Gemini 2.0/2.5 Pro (Primary) / OpenAI GPT-4o / Anthropic Claude 3.5 Sonnet |
 | **Hosting** | Firebase Hosting (frontend) + Cloud Run / Railway (backend) |
 
 ---
@@ -189,7 +189,7 @@ tags/{tagId}
 
 1. [x] Set up Flutter project structure (Web)
 2. [x] Implement Firebase Auth flow
-3. [ ] Build `/ai/process` endpoint with OpenAI/Gemini integration
+3. [x] Build `/ai/structure` endpoint with Gemini integration (Phase 1)
 4. [ ] Create Stories CRUD endpoints
 5. [x] Design and build Flutter UI for voice recording + story display
 6. [ ] Implement export functionality
