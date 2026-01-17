@@ -6,7 +6,8 @@ from models.ai_models import (
     CoachRequest, CoachResponse,
     ProcessRequest, ProcessResponse
 )
-from ai.chains import get_structure_chain, get_tagging_chain, get_coaching_chain
+from ai.chains import get_structure_chain, get_tagging_chain, get_coaching_chain, get_coaching_agent
+import json
 from ai.transcriber import transcribe_audio_file
 from firebase_storage import download_audio_from_storage, upload_transcript_to_storage
 from firebase_config import get_user_profile
@@ -16,6 +17,15 @@ router = APIRouter(
     prefix="/ai",
     tags=["AI Processing"]
 )
+
+def parse_agent_json(output: str):
+    """Helper to extract and parse JSON from agent output string."""
+    clean_json = output.strip()
+    if "```json" in clean_json:
+        clean_json = clean_json.split("```json")[-1].split("```")[0].strip()
+    elif "```" in clean_json:
+        clean_json = clean_json.split("```")[-1].split("```")[0].strip()
+    return json.loads(clean_json)
 
 @router.post("/structure", response_model=StructureResponse)
 async def structure_transcript(request: StructureRequest):
@@ -136,16 +146,16 @@ async def coach_story(request: CoachRequest):
     
     Personalized with first name and optional career context.
     """
+    # Prepare optional inputs
+    tags_str = ", ".join(request.tags) if request.tags else "None provided"
+    # UserProfileContext is converted to dict for the prompt
+    profile_dict = request.user_profile.model_dump(exclude_none=True) if request.user_profile else {}
+    profile_str = str(profile_dict) if profile_dict else "None provided"
+
+    # Try tool-calling agent first
     try:
-        chain = get_coaching_chain()
-        
-        # Prepare optional inputs
-        tags_str = ", ".join(request.tags) if request.tags else "None provided"
-        # UserProfileContext is converted to dict for the prompt
-        profile_dict = request.user_profile.model_dump(exclude_none=True) if request.user_profile else {}
-        profile_str = str(profile_dict) if profile_dict else "None provided"
-        
-        result = chain.invoke({
+        agent_executor = get_coaching_agent(request.user_id)
+        agent_result = agent_executor.invoke({
             "first_name": request.first_name,
             "problem": request.problem,
             "action": request.action,
@@ -154,11 +164,37 @@ async def coach_story(request: CoachRequest):
             "user_profile": profile_str
         })
         
+        parsed = parse_agent_json(agent_result["output"])
         return CoachResponse(
-            strength=result.strength.model_dump(),
-            gap=result.gap.model_dump(),
-            suggestion=result.suggestion.model_dump()
+            strength=parsed["strength"],
+            gap=parsed["gap"],
+            suggestion=parsed["suggestion"]
         )
+    except Exception as agent_err:
+        print(f"Agent coaching failed: {str(agent_err)}. Falling back to basic chain.")
+        # Fallback to basic chain (Phase 4 logic)
+        try:
+            chain = get_coaching_chain()
+            result = chain.invoke({
+                "first_name": request.first_name,
+                "problem": request.problem,
+                "action": request.action,
+                "result": request.result,
+                "tags": tags_str,
+                "user_profile": profile_str
+            })
+            
+            return CoachResponse(
+                strength=result.strength.model_dump(),
+                gap=result.gap.model_dump(),
+                suggestion=result.suggestion.model_dump()
+            )
+        except Exception as e:
+            print(f"Coaching fallback failed: {str(e)}")
+            raise HTTPException(
+                status_code=500,
+                detail=f"Coaching failed: {str(e)}"
+            )
         
     except Exception as e:
         print(f"Error in /ai/coach: {str(e)}")
@@ -222,7 +258,7 @@ async def process_story(request: ProcessRequest):
             print(f"Tagging failed in /ai/process (graceful): {str(e)}")
             warnings.append(f"Behavioral tagging failed: {str(e)}")
 
-        # 5. Coaching (Graceful Failure)
+        # 5. Coaching (Graceful Failure - with Tool Agent)
         coaching = None
         try:
             # Fetch user profile for context
@@ -243,23 +279,39 @@ async def process_story(request: ProcessRequest):
                     profile_context_str = str(context_dict)
 
             tags_list = [t["tag"] for t in tags] if tags else []
-            coaching_chain = get_coaching_chain()
-            coach_result = coaching_chain.invoke({
-                "first_name": first_name,
-                "problem": structure_result.problem,
-                "action": structure_result.action,
-                "result": structure_result.result,
-                "tags": ", ".join(tags_list) if tags_list else "None provided",
-                "user_profile": profile_context_str
-            })
-            coaching = coach_result.model_dump()
+            
+            # Use Tool Agent
+            try:
+                agent_executor = get_coaching_agent(request.user_id)
+                agent_result = agent_executor.invoke({
+                    "first_name": first_name,
+                    "problem": structure_result.problem,
+                    "action": structure_result.action,
+                    "result": structure_result.result,
+                    "tags": ", ".join(tags_list) if tags_list else "None provided",
+                    "user_profile": profile_context_str
+                })
+                coaching = parse_agent_json(agent_result["output"])
+            except Exception as e:
+                print(f"Agent failed in /ai/process fallback to chain: {str(e)}")
+                # Fallback to chain
+                coaching_chain = get_coaching_chain()
+                coach_result = coaching_chain.invoke({
+                    "first_name": first_name,
+                    "problem": structure_result.problem,
+                    "action": structure_result.action,
+                    "result": structure_result.result,
+                    "tags": ", ".join(tags_list) if tags_list else "None provided",
+                    "user_profile": profile_context_str
+                })
+                coaching = coach_result.model_dump()
         except Exception as e:
             print(f"Coaching failed in /ai/process (graceful): {str(e)}")
             warnings.append(f"Coaching insights failed: {str(e)}")
             # Provide empty coaching object if it failed
             from models.ai_models import CoachingInsight, CoachResponse
             empty_insight = CoachingInsight(overview="Unavailable", detail="Coaching generation failed or was skipped.")
-            coaching = CoachResponse(strength=empty_insight, gap=empty_insight, suggestion=empty_insight)
+            coaching = CoachResponse(strength=empty_insight, gap=empty_insight, suggestion=empty_insight).model_dump()
 
         # 6. Final Response
         return ProcessResponse(

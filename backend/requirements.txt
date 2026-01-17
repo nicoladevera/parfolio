@@ -10,3 +10,7 @@ langchain-community
 tavily-python
 google-generativeai
 openai-whisper
+chromadb
+pypdf
+python-docx
+python-multipart
