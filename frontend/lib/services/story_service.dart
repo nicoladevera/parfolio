@@ -113,6 +113,7 @@ class StoryService {
         'raw_transcript_url': aiData.rawTranscriptUrl,
         'audio_url': audioUrl,
         'status': 'draft', // Initial status
+        'warnings': aiData.warnings,
         'coaching': {
           'strength': {
             'overview': aiData.coaching.strength.overview,
