@@ -52,6 +52,10 @@ users/{userId}
 ├── targetIndustry: string (optional)
 ├── careerStage: enum (optional) ["early_career", "mid_career", "senior_leadership"]
 ├── transitionTypes: array of enums (optional) ["same_role_new_company", "role_change", "industry_change", "company_type_shift"]
+├── currentCompany: string (optional)
+├── targetCompanies: array of strings (optional)
+├── currentCompanySize: enum (optional) ["startup", "small", "medium", "enterprise"]
+├── targetCompanySize: enum (optional) ["startup", "small", "medium", "enterprise"]
 ├── profilePhotoUrl: string (optional, path: users/{userId}/profile_photo.jpg)
 ├── createdAt: timestamp
 └── updatedAt: timestamp
@@ -243,6 +247,10 @@ tags/{tagId}
   "target_industry": "Climate Tech",
   "career_stage": "mid_career",
   "transition_types": ["role_change", "industry_change"],
+  "current_company": "Stripe",
+  "target_companies": ["OpenAI", "Anthropic"],
+  "current_company_size": "enterprise",
+  "target_company_size": "medium",
   "profile_photo_url": "https://firebasestorage.googleapis.com/v0/b/..."
 }
 ```
@@ -258,6 +266,10 @@ tags/{tagId}
   "target_industry": "Climate Tech",
   "career_stage": "mid_career",
   "transition_types": ["role_change", "industry_change"],
+  "current_company": "Stripe",
+  "target_companies": ["OpenAI", "Anthropic"],
+  "current_company_size": "enterprise",
+  "target_company_size": "medium",
   "profile_photo_url": "https://firebasestorage.googleapis.com/v0/b/..."
 }
 ```
