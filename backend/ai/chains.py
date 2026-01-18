@@ -137,5 +137,5 @@ def get_coaching_agent(user_id: str):
     return AgentExecutor(
         agent=agent, 
         tools=tools, 
-        verbose=False
+        verbose=True
     )
