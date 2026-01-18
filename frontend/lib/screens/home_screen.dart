@@ -138,19 +138,6 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           // Static background decorations (desktop only)
           if (showDecorations) ...[
-            // Bottom-right: Wavy line
-            Positioned(
-              bottom: 40,
-              right: -10,
-              child: Opacity(
-                opacity: 0.5,
-                child: WavyLineDecoration(
-                  color: const Color(0xFFA3E635), // Lime 300
-                  width: 180,
-                  height: 80,
-                ),
-              ),
-            ),
           ],
 
           // Main Layout

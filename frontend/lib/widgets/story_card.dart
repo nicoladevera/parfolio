@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../models/story_model.dart';
+import '../core/shadows.dart';
 import '../core/colors.dart';
 import '../core/spacing.dart';
 
-class StoryCard extends StatelessWidget {
+class StoryCard extends StatefulWidget {
   final StoryModel story;
   final VoidCallback onTap;
   final VoidCallback onDelete;
@@ -18,25 +20,35 @@ class StoryCard extends StatelessWidget {
     this.onEdit,
   }) : super(key: key);
 
-  /// Truncates text to approximately maxChars, ending at a word boundary
-  String _truncate(String text, {int maxChars = 100}) {
-    if (text.length <= maxChars) return text;
-    final truncated = text.substring(0, maxChars);
-    final lastSpace = truncated.lastIndexOf(' ');
-    if (lastSpace > maxChars * 0.7) {
-      return '${truncated.substring(0, lastSpace)}...';
-    }
-    return '${truncated.trim()}...';
-  }
+  @override
+  State<StoryCard> createState() => _StoryCardState();
+}
+
+class _StoryCardState extends State<StoryCard> {
+  bool _isHovered = false;
 
   @override
   Widget build(BuildContext context) {
     final isWide = MediaQuery.of(context).size.width > 600;
 
-    return Card(
+    return Container(
       margin: EdgeInsets.symmetric(vertical: Spacing.sm),
+      decoration: BoxDecoration(
+        color: _isHovered ? const Color(0xFFF9FAFB) : Colors.white, // Very light gray on hover
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: Shadows.md,
+        border: Border.all(
+          color: Theme.of(context).colorScheme.outlineVariant,
+          width: 1,
+        ),
+      ),
       child: InkWell(
-        onTap: onTap,
+        onTap: widget.onTap,
+        onHover: (hovering) {
+          setState(() {
+            _isHovered = hovering;
+          });
+        },
         borderRadius: BorderRadius.circular(16),
         child: Padding(
           padding: EdgeInsets.all(Spacing.lg),
@@ -57,29 +69,37 @@ class StoryCard extends StatelessWidget {
                           children: [
                             Expanded(
                               child: Text(
-                                story.title,
-                                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                widget.story.title,
+                                style: GoogleFonts.libreBaskerville(
+                                  textStyle: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                ),
                               ),
                             ),
                             if (isWide) ...[
                               SizedBox(width: Spacing.md),
-                              Text(
-                                DateFormat('MMM d, yyyy').format(story.createdAt),
-                                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                                    ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    DateFormat('MMM d, yyyy').format(widget.story.createdAt),
+                                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                                        ),
+                                  ),
+                                  _buildPopupMenu(context),
+                                ],
                               ),
                             ],
                           ],
                         ),
-                        if (story.tags.isNotEmpty) ...[
+                        if (widget.story.tags.isNotEmpty) ...[
                           SizedBox(height: Spacing.sm),
                           Wrap(
                             spacing: Spacing.sm,
                             runSpacing: Spacing.sm,
-                            children: story.tags.map((tag) {
+                            children: widget.story.tags.map((tag) {
                               final color = Theme.of(context).colorScheme.tagColors[tag] ??
                                   Theme.of(context).colorScheme.primary;
                               return Container(
@@ -105,49 +125,7 @@ class StoryCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  PopupMenuButton<String>(
-                    icon: Icon(
-                      Icons.more_horiz,
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
-                    onSelected: (value) {
-                      if (value == 'delete') onDelete();
-                      if (value == 'edit' && onEdit != null) onEdit!();
-                    },
-                    itemBuilder: (context) => [
-                      PopupMenuItem(
-                        value: 'edit',
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.edit_outlined,
-                              color: Theme.of(context).colorScheme.onSurface,
-                              size: 20,
-                            ),
-                            SizedBox(width: Spacing.sm),
-                            Text('Edit Story'),
-                          ],
-                        ),
-                      ),
-                      PopupMenuItem(
-                        value: 'delete',
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.delete_outline,
-                              color: Theme.of(context).colorScheme.error,
-                              size: 20,
-                            ),
-                            SizedBox(width: Spacing.sm),
-                            Text(
-                              'Delete',
-                              style: TextStyle(color: Theme.of(context).colorScheme.error),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                  if (!isWide) _buildPopupMenu(context),
                 ],
               ),
 
@@ -168,7 +146,7 @@ class StoryCard extends StatelessWidget {
               if (!isWide) ...[
                 SizedBox(height: Spacing.md),
                 Text(
-                  DateFormat('MMM d, yyyy').format(story.createdAt),
+                  DateFormat('MMM d, yyyy').format(widget.story.createdAt),
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: Theme.of(context).colorScheme.onSurfaceVariant,
                       ),
@@ -187,15 +165,15 @@ class StoryCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
-          child: _buildParColumn(context, 'PROBLEM', story.problem),
+          child: _buildParColumn(context, 'PROBLEM', widget.story.problem),
         ),
         SizedBox(width: Spacing.base),
         Expanded(
-          child: _buildParColumn(context, 'ACTION', story.action),
+          child: _buildParColumn(context, 'ACTION', widget.story.action),
         ),
         SizedBox(width: Spacing.base),
         Expanded(
-          child: _buildParColumn(context, 'RESULT', story.result),
+          child: _buildParColumn(context, 'RESULT', widget.story.result),
         ),
       ],
     );
@@ -210,19 +188,63 @@ class StoryCard extends StatelessWidget {
           label,
           style: Theme.of(context).textTheme.labelMedium?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
+                color: Theme.of(context).colorScheme.primary,
                 letterSpacing: 1.5,
               ),
         ),
         SizedBox(height: Spacing.xs),
         Text(
-          _truncate(content),
+          content,
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 color: Theme.of(context).colorScheme.onSurface,
                 height: 1.5,
               ),
-          maxLines: 3,
-          overflow: TextOverflow.ellipsis,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPopupMenu(BuildContext context) {
+    return PopupMenuButton<String>(
+      icon: Icon(
+        Icons.more_horiz,
+        color: Theme.of(context).colorScheme.onSurfaceVariant,
+      ),
+      onSelected: (value) {
+        if (value == 'delete') widget.onDelete();
+        if (value == 'edit' && widget.onEdit != null) widget.onEdit!();
+      },
+      itemBuilder: (context) => [
+        PopupMenuItem(
+          value: 'edit',
+          child: Row(
+            children: [
+              Icon(
+                Icons.edit_outlined,
+                color: Theme.of(context).colorScheme.onSurface,
+                size: 20,
+              ),
+              SizedBox(width: Spacing.sm),
+              Text('Edit Story'),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          value: 'delete',
+          child: Row(
+            children: [
+              Icon(
+                Icons.delete_outline,
+                color: Theme.of(context).colorScheme.error,
+                size: 20,
+              ),
+              SizedBox(width: Spacing.sm),
+              Text(
+                'Delete',
+                style: TextStyle(color: Theme.of(context).colorScheme.error),
+              ),
+            ],
+          ),
         ),
       ],
     );
@@ -233,11 +255,11 @@ class StoryCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildParRow(context, 'P', story.problem),
+        _buildParRow(context, 'P', widget.story.problem),
         SizedBox(height: Spacing.sm),
-        _buildParRow(context, 'A', story.action),
+        _buildParRow(context, 'A', widget.story.action),
         SizedBox(height: Spacing.sm),
-        _buildParRow(context, 'R', story.result),
+        _buildParRow(context, 'R', widget.story.result),
       ],
     );
   }
@@ -245,8 +267,6 @@ class StoryCard extends StatelessWidget {
   /// Single row for mobile layout with P:/A:/R: prefix
   Widget _buildParRow(BuildContext context, String prefix, String content) {
     return RichText(
-      maxLines: 2,
-      overflow: TextOverflow.ellipsis,
       text: TextSpan(
         style: Theme.of(context).textTheme.bodySmall?.copyWith(
               color: Theme.of(context).colorScheme.onSurface,
@@ -257,10 +277,10 @@ class StoryCard extends StatelessWidget {
             text: '$prefix: ',
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
-          TextSpan(text: _truncate(content, maxChars: 80)),
+          TextSpan(text: content),
         ],
       ),
     );
