@@ -60,6 +60,7 @@ parfolio/
 │   ├── models/               # Pydantic data models
 │   ├── routers/              # API route handlers
 │   ├── dependencies/         # Auth & shared dependencies
+│   ├── samples/              # Sample dataset (Transcripts, Memory files)
 │   ├── tests/                # Verification and unit tests
 │   ├── requirements.txt      # Python dependencies
 │   └── .env.example          # Environment template
