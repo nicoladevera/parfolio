@@ -1,19 +1,27 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:file_picker/file_picker.dart';
+
+class MemoryFile {
+  final String name;
+  final Uint8List bytes;
+  final String? path; // Optional, for reference
+
+  MemoryFile({required this.name, required this.bytes, this.path});
+}
 
 class UploadCTA extends StatelessWidget {
   final bool isProcessing;
   final int currentCount;
-  final Function(File) onFileSelected;
+  final Function(List<MemoryFile>) onFilesSelected;
 
   const UploadCTA({
-    Key? key,
+    super.key,
     required this.isProcessing,
     required this.currentCount,
-    required this.onFileSelected,
-  }) : super(key: key);
+    required this.onFilesSelected,
+  });
 
   static const int maxFiles = 5;
 
@@ -32,16 +40,44 @@ class UploadCTA extends StatelessWidget {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
         allowedExtensions: ['pdf', 'docx', 'txt', 'md'],
+        allowMultiple: true,
+        withData: true, // Important for web and possibly desktop
       );
 
-      if (result != null && result.files.single.path != null) {
+      if (result != null) {
         if (!context.mounted) return;
-        onFileSelected(File(result.files.single.path!));
+        
+        // Handle files properly
+        final List<MemoryFile> files = [];
+        
+        for (var file in result.files) {
+          if (file.bytes != null) {
+            files.add(MemoryFile(name: file.name, bytes: file.bytes!, path: file.path));
+          } else if (file.path != null) {
+            // Fallback for IO platforms if bytes are not populated automatically
+            try {
+              final detectedFile = File(file.path!);
+              files.add(MemoryFile(
+                name: file.name, 
+                bytes: await detectedFile.readAsBytes(),
+                path: file.path
+              ));
+            } catch (e) {
+              debugPrint('Error reading file ${file.path}: $e');
+            }
+          }
+        }
+
+        if (context.mounted && files.isNotEmpty) {
+          onFilesSelected(files);
+        }
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error picking file: $e')),
-      );
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error picking file: $e')),
+        );
+      }
     }
   }
 
