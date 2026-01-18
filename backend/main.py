@@ -8,13 +8,7 @@ app = FastAPI()
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",      # Local Flutter web dev
-        "http://localhost:8080",      # Alternative local dev
-        "http://127.0.0.1:3000",
-        "http://127.0.0.1:8080",
-        # Add production domain when deployed
-    ],
+    allow_origin_regex=r"^http://(localhost|127\.0\.0\.1)(:\d+)?$",  # Allow any localhost port for dev
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
