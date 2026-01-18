@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'dart:convert';
+// ignore: avoid_web_libraries_in_flutter
+import 'dart:html' as html;
 import '../models/story_model.dart';
 import '../core/colors.dart';
 import '../widgets/review/coaching_display.dart';
@@ -39,6 +42,41 @@ class StoryDetailScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _exportTranscript(BuildContext context) {
+    try {
+      final text = story.rawTranscript;
+      if (text.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('No transcript available to export')),
+        );
+        return;
+      }
+
+      // Generate filename: transcript_{story_title}_{timestamp}.txt
+      final timestamp = DateFormat('yyyyMMdd_HHmmss').format(DateTime.now());
+      final sanitizedTitle = story.title.replaceAll(RegExp(r'[^\w\s-]'), '').replaceAll(RegExp(r'\s+'), '_');
+      final fileName = 'transcript_${sanitizedTitle}_$timestamp.txt';
+
+      // Create blob and download link
+      final bytes = utf8.encode(text);
+      final blob = html.Blob([bytes], 'text/plain');
+      final url = html.Url.createObjectUrlFromBlob(blob);
+      html.AnchorElement(href: url)
+        ..setAttribute('download', fileName)
+        ..click();
+      
+      html.Url.revokeObjectUrl(url);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Transcript exported as $fileName')),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Unable to export transcript. Please try again.')),
+      );
+    }
   }
 
   @override
@@ -165,23 +203,75 @@ class StoryDetailScreen extends StatelessWidget {
             ],
             
             SizedBox(height: 48),
-            ExpansionTile(
-              title: Text('Raw Transcript', 
-                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant
-                  )),
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Text(
-                    story.rawTranscript,
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      fontStyle: FontStyle.italic
-                    ),
-                  ),
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Theme.of(context).colorScheme.outlineVariant.withOpacity(0.5),
                 ),
-              ],
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Theme(
+                data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                child: ExpansionTile(
+                  shape: const Border(),
+                  collapsedShape: const Border(),
+                  tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  childrenPadding: EdgeInsets.zero,
+                  iconColor: Theme.of(context).colorScheme.onSurfaceVariant,
+                  collapsedIconColor: Theme.of(context).colorScheme.onSurfaceVariant,
+                  title: Text('Raw Transcript', 
+                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant
+                      )),
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            story.rawTranscript.isNotEmpty 
+                                ? story.rawTranscript 
+                                : 'Transcript unavailable',
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: Theme.of(context).colorScheme.onSurfaceVariant,
+                              fontStyle: story.rawTranscript.isNotEmpty 
+                                  ? FontStyle.normal 
+                                  : FontStyle.italic,
+                              height: 1.5,
+                            ),
+                          ),
+                          if (story.rawTranscript.isNotEmpty) ...[
+                            const SizedBox(height: 24),
+                            Center(
+                              child: OutlinedButton.icon(
+                                onPressed: () => _exportTranscript(context),
+                                icon: const Icon(Icons.download_rounded, size: 20),
+                                label: const Text('Export as .txt'),
+                                style: OutlinedButton.styleFrom(
+                                  foregroundColor: const Color(0xFF374151), // Gray 700
+                                  side: const BorderSide(
+                                    color: Color(0xFFD1D5DB), // Gray 300
+                                    width: 2,
+                                  ),
+                                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(24),
+                                  ),
+                                  textStyle: const TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
             SizedBox(height: 48),
             Center(

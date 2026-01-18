@@ -839,7 +839,23 @@ Container(
 - **Toggle Label**: "Show more" / "Show less" using Gray 500 (`#9CA3AF`) and Medium font weight (500) to remain subtle and non-distracting.
 - **Animation**: Smooth expansion of the content container.
 
-### Navigation & Headers
+#### Expandable Transcript Card Pattern
+
+**Specific Layout for Raw Transcripts in Story Details**:
+
+- **Structure**: `ExpansionTile` wrapped in a bordered `Container`.
+- **Background**: White
+- **Border**: 1px solid Gray 200 (`#E5E7EB`) at 50% opacity.
+- **Border Radius**: 16px (matches medium cards).
+- **Interaction**: Expandable/Collapsible.
+- **Arrow Color**: Custom `iconColor` and `collapsedIconColor` set to Gray 600 (`#4B5563`) to prevent automatic brand color shifts when expanded.
+
+**Visual Construction**:
+- **Header**: Standard title (Inter Semi-Bold 16px, Gray 600) + Gray expansion arrow.
+- **Content Area**: Raw text with 1.5 line height, Gray 600 color.
+- **Export Action**: **Secondary (Outlined)** button style, center-aligned at the bottom of the expanded area. Label: "Export as .txt". Corner radius: 24px.
+- **Padding**: 16px horizontal/8px vertical for the tile; 16px horizontal/24px bottom for the content.
+
 
 #### Standardized App Bar
 

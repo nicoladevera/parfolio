@@ -33,7 +33,7 @@
 | **Storage** | Persistent Firebase store for all structured stories |
 | **Retrieval** | Browse, search, and filter stories by competency tags |
 | **Export (Bulk)** | Download collection of PAR-formatted stories for export to Notion, Google Sheets, or as plain text/JSON/CSV |
-| **Export (Individual)** | Download raw transcript as a text file for any individual story |
+| **Export (Individual)** | Download raw transcript as a text file (**Implemented client-side for immediate access**) |
 
 ---
 
@@ -235,7 +235,7 @@ tags/{tagId}
 9. [x] Implement story review/edit screen (Frontend Phase 3)
 10. [x] Implement enhanced dashboard with full P/A/R write-up (Frontend Phase 4)
 11. [x] Implement personal memory bank (Frontend Phase 5) - **Complete with AI source detection and expand/collapse UI**
-12. [ ] Implement export functionality
+12. [x] Implement export functionality (**Individual transcript export implemented**)
 
 ### `PUT /profile` — Update User Profile
 **Request:**
