@@ -822,6 +822,23 @@ Container(
 );
 ```
 
+#### Memory Bank Card Pattern
+
+**Specific Layout for Personal Memory Storage**:
+
+- **Background**: White
+- **Border**: 1px solid Gray 200
+- **Border Radius**: 20px
+- **Padding**: 24px
+- **Interaction**: Expandable/Collapsible via "Show more" toggle
+- **Icons**: Homogenized Lime 500 (`#65A30D`) for all source types.
+
+**Visual Construction**:
+- **Source Icons**: Dedicated icons for `resume` (description), `linkedin` (link), `article` (article), and `transcript` (record_voice_over). All use Lime 500.
+- **Content Preview**: Truncated to 4 lines by default in a Gray 50 container.
+- **Toggle Label**: "Show more" / "Show less" using Gray 500 (`#9CA3AF`) and Medium font weight (500) to remain subtle and non-distracting.
+- **Animation**: Smooth expansion of the content container.
+
 ### Navigation & Headers
 
 #### Standardized App Bar
@@ -1485,6 +1502,18 @@ AnimationController(
 | **Standard** | 24 | Primary UI icons, buttons |
 | **Large** | 32 | Feature cards, empty states |
 | **XL** | 48 | Hero icons, splash screens |
+
+### Memory Bank Source Icons
+
+To ensure consistency in the Memory Bank, all source icons utilize the **Primary Lime 500 (#65A30D)** color within a 10% opacity container.
+
+| Source Type | Icon Material Name | Meaning |
+|-------------|-------------------|---------|
+| **Resume** | `description_outlined` | Formal CV/Resume documents |
+| **LinkedIn** | `link_outlined` | LinkedIn profile data or exports |
+| **Article** | `article_outlined` | User-written articles or blog posts |
+| **Transcript** | `record_voice_over_outlined` | Spoken narratives or interview transcripts |
+| **Other** | `history_edu_outlined` | Default for other document types |
 
 ### Icon Colors
 

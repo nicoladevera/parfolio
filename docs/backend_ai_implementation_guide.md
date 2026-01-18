@@ -107,10 +107,9 @@ Build each AI processing step individually, then create the all-in-one orchestra
 **Base Path**: `/memory`
 
 **Tasks**:
-- [x] Integrate ChromaDB for local vector persistence
-- [x] Implement file parsing for PDF, DOCX, TXT, and Markdown
-- [x] Design semantic chunking strategy with LangChain
-- [x] Implement AI-powered summarization of context chunks
+- [x] Implement holistic document processing (no chunking) for richer context
+- [x] Implement AI-powered holistic summarization of entire documents
+- [x] Implement AI-based source type auto-detection (resume, linkedin, article, transcript)
 - [x] Build semantic search for personalized record retrieval
 
 **Endpoints**:

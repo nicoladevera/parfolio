@@ -23,7 +23,7 @@
 | Aspect | Details |
 |--------|---------|
 | **AI Orchestrator** | Converts rambling speech into structured PAR (Problem-Action-Result) stories. |
-| **Personal Memory** | Upload resumes/LinkedIn data for AI-powered semantic search and personalized coaching. |
+| **Personal Memory** | Upload resumes, LinkedIn data, articles, and transcripts for AI-powered semantic search and personalized coaching using holistic summarization. |
 | **Agentic Coaching** | AI agent autonomously retrieves user context from memory to personalize feedback. |
 | **Behavioral Tagging** | Auto-assigns competencies like Leadership, Communication, and Impact. |
 
@@ -138,7 +138,7 @@ tags/{tagId}
 ### Memory
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| `POST` | `/memory/upload` | Upload context file (PDF/DOCX/TXT) → Parse → Chunk → Summarize → Store in ChromaDB |
+| `POST` | `/memory/upload` | Upload context file (PDF/DOCX/TXT) → Parse → Summarize (Holistic) → Store in ChromaDB. AI automatically detects source type (resume, linkedin, article, transcript). |
 | `POST` | `/memory/search` | Semantic search across user's personal memory entries |
 | `GET` | `/memory/entries/{user_id}` | List all memory entries for a specific user |
 | `DELETE` | `/memory/entries/{user_id}/{entry_id}` | Delete a specific memory entry |
@@ -234,7 +234,7 @@ tags/{tagId}
 8. [x] Implement enhanced processing screen with stages (Frontend Phase 2)
 9. [x] Implement story review/edit screen (Frontend Phase 3)
 10. [x] Implement enhanced dashboard with full P/A/R write-up (Frontend Phase 4)
-11. [x] Implement personal memory bank (Frontend Phase 5)
+11. [x] Implement personal memory bank (Frontend Phase 5) - **Complete with AI source detection and expand/collapse UI**
 12. [ ] Implement export functionality
 
 ### `PUT /profile` — Update User Profile
