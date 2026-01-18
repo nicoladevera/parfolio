@@ -144,7 +144,33 @@ parfolio/
 
 ### Marketing Site Setup (Landing Page)
 
-Simply open `marketing/index.html` in your browser. No build process required.
+Simply open `marketing/index.html` in your browser for a standalone preview.
+
+### Running Landing Page and App Together
+
+To test the full flow where the landing page links directly to the app:
+
+1. **Start the Backend** (in a separate terminal):
+   ```bash
+   cd backend
+   ./venv/bin/uvicorn main:app --reload
+   ```
+
+2. **Build the Flutter App**:
+   ```bash
+   cd frontend
+   flutter build web --base-href /app/
+   cd ..
+   ```
+
+3. **Start the Local Server**:
+   ```bash
+   python3 local_server.py
+   ```
+
+4. **Access the Application**:
+   - Open `http://localhost:8080` for the landing page.
+   - Click **"Start Recording"** or **"Get Started"** to navigate seamlessly into the app.
 
 ---
 
