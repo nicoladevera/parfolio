@@ -6,8 +6,7 @@ from ai.prompts import (
     MEMORY_SUMMARIZATION_PROMPT, COACHING_AGENT_PROMPT
 )
 from langchain.agents import create_tool_calling_agent, AgentExecutor
-from ai.tools import search_personal_memory
-from langchain_core.tools import tool
+from ai.tools import create_user_tools
 
 def get_structure_chain():
     """
@@ -104,7 +103,19 @@ def get_memory_summarization_chain():
 def get_coaching_agent(user_id: str):
     """
     Creates and returns a tool-calling AgentExecutor for coaching.
-    The agent can decide whether to use search_personal_memory tool.
+
+    The agent has access to 10 tools:
+    - search_memory: Search user's personal memory database
+    - analyze_storytelling: Detect weak patterns (passive voice, "we" language, vague results)
+    - analyze_structure: Check word counts and PAR balance
+    - check_career_alignment: Validate story scope matches career stage
+    - get_portfolio_coverage: Analyze competency tag coverage
+    - find_similar_stories: Find related stories in portfolio
+    - get_company_insights: Get company interview culture info (Tavily)
+    - get_role_trends: Get role interview trends (Tavily)
+    - get_industry_info: Get industry context (Tavily)
+    - get_metric_benchmarks: Get benchmark data for metrics (Tavily)
+
     Returns AgentExecutor that behaves like a chain (invoke returns dict).
     """
     api_key = os.getenv("GOOGLE_API_KEY")
@@ -119,28 +130,15 @@ def get_coaching_agent(user_id: str):
         verbose=True
     )
 
-    # Create a wrapper tool with user_id pre-filled so the agent only passes the query
-    @tool
-    def search_memory(query: str, top_k: int = 3) -> str:
-        """
-        Search the user's personal memory database for relevant professional context.
-        Use this when you need to recall specific skills, projects, or background.
-        """
-        # Call the original tool with the fixed user_id
-        return search_personal_memory.invoke({
-            "query": query, 
-            "user_id": user_id, 
-            "top_k": top_k
-        })
-
-    tools = [search_memory]
+    # Create all tools with user_id pre-filled via factory function
+    tools = create_user_tools(user_id)
 
     # Initialize the tool-calling agent
     agent = create_tool_calling_agent(llm, tools, COACHING_AGENT_PROMPT)
-    
+
     # Return as an Executor
     return AgentExecutor(
-        agent=agent, 
-        tools=tools, 
+        agent=agent,
+        tools=tools,
         verbose=True
     )
