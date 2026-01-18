@@ -26,7 +26,6 @@ class MemoryService {
     final uri = Uri.parse('${AuthService.baseUrl}/memory/upload');
     final request = http.MultipartRequest('POST', uri)
       ..headers['Authorization'] = 'Bearer $token'
-      ..fields['user_id'] = _firebaseAuth.currentUser!.uid
       ..fields['source_type'] = sourceType
       ..files.add(http.MultipartFile.fromBytes(
         'file',
@@ -49,9 +48,8 @@ class MemoryService {
     final token = await _getIdToken();
     if (token == null) return [];
 
-    final userId = _firebaseAuth.currentUser!.uid;
     final response = await http.get(
-      Uri.parse('${AuthService.baseUrl}/memory/entries/$userId'),
+      Uri.parse('${AuthService.baseUrl}/memory/entries'),
       headers: {
         'Authorization': 'Bearer $token',
       },
@@ -70,9 +68,8 @@ class MemoryService {
     final token = await _getIdToken();
     if (token == null) throw Exception('User not authenticated');
 
-    final userId = _firebaseAuth.currentUser!.uid;
     final response = await http.delete(
-      Uri.parse('${AuthService.baseUrl}/memory/entries/$userId/$entryId'),
+      Uri.parse('${AuthService.baseUrl}/memory/entries/$entryId'),
       headers: {
         'Authorization': 'Bearer $token',
       },
