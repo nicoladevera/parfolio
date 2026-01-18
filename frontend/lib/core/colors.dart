@@ -41,6 +41,9 @@ extension ParfolioColors on ColorScheme {
   Color get warningBg => const Color(0xFFFFF7ED);
   Color get info => const Color(0xFF3B82F6);
   Color get infoBg => const Color(0xFFEFF6FF);
+
+  Color get teal => const Color(0xFF00CEC9);
+  Color get tealBg => const Color(0xFFE0F7F6);
   // Error is already in ColorScheme as 'error' and 'errorContainer'
 
   // Tag Colors
