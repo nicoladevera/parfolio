@@ -129,10 +129,41 @@ Build each AI processing step individually, then create the all-in-one orchestra
 - [x] Update coaching prompts to guide agentic tool usage
 - [x] Integrate agentic coaching into `/ai/coach` and `/ai/process` endpoints
 - [x] Implement JSON response parsing and graceful fallbacks
+- [x] **Forced Pre-Analysis**: Core quality tools (`analyze_storytelling`, `analyze_structure`) are pre-called before the agent runs, ensuring data-driven coaching regardless of agent tool-calling behavior
+- [x] **Agent Reasoning Logging**: Agent outputs a `_reasoning` field explaining which findings informed each insight (logged to console, stripped before storage)
 
 **Capabilities**:
 - **Autonomous Retrieval**: The AI agent decides if context (resumes, past projects) is needed to improve coaching.
 - **Improved Contextualization**: Feedback references specific skills and experiences found in the user's memory database.
+- **Guaranteed Quality Analysis**: Pre-analysis always runs, providing storytelling pattern detection and structure balance scoring.
+
+**Development Logging**:
+The coaching pipeline outputs helpful debug information:
+```
+📊 Running pre-analysis tools...
+   ✅ Pre-analysis complete
+   - Raw transcript: 344 words
+   - Structured PAR: 76 words
+   - Storytelling issues: 2
+   - Structure score: 0.76
+   - Issues found:
+     • [high] we_instead_of_i: Found 3 instances of 'we' language...
+
+🤖 Agent context summary:
+   - User: Daniela (mid_career at Zocdoc)
+   - Target: Engineering Manager at ['GoodRx', 'Headway', 'Calm']
+
+🧠 Invoking coaching agent...
+
+🔧 TOOL CALL: get_company_insights  (if agent uses optional tools)
+   Input: {"company": "GoodRx"}
+   ✅ Result: GoodRx values...
+
+📝 Agent output received (2326 chars)
+💭 Agent reasoning: Used pre-analysis finding of vague results...
+
+✅ Agent finished generating coaching insights
+```
 
 ---
 

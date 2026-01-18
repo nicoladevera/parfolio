@@ -118,27 +118,48 @@ def get_coaching_agent(user_id: str):
 
     Returns AgentExecutor that behaves like a chain (invoke returns dict).
     """
+    from langchain.callbacks.base import BaseCallbackHandler
+    from typing import Any, Dict, List
+    
+    class AgentThoughtLogger(BaseCallbackHandler):
+        """Lightweight callback handler that logs tool usage without overwhelming output."""
+        
+        def on_tool_start(self, serialized: Dict[str, Any], input_str: str, **kwargs) -> None:
+            tool_name = serialized.get("name", "unknown")
+            print(f"\n🔧 TOOL CALL: {tool_name}")
+            input_preview = input_str[:150] + "..." if len(str(input_str)) > 150 else input_str
+            print(f"   Input: {input_preview}")
+        
+        def on_tool_end(self, output: str, **kwargs) -> None:
+            output_preview = output[:200] + "..." if len(output) > 200 else output
+            print(f"   ✅ Result: {output_preview}")
+        
+        def on_tool_error(self, error: Exception, **kwargs) -> None:
+            print(f"   ❌ Error: {str(error)}")
+        
+        def on_agent_finish(self, finish, **kwargs) -> None:
+            print("\n✅ Agent finished generating coaching insights")
+    
     api_key = os.getenv("GOOGLE_API_KEY")
     if not api_key:
         raise ValueError("GOOGLE_API_KEY environment variable not set")
 
-    # Use Gemini 2.0 Flash
     llm = ChatGoogleGenerativeAI(
         model="gemini-2.0-flash",
         google_api_key=api_key,
-        temperature=0.7,
-        verbose=True
+        temperature=0.5,
+        verbose=False  # Cleaner logs
     )
 
-    # Create all tools with user_id pre-filled via factory function
     tools = create_user_tools(user_id)
 
-    # Initialize the tool-calling agent
     agent = create_tool_calling_agent(llm, tools, COACHING_AGENT_PROMPT)
 
-    # Return as an Executor
+    thought_logger = AgentThoughtLogger()
+
     return AgentExecutor(
         agent=agent,
         tools=tools,
-        verbose=True
+        verbose=False,  # Disable default verbose output
+        callbacks=[thought_logger]
     )
