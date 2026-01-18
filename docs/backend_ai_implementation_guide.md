@@ -229,7 +229,8 @@ The AI now supports personalized coaching by incorporating the user's first name
 ---
 
 ## Testing Resources
-- **Sample Transcripts**: Located in `backend/samples/`. Use these for testing Phase 1 (Structuring) and Phase 3 (Tagging) to ensure the AI handles various narrative styles and behavioral signals correctly.
+- **Sample Transcripts**: Located in `backend/samples/transcripts/`. Use these for testing Phase 1 (Structuring) and Phase 3 (Tagging) to ensure the AI handles various narrative styles and behavioral signals correctly.
+- **Sample Memory Files**: Located in `backend/samples/memory/`. Includes PDF resume, LinkedIn profile, Markdown, and DOCX files for testing Phase 6 (Personal Memory) processing and semantic retrieval.
 
 ---
 
