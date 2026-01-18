@@ -99,7 +99,6 @@ class _MemoryEntryCardState extends State<MemoryEntryCard> {
                         color: Colors.grey[800],
                         fontSize: 14,
                         height: 1.5,
-                        fontStyle: FontStyle.italic,
                       ),
                       maxLines: _isExpanded ? null : 4,
                       overflow: _isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
