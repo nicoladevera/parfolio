@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../core/events.dart';
 import 'package:provider/provider.dart';
 import '../core/shadows.dart';
 import '../services/auth_service.dart';
@@ -39,6 +40,13 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _loadData();
+    dashboardRefreshNotifier.addListener(_loadData);
+  }
+
+  @override
+  void dispose() {
+    dashboardRefreshNotifier.removeListener(_loadData);
+    super.dispose();
   }
 
   Future<void> _loadData() async {

@@ -6,6 +6,7 @@ import '../services/story_service.dart';
 import '../widgets/review/editable_par_section.dart';
 import '../widgets/review/tag_editor.dart';
 import '../widgets/review/coaching_display.dart';
+import '../core/events.dart';
 
 class StoryReviewScreen extends StatefulWidget {
   final String storyId;
@@ -101,6 +102,7 @@ class _StoryReviewScreenState extends State<StoryReviewScreen> {
             backgroundColor: Color(0xFF10B981), // Green 500
           ),
         );
+        dashboardRefreshNotifier.notifyRefresh();
         Navigator.popUntil(context, (route) => route.isFirst);
       }
     } catch (e) {
@@ -167,6 +169,7 @@ class _StoryReviewScreenState extends State<StoryReviewScreen> {
       try {
         await _storyService.deleteStory(widget.storyId);
         if (mounted) {
+          dashboardRefreshNotifier.notifyRefresh();
           Navigator.popUntil(context, (route) => route.isFirst);
         }
       } catch (e) {

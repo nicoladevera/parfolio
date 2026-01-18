@@ -292,7 +292,83 @@ async def process_story(request: ProcessRequest):
 
             tags_list = [t["tag"] for t in tags] if tags else []
             
-            # Use Tool Agent
+            # ========================================================
+            # FORCED TOOL CALLS: Pre-run quality analysis tools
+            # ========================================================
+            from ai.tools import (
+                _detect_weak_storytelling_patterns,
+                _analyze_story_structure_quality
+            )
+            
+            print("\n📊 Running pre-analysis tools...")
+            
+            # Run storytelling analysis
+            storytelling_analysis = _detect_weak_storytelling_patterns(
+                structure_result.problem,
+                structure_result.action,
+                structure_result.result
+            )
+            
+            # Run structure analysis
+            structure_analysis = _analyze_story_structure_quality(
+                structure_result.problem,
+                structure_result.action,
+                structure_result.result
+            )
+            
+            # Format pre-analysis results for the agent
+            pre_analysis_context = f"""
+### PRE-ANALYSIS RESULTS (Already gathered for you)
+
+**Storytelling Analysis:**
+- Issues found: {storytelling_analysis['issue_count']}
+- Quality score: {storytelling_analysis['quality_score']:.2f}
+- Has quantified results: {storytelling_analysis['has_quantified_results']}
+"""
+            if storytelling_analysis['issues']:
+                for issue in storytelling_analysis['issues']:
+                    pre_analysis_context += f"- [{issue['severity'].upper()}] {issue['type']}: {issue['message']}\n"
+            else:
+                pre_analysis_context += "- No major storytelling issues detected.\n"
+            
+            pre_analysis_context += f"""
+**Structure Analysis:**
+- Total words: {structure_analysis['word_counts']['total']}
+- Balance score: {structure_analysis['balance_score']:.2f}
+- Problem: {structure_analysis['word_counts']['problem']} words ({structure_analysis['percentages']['problem']:.0f}%)
+- Action: {structure_analysis['word_counts']['action']} words ({structure_analysis['percentages']['action']:.0f}%)
+- Result: {structure_analysis['word_counts']['result']} words ({structure_analysis['percentages']['result']:.0f}%)
+"""
+            if structure_analysis['issues']:
+                for issue in structure_analysis['issues']:
+                    pre_analysis_context += f"- {issue['message']}\n"
+            else:
+                pre_analysis_context += "- Structure is well-balanced.\n"
+            
+            print("   ✅ Pre-analysis complete")
+            raw_word_count = len(transcript_text.split()) if transcript_text else 0
+            print(f"   - Raw transcript: {raw_word_count} words")
+            print(f"   - Structured PAR: {structure_analysis['word_counts']['total']} words")
+            print(f"   - Storytelling issues: {storytelling_analysis['issue_count']}")
+            print(f"   - Structure score: {structure_analysis['balance_score']:.2f}")
+            if storytelling_analysis['issues']:
+                print("   - Issues found:")
+                for issue in storytelling_analysis['issues']:
+                    print(f"     • [{issue['severity']}] {issue['type']}: {issue['message'][:80]}...")
+            if structure_analysis['issues']:
+                print("   - Structure issues:")
+                for issue in structure_analysis['issues']:
+                    print(f"     • {issue['message'][:80]}...")
+            
+            print("\n🤖 Agent context summary:")
+            print(f"   - User: {first_name} ({profile_data.get('career_stage', 'unknown')} at {profile_data.get('current_company', 'unknown')})")
+            print(f"   - Target: {profile_data.get('target_role', 'not set')} at {profile_data.get('target_companies', ['not set'])}")
+            print(f"   - Tags: {', '.join(tags_list) if tags_list else 'none'}")
+            
+            # ========================================================
+            # Use Tool Agent (with pre-analysis context)
+            # ========================================================
+            print("\n🧠 Invoking coaching agent...")
             try:
                 agent_executor = get_coaching_agent(request.user_id)
                 agent_result = agent_executor.invoke({
@@ -301,9 +377,20 @@ async def process_story(request: ProcessRequest):
                     "action": structure_result.action,
                     "result": structure_result.result,
                     "tags": ", ".join(tags_list) if tags_list else "None provided",
-                    "user_profile": profile_context_str
+                    "user_profile": profile_context_str,
+                    "pre_analysis": pre_analysis_context  # Add pre-analysis
                 })
-                coaching = parse_agent_json(agent_result["output"])
+                
+                # Log what the agent did
+                raw_output = agent_result.get("output", "")
+                print(f"\n📝 Agent output received ({len(raw_output)} chars)")
+                
+                coaching = parse_agent_json(raw_output)
+                
+                # Log and strip the reasoning (internal field)
+                if "_reasoning" in coaching:
+                    print(f"\n💭 Agent reasoning: {coaching['_reasoning']}")
+                    del coaching["_reasoning"]  # Don't store in DB/send to frontend
             except Exception as e:
                 print(f"Agent failed in /ai/process fallback to chain: {str(e)}")
                 # Fallback to chain

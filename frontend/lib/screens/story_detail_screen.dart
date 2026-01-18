@@ -7,6 +7,7 @@ import '../models/story_model.dart';
 import '../core/colors.dart';
 import '../widgets/review/coaching_display.dart';
 import 'story_review_screen.dart';
+import '../core/events.dart';
 
 class StoryDetailScreen extends StatelessWidget {
   final StoryModel story;
@@ -34,6 +35,7 @@ class StoryDetailScreen extends StatelessWidget {
           TextButton(
             onPressed: () {
               onDelete(story.id);
+              dashboardRefreshNotifier.notifyRefresh();
               Navigator.pop(context); // Close dialog
               Navigator.pop(context); // Return to dashboard
             },
