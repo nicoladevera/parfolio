@@ -240,18 +240,41 @@ class _StoryReviewScreenState extends State<StoryReviewScreen> {
       },
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: _isSaving ? null : _discardStory,
-          ),
-          title: Text(widget.isEditMode ? 'Edit Story' : 'Review Your Story'),
-          backgroundColor: Colors.white,
-          elevation: 0,
-          foregroundColor: colorScheme.gray900,
-          bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(1.0),
-            child: Container(color: colorScheme.gray200, height: 1.0),
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(kToolbarHeight + 1),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border(
+                bottom: BorderSide(
+                  color: colorScheme.outlineVariant.withOpacity(0.5),
+                  width: 1,
+                ),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.05),
+                  blurRadius: 8,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: AppBar(
+              backgroundColor: Colors.white,
+              elevation: 0,
+              scrolledUnderElevation: 0,
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back, color: colorScheme.onSurface),
+                onPressed: _isSaving ? null : _discardStory,
+              ),
+              title: Text(
+                widget.isEditMode ? 'Edit Story' : 'Review Your Story',
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: colorScheme.onSurface,
+                ),
+              ),
+            ),
           ),
         ),
         body: SingleChildScrollView(
@@ -259,12 +282,27 @@ class _StoryReviewScreenState extends State<StoryReviewScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Title Section
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: TextFormField(
+              // Title Section in Card
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: colorScheme.gray200),
+                ),
+                padding: const EdgeInsets.fromLTRB(Spacing.lg, Spacing.md, Spacing.md, Spacing.lg),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'TITLE',
+                      style: theme.textTheme.labelSmall?.copyWith(
+                        color: colorScheme.primary,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1.2,
+                      ),
+                    ),
+                    const SizedBox(height: Spacing.sm),
+                    TextFormField(
                       controller: _titleController,
                       focusNode: _titleFocusNode,
                       style: theme.textTheme.headlineSmall?.copyWith(
@@ -272,22 +310,16 @@ class _StoryReviewScreenState extends State<StoryReviewScreen> {
                         color: colorScheme.gray900,
                       ),
                       decoration: const InputDecoration(
-                        hintText: 'Story Title',
+                        hintText: 'Enter a compelling title...',
                         border: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        contentPadding: EdgeInsets.zero,
                       ),
                       maxLines: null,
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 4.0),
-                    child: IconButton(
-                      icon: const Icon(Icons.edit_outlined, size: 20, color: Color(0xFF9CA3AF)),
-                      onPressed: () => _titleFocusNode.requestFocus(),
-                      constraints: const BoxConstraints(),
-                      padding: const EdgeInsets.all(4),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               const SizedBox(height: Spacing.xl),
 
