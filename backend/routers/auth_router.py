@@ -48,9 +48,10 @@ async def register(request: UserRegisterRequest):
             detail="Email already registered"
         )
     except Exception as e:
+        print(f"Registration error: {str(e)}")  # Log internally
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=str(e)
+            detail="Registration failed. Please try again."
         )
 
 @router.post("/login", response_model=TokenResponse)

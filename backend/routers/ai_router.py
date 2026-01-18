@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, status
 from models.ai_models import (
     StructureRequest, StructureResponse,
     TranscribeRequest, TranscribeResponse,
@@ -11,6 +11,7 @@ import json
 from ai.transcriber import transcribe_audio_file
 from firebase_storage import download_audio_from_storage, upload_transcript_to_storage
 from firebase_config import get_user_profile
+from dependencies.auth_dependencies import get_current_user
 import os
 
 router = APIRouter(
@@ -28,7 +29,7 @@ def parse_agent_json(output: str):
     return json.loads(clean_json)
 
 @router.post("/structure", response_model=StructureResponse)
-async def structure_transcript(request: StructureRequest):
+async def structure_transcript(request: StructureRequest, decoded_token: dict = Depends(get_current_user)):
     """
     Transforms a raw speech transcript into a structured PAR (Problem-Action-Result) story.
     """
@@ -54,16 +55,20 @@ async def structure_transcript(request: StructureRequest):
         # In production, log the full error
         print(f"Error in /ai/structure: {str(e)}")
         raise HTTPException(
-            status_code=500, 
-            detail=f"Failed to process transcript: {str(e)}"
+            status_code=500,
+            detail="Failed to process transcript. Please try again."
         )
 
 @router.post("/transcribe", response_model=TranscribeResponse)
-async def transcribe_audio(request: TranscribeRequest):
+async def transcribe_audio(request: TranscribeRequest, decoded_token: dict = Depends(get_current_user)):
     """
     Transcribes audio from Firebase Storage URL using Whisper.
     Saves transcript to Firebase Storage and returns text + URL.
     """
+    # Validate user_id matches authenticated user
+    if request.user_id != decoded_token["uid"]:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized")
+
     temp_audio_path = None
     try:
         # 1. Download audio from Firebase Storage to temp file
@@ -90,7 +95,7 @@ async def transcribe_audio(request: TranscribeRequest):
         print(f"Error in /ai/transcribe: {str(e)}")
         raise HTTPException(
             status_code=500,
-            detail=f"Failed to transcribe audio: {str(e)}"
+            detail="Failed to transcribe audio. Please try again."
         )
     finally:
         # Cleanup temp file
@@ -102,10 +107,10 @@ async def transcribe_audio(request: TranscribeRequest):
 
 
 @router.post("/tag", response_model=TagResponseModel)
-async def tag_story(request: TagRequest):
+async def tag_story(request: TagRequest, decoded_token: dict = Depends(get_current_user)):
     """
     Auto-assign 1-3 behavioral competency tags to a PAR story.
-    
+
     Analyzes the Problem-Action-Result narrative and identifies
     the most relevant competency tags with confidence scores and reasoning.
     """
@@ -131,21 +136,25 @@ async def tag_story(request: TagRequest):
         print(f"Error in /ai/tag: {str(e)}")
         raise HTTPException(
             status_code=500,
-            detail=f"Tagging failed: {str(e)}"
+            detail="Tagging failed. Please try again."
         )
 
 @router.post("/coach", response_model=CoachResponse)
-async def coach_story(request: CoachRequest):
+async def coach_story(request: CoachRequest, decoded_token: dict = Depends(get_current_user)):
     """
     Generate coaching insights for a PAR story.
-    
+
     Provides:
     - Strength: What the user did well
     - Gap: What's missing or could be stronger
     - Suggestion: Actionable improvement tip
-    
+
     Personalized with first name and optional career context.
     """
+    # Validate user_id matches authenticated user
+    if request.user_id != decoded_token["uid"]:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized")
+
     # Prepare optional inputs
     tags_str = ", ".join(request.tags) if request.tags else "None provided"
     # UserProfileContext is converted to dict for the prompt
@@ -193,25 +202,29 @@ async def coach_story(request: CoachRequest):
             print(f"Coaching fallback failed: {str(e)}")
             raise HTTPException(
                 status_code=500,
-                detail=f"Coaching failed: {str(e)}"
+                detail="Coaching failed. Please try again."
             )
-        
+
     except Exception as e:
         print(f"Error in /ai/coach: {str(e)}")
         raise HTTPException(
             status_code=500,
-            detail=f"Coaching failed: {str(e)}"
+            detail="Coaching failed. Please try again."
         )
 
 @router.post("/process", response_model=ProcessResponse)
-async def process_story(request: ProcessRequest):
+async def process_story(request: ProcessRequest, decoded_token: dict = Depends(get_current_user)):
     """
     All-in-one: transcribe → structure → tag → coach.
     Returns complete story payload ready for frontend display/save.
     """
+    # Validate user_id matches authenticated user
+    if request.user_id != decoded_token["uid"]:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized")
+
     warnings = []
     temp_audio_path = None
-    
+
     # 1. Input validation
     if not request.audio_url and not request.raw_transcript:
         raise HTTPException(status_code=400, detail="Either audio_url or raw_transcript must be provided")
@@ -233,7 +246,7 @@ async def process_story(request: ProcessRequest):
                 )
             except Exception as e:
                 print(f"Transcription failed in /ai/process: {str(e)}")
-                raise HTTPException(status_code=500, detail=f"Transcription failed: {str(e)}")
+                raise HTTPException(status_code=500, detail="Transcription failed. Please try again.")
 
         # 2.5 Validation: Ensure transcript is not empty
         if not transcript_text or not transcript_text.strip():
@@ -250,7 +263,7 @@ async def process_story(request: ProcessRequest):
             pass
         except Exception as e:
             print(f"Structuring failed in /ai/process: {str(e)}")
-            raise HTTPException(status_code=500, detail=f"Structuring failed: {str(e)}")
+            raise HTTPException(status_code=500, detail="Structuring failed. Please try again.")
 
         # 4. Tagging (Graceful Failure)
         tags = []
