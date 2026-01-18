@@ -19,8 +19,8 @@ async def upload_context_file(
     file: UploadFile = File(...)
 ):
     """
-    Upload a context file (PDF, DOCX, TXT), parse it, chunk it, 
-    summarize it into memory entries, and store in ChromaDB.
+    Upload a context file (PDF, DOCX, TXT), parse it, 
+    create ONE comprehensive memory entry, and store in ChromaDB.
     """
     content = await file.read()
     text = FileParser.extract_text(content, file.filename)
@@ -28,18 +28,12 @@ async def upload_context_file(
     if not text:
         raise HTTPException(status_code=400, detail=f"Unsupported or unreadable file type: {file.filename}")
 
-    # Chunk the text
-    chunks = chunker.chunk_text(text)
-    
-    # Process chunks in background (summarize and store)
-    # Note: For long files, this might take a while. In production, use a task queue.
-    # For now, we'll run it and return when done or run as background task.
-    # We'll run it as a task to not block the response if there are many chunks.
-    asyncio.create_task(summarizer.process_chunks(chunks, user_id, source_type, file.filename))
+    # Process the entire document as one unit (no chunking)
+    # Run as background task to not block the response
+    asyncio.create_task(summarizer.process_document(text, user_id, source_type, file.filename))
     
     return {
         "message": f"Successfully started processing {file.filename}",
-        "chunks_count": len(chunks),
         "status": "processing"
     }
 

@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import '../../models/memory_model.dart';
 import '../../core/shadows.dart';
 
-class MemoryEntryCard extends StatelessWidget {
+class MemoryEntryCard extends StatefulWidget {
   final MemoryEntry entry;
   final VoidCallback onDelete;
 
@@ -12,6 +12,13 @@ class MemoryEntryCard extends StatelessWidget {
     required this.entry,
     required this.onDelete,
   });
+
+  @override
+  State<MemoryEntryCard> createState() => _MemoryEntryCardState();
+}
+
+class _MemoryEntryCardState extends State<MemoryEntryCard> {
+  bool _isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -34,14 +41,14 @@ class MemoryEntryCard extends StatelessWidget {
                 Expanded(
                   child: Row(
                     children: [
-                      _getIconForSource(entry.sourceType),
+                      _getIconForSource(widget.entry.sourceType),
                       const SizedBox(width: 12),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              entry.sourceFilename,
+                              widget.entry.sourceFilename,
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
@@ -49,7 +56,7 @@ class MemoryEntryCard extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                             ),
                             Text(
-                              '${_capitalize(entry.sourceType)} • ${DateFormat('MMM dd, yyyy').format(entry.createdAt)}',
+                              '${_capitalize(widget.entry.sourceType)} • ${DateFormat('MMM dd, yyyy').format(widget.entry.createdAt)}',
                               style: TextStyle(
                                 color: Colors.grey[600],
                                 fontSize: 13,
@@ -63,39 +70,63 @@ class MemoryEntryCard extends StatelessWidget {
                 ),
                 IconButton(
                   icon: const Icon(Icons.delete_outline, color: Colors.redAccent),
-                  onPressed: onDelete,
+                  onPressed: widget.onDelete,
                   tooltip: 'Delete Memory',
                 ),
               ],
             ),
             const SizedBox(height: 16),
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.grey[50],
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Text(
-                entry.content,
-                style: TextStyle(
-                  color: Colors.grey[800],
-                  fontSize: 14,
-                  height: 1.5,
-                  fontStyle: FontStyle.italic,
+            InkWell(
+              onTap: () {
+                setState(() {
+                  _isExpanded = !_isExpanded;
+                });
+              },
+              borderRadius: BorderRadius.circular(12),
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.grey[50],
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                maxLines: 4,
-                overflow: TextOverflow.ellipsis,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.entry.content,
+                      style: TextStyle(
+                        color: Colors.grey[800],
+                        fontSize: 14,
+                        height: 1.5,
+                        fontStyle: FontStyle.italic,
+                      ),
+                      maxLines: _isExpanded ? null : 4,
+                      overflow: _isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          _isExpanded ? 'Show less' : 'Show more',
+                          style: TextStyle(
+                            color: Colors.grey[500],
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        Icon(
+                          _isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                          size: 16,
+                          color: Colors.grey[500],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-            // Category badges are hidden in UI as per user request to reduce distraction,
-            // but the data remains in the model for AI agent context.
-            /*
-            if (entry.category.isNotEmpty) ...[
-              const SizedBox(height: 12),
-              _buildCategoryBadge(context, entry.category),
-            ],
-            */
           ],
         ),
       ),
@@ -104,20 +135,23 @@ class MemoryEntryCard extends StatelessWidget {
 
   Widget _getIconForSource(String type) {
     IconData iconData;
-    Color color;
+    const color = Color(0xFF65A30D); // Lime 500 - Homogenized color
 
     switch (type.toLowerCase()) {
       case 'resume':
         iconData = Icons.description_outlined;
-        color = const Color(0xFF65A30D); // Lime 500
         break;
       case 'linkedin':
         iconData = Icons.link_outlined;
-        color = const Color(0xFFF59E0B); // Amber 500
+        break;
+      case 'article':
+        iconData = Icons.article_outlined;
+        break;
+      case 'transcript':
+        iconData = Icons.record_voice_over_outlined;
         break;
       default:
         iconData = Icons.history_edu_outlined;
-        color = const Color(0xFF4B5563); // Gray 600
     }
 
     return Container(
@@ -131,22 +165,4 @@ class MemoryEntryCard extends StatelessWidget {
   }
 
   String _capitalize(String s) => s.isEmpty ? '' : '${s[0].toUpperCase()}${s.substring(1)}';
-
-  Widget _buildCategoryBadge(BuildContext context, String category) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primaryContainer,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Text(
-        _capitalize(category),
-        style: TextStyle(
-          color: Theme.of(context).colorScheme.onPrimaryContainer,
-          fontSize: 11,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    );
-  }
 }
