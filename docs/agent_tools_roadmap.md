@@ -193,12 +193,13 @@ from 3.2 to 4.5.' This aligns with Amazon's leadership principles."
 - Cache results per company/role combination (TTL: 30 days) to reduce API costs
 - Parse and summarize key themes from search results
 
-**Profile Schema Updates Required**:
+**Profile Schema Updates Required** ✅ (Complete):
 ```python
-# Add to ProfileUpdateRequest and ProfileResponse models
+# Added to ProfileUpdateRequest and ProfileResponse models
 current_company: Optional[str] = None
-target_companies: Optional[List[str]] = None  # Multiple targets allowed
-company_size: Optional[str] = None  # "startup" | "mid-size" | "enterprise"
+target_companies: Optional[List[str]] = None
+current_company_size: Optional[CompanySize] = None
+target_company_size: Optional[CompanySize] = None
 ```
 
 ---
@@ -712,8 +713,9 @@ look for."
 ### Phase 2: Story Quality Tools (High Priority)
 7. 🎯 `detect_weak_storytelling_patterns` - **Critical for MVP**, catches common interview failures
 8. 🎯 `analyze_story_structure_quality` - **Critical for MVP**, ensures PAR balance
+9. 🎯 `validate_career_stage_alignment` - **Critical for MVP**, prevents overclaiming/underselling
 
-**Why Phase 2 is high priority**: Tools 1-2 help with portfolio strategy, but 7-8 help users tell stories well. These address the #1 reason good experiences become bad interviews - poor articulation. No schema changes needed, works with existing data.
+**Why Phase 2 is high priority**: Tools 1-2 help with portfolio strategy, but 7-9 help users tell stories well. These address the #1 reason good experiences become bad interviews - poor articulation and scope mismatches. No schema changes needed, works with existing data (uses existing `career_stage` field).
 
 ### Phase 3: High-Value Search Tools
 3. ✅ `get_company_interview_insights` - **Killer feature**, major differentiator
