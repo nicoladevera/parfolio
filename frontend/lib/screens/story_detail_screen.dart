@@ -208,7 +208,7 @@ class StoryDetailScreen extends StatelessWidget {
             title.toUpperCase(),
             style: Theme.of(context).textTheme.labelMedium?.copyWith(
               fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
+              color: Theme.of(context).colorScheme.primary,
               letterSpacing: 1.5,
             ),
           ),

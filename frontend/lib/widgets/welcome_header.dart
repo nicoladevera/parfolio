@@ -39,7 +39,8 @@ class WelcomeHeader extends StatelessWidget {
     if (storyCount == 0) {
       return 'Ready to capture your first career story?';
     }
-    return 'You have $storyCount stories ready for your interviews.';
+    final storyText = storyCount == 1 ? 'story' : 'stories';
+    return 'You have $storyCount $storyText ready for your interviews.';
   }
 
   @override

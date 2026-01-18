@@ -357,9 +357,9 @@ TextTheme get parfolioTextTheme {
       letterSpacing: 0,
       color: const Color(0xFF111827),
     ),
-    titleMedium: GoogleFonts.inter(
+    titleMedium: GoogleFonts.libreBaskerville(
       fontSize: 20,
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.w700,
       height: 1.5,
       letterSpacing: 0,
       color: const Color(0xFF111827),
@@ -412,10 +412,10 @@ TextTheme get parfolioTextTheme {
     ),
     labelSmall: GoogleFonts.inter(
       fontSize: 12,
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.w700,
       height: 1.4,
-      letterSpacing: 0.2,
-      color: const Color(0xFF4B5563),
+      letterSpacing: 1.5,
+      color: const Color(0xFF65A30D),
     ),
   );
 }
@@ -782,41 +782,37 @@ Card(
 
 **Specific Layout for Story Lists**:
 
+- **Background**: White (default), Gray 50 on hover
+- **Border**: 1px solid Gray 200
+- **Border Radius**: 16px
+- **Shadow**: `Shadows.md`
+- **Interaction**: Animated lift and background change on hover.
+
+**Visual Construction**:
+- **Header**: Contains Title (Libre Baskerville Bold), Date, and Menu icon aligned vertically centered.
+- **Labels**: "PROBLEM", "ACTION", "RESULT" use `labelSmall` with primary color (Lime 500).
+- **Content**: Full text display for Problem, Action, and Result (no truncation).
+
 ```dart
-Card(
-  elevation: 0,
-  shape: RoundedRectangleBorder(
+Container(
+  decoration: BoxDecoration(
+    color: _isHovered ? const Color(0xFFF9FAFB) : Colors.white,
     borderRadius: BorderRadius.circular(16),
-    side: BorderSide(color: Theme.of(context).colorScheme.outline),
+    boxShadow: Shadows.md,
+    border: Border.all(color: colorScheme.outlineVariant),
   ),
   child: InkWell(
     onTap: onTap,
+    onHover: (hovering) => setState(() => _isHovered = hovering),
     borderRadius: BorderRadius.circular(16),
     child: Padding(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(Spacing.lg),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Title
-          Text(
-            title,
-            style: Theme.of(context).textTheme.titleMedium,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-          const SizedBox(height: 8),
-          // Tags
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: tags.map((tag) => TagChip(tag: tag)).toList(),
-          ),
-          const SizedBox(height: 12),
-          // Date
-          Text(
-            formattedDate,
-            style: Theme.of(context).textTheme.bodySmall,
-          ),
+          // Header (Title, Date, Menu)
+          // Divider
+          // P/A/R Sections (Full content)
         ],
       ),
     ),
@@ -1874,11 +1870,7 @@ For the authentication and utility flows, we use specific motifs to tell the "ch
 *   **Usage**: Top-left and bottom-right corners (behind cards).
 *   **Implementation**: `PolkaDotRectangle` widget.
 
-#### 4. Wavy Line (Energy)
-*   **Visual**: A smooth, continuous undulating line.
-*   **Meaning**: Represents the flow of conversation and the dynamic nature of storytelling.
-*   **Usage**: Near Polka Dot grids to add movement.
-*   **Implementation**: `WavyLineDecoration` widget.
+
 
 ---
 
