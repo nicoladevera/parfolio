@@ -23,7 +23,8 @@ def get_structure_chain():
     llm = ChatGoogleGenerativeAI(
         model="gemini-2.0-flash",
         google_api_key=api_key,
-        temperature=0.7 # Slight creativity for titles/phrasing, but grounded
+        temperature=0.7, # Slight creativity for titles/phrasing, but grounded
+        verbose=True
     )
 
     # Bind the structured output schema
@@ -45,7 +46,8 @@ def get_tagging_chain():
     llm = ChatGoogleGenerativeAI(
         model="gemini-2.0-flash",
         google_api_key=api_key,
-        temperature=0.3  # Lower temperature for classification (more deterministic)
+        temperature=0.3, # Lower temperature for classification (more deterministic)
+        verbose=True
     )
 
     # Bind structured output schema
@@ -67,7 +69,8 @@ def get_coaching_chain():
     llm = ChatGoogleGenerativeAI(
         model="gemini-2.0-flash",
         google_api_key=api_key,
-        temperature=0.7
+        temperature=0.7,
+        verbose=True
     )
 
     # Bind structured output schema
@@ -89,7 +92,8 @@ def get_memory_summarization_chain():
     llm = ChatGoogleGenerativeAI(
         model="gemini-2.0-flash",
         google_api_key=api_key,
-        temperature=0.0  # Cold for factual extraction
+        temperature=0.0, # Cold for factual extraction
+        verbose=True
     )
 
     # Bind structured output schema
@@ -111,7 +115,8 @@ def get_coaching_agent(user_id: str):
     llm = ChatGoogleGenerativeAI(
         model="gemini-2.0-flash",
         google_api_key=api_key,
-        temperature=0.7
+        temperature=0.7,
+        verbose=True
     )
 
     # Create a wrapper tool with user_id pre-filled so the agent only passes the query
