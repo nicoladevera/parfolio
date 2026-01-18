@@ -8,10 +8,10 @@ class MemoryEntryCard extends StatelessWidget {
   final VoidCallback onDelete;
 
   const MemoryEntryCard({
-    Key? key,
+    super.key,
     required this.entry,
     required this.onDelete,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -88,10 +88,14 @@ class MemoryEntryCard extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
             ),
+            // Category badges are hidden in UI as per user request to reduce distraction,
+            // but the data remains in the model for AI agent context.
+            /*
             if (entry.category.isNotEmpty) ...[
               const SizedBox(height: 12),
               _buildCategoryBadge(context, entry.category),
             ],
+            */
           ],
         ),
       ),
@@ -105,15 +109,15 @@ class MemoryEntryCard extends StatelessWidget {
     switch (type.toLowerCase()) {
       case 'resume':
         iconData = Icons.description_outlined;
-        color = Colors.blue;
+        color = const Color(0xFF65A30D); // Lime 500
         break;
       case 'linkedin':
         iconData = Icons.link_outlined;
-        color = const Color(0xFF0077B5);
+        color = const Color(0xFFF59E0B); // Amber 500
         break;
       default:
         iconData = Icons.history_edu_outlined;
-        color = Colors.grey;
+        color = const Color(0xFF4B5563); // Gray 600
     }
 
     return Container(

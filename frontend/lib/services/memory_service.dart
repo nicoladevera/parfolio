@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:io';
+
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,7 +16,8 @@ class MemoryService {
   /// Upload a document to the memory bank
   /// Returns a map with the processing status or throws an error
   Future<Map<String, dynamic>> uploadDocument({
-    required File file,
+    required List<int> bytes,
+    required String filename,
     String sourceType = 'resume',
   }) async {
     final token = await _getIdToken();
@@ -27,7 +28,11 @@ class MemoryService {
       ..headers['Authorization'] = 'Bearer $token'
       ..fields['user_id'] = _firebaseAuth.currentUser!.uid
       ..fields['source_type'] = sourceType
-      ..files.add(await http.MultipartFile.fromPath('file', file.path));
+      ..files.add(http.MultipartFile.fromBytes(
+        'file',
+        bytes,
+        filename: filename,
+      ));
 
     final streamedResponse = await request.send();
     final response = await http.Response.fromStream(streamedResponse);
