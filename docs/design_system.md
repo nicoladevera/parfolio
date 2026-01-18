@@ -130,6 +130,8 @@ Semantic colors communicate status and provide consistent feedback.
 | **Error Background** | Red 50 | `#fef2f2` | Error card backgrounds |
 | **Info** | Blue 500 | `#3b82f6` | Informational messages |
 | **Info Background** | Blue 50 | `#eff6ff` | Info card backgrounds |
+| **Insight: Suggestion** | Teal | `#00CEC9` | Actionable coaching suggestions |
+| **Teal Background** | Teal 50 | `#E0F7F6` | Suggestion card backgrounds |
 
 ### Tag Colors
 
@@ -234,6 +236,8 @@ extension ParfolioColors on ColorScheme {
   Color get warningBg => const Color(0xFFFFF7ED);
   Color get info => const Color(0xFF3B82F6);
   Color get infoBg => const Color(0xFFEFF6FF);
+  Color get teal => const Color(0xFF00CEC9);
+  Color get tealBg => const Color(0xFFE0F7F6);
 
   // Tag Colors
   Map<String, Color> get tagColors => {
@@ -817,8 +821,35 @@ Card(
       ),
     ),
   ),
-)
+);
 ```
+
+### Navigation & Headers
+
+#### Standardized App Bar
+
+**Use**: All top-level screens (Profile, Story Detail, Story Review) to provide consistent navigation and branding.
+
+**Specifications**:
+- **Background**: Solid White (`#FFFFFF`)
+- **Bottom Border**: 1px Gray 200 (`#E5E7EB`)
+- **Shadow**: `Shadows.md` (Subtle 8px blur, 5% opacity)
+- **Title**: Inter Semi-Bold (600), Gray 900
+- **Interaction**: `scrolledUnderElevation: 0` to prevent color shifts during scroll.
+
+---
+
+### Forms & Editors
+
+#### Editor-First P/A/R Cards
+
+**Philosophy**: Our "Editor-First" approach means reducing friction between reading and editing. In review/edit modes, content should be directly interactive without needing to toggle an "edit" state.
+
+**Specifications**:
+- **Container**: White card with 16px radius and Gray 200 border.
+- **Header**: Uppercase Label Small (12px), primary color (Lime 500).
+- **Interaction**: `TextFormField` with `InputBorder.none` to blend seamlessly with the card.
+- **Icons**: No "pencil" or "edit" icons are used; the text field itself provides the affordance.
 
 
 #### Profile Card Pattern

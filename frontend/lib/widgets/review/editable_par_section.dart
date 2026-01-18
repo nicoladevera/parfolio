@@ -22,7 +22,6 @@ class EditablePARSection extends StatefulWidget {
 
 class _EditablePARSectionState extends State<EditablePARSection> {
   late TextEditingController _controller;
-  bool _isEditing = false;
 
   @override
   void initState() {
@@ -33,7 +32,7 @@ class _EditablePARSectionState extends State<EditablePARSection> {
   @override
   void didUpdateWidget(EditablePARSection oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.content != widget.content && !_isEditing) {
+    if (oldWidget.content != widget.content) {
       _controller.text = widget.content;
     }
   }
@@ -42,13 +41,6 @@ class _EditablePARSectionState extends State<EditablePARSection> {
   void dispose() {
     _controller.dispose();
     super.dispose();
-  }
-
-  void _toggleEdit() {
-    if (!widget.editable) return;
-    setState(() {
-      _isEditing = !_isEditing;
-    });
   }
 
   @override
@@ -68,51 +60,36 @@ class _EditablePARSectionState extends State<EditablePARSection> {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(Spacing.lg, Spacing.md, Spacing.md, 0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  widget.label.toUpperCase(),
-                  style: theme.textTheme.labelSmall?.copyWith(
-                    color: colorScheme.primary,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.2,
-                  ),
-                ),
-                if (widget.editable)
-                  IconButton(
-                    icon: Icon(
-                      _isEditing ? Icons.check_circle_outline : Icons.edit_outlined,
-                      size: 20,
-                      color: _isEditing ? colorScheme.primary : colorScheme.gray400,
-                    ),
-                    onPressed: _toggleEdit,
-                    constraints: const BoxConstraints(),
-                    padding: EdgeInsets.zero,
-                  ),
-              ],
+            child: Text(
+              widget.label.toUpperCase(),
+              style: theme.textTheme.labelSmall?.copyWith(
+                color: colorScheme.primary,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1.2,
+              ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(Spacing.lg, 0, Spacing.lg, Spacing.lg),
-            child: _isEditing
-                ? TextFormField(
-                    controller: _controller,
-                    maxLines: null,
-                    autofocus: true,
-                    style: theme.textTheme.bodyMedium,
-                    decoration: const InputDecoration(
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.zero,
-                    ),
-                    onChanged: widget.onChanged,
-                  )
-                : Text(
-                    _controller.text.isEmpty ? 'Tap to add ${widget.label.toLowerCase()}...' : _controller.text,
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: _controller.text.isEmpty ? colorScheme.gray400 : colorScheme.gray700,
-                    ),
-                  ),
+            padding: const EdgeInsets.fromLTRB(Spacing.lg, Spacing.xs, Spacing.lg, Spacing.lg),
+            child: TextFormField(
+              controller: _controller,
+              maxLines: null,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: colorScheme.gray700,
+              ),
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                contentPadding: EdgeInsets.zero,
+                hintText: 'Add ${widget.label.toLowerCase()}...',
+                hintStyle: theme.textTheme.bodyMedium?.copyWith(
+                  color: colorScheme.gray400,
+                ),
+              ),
+              onChanged: widget.onChanged,
+              readOnly: !widget.editable,
+            ),
           ),
         ],
       ),
