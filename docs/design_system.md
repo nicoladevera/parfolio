@@ -835,7 +835,7 @@ Container(
 
 **Visual Construction**:
 - **Source Icons**: Dedicated icons for `resume` (description), `linkedin` (link), `article` (article), and `transcript` (record_voice_over). All use Lime 500.
-- **Content Preview**: Truncated to 4 lines by default in a Gray 50 container.
+- **Content Preview**: Truncated to 4 lines by default in a Gray 50 container using **Normal** font style (no italics) for maximum readability.
 - **Toggle Label**: "Show more" / "Show less" using Gray 500 (`#9CA3AF`) and Medium font weight (500) to remain subtle and non-distracting.
 - **Animation**: Smooth expansion of the content container.
 
