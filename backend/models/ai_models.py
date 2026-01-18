@@ -40,6 +40,10 @@ class UserProfileContext(BaseModel):
     current_role: Optional[str] = None
     target_role: Optional[str] = None
     career_stage: Optional[str] = None  # "early_career", "mid_career", "senior_leadership"
+    current_company: Optional[str] = None
+    target_companies: Optional[List[str]] = None
+    current_company_size: Optional[str] = None  # "startup", "small", "medium", "enterprise"
+    target_company_size: Optional[str] = None  # "startup", "small", "medium", "enterprise"
 
 class CoachRequest(BaseModel):
     """Request model for /ai/coach endpoint"""
