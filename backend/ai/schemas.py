@@ -73,6 +73,7 @@ class CoachingResult(BaseModel):
     suggestion: CoachingInsightSchema = Field(..., description="Actionable advice on how to make the story more impactful.")
 
 class MemoryEntryStructure(BaseModel):
-    summary: str = Field(..., description="A concise, 1-2 sentence factual summary of the experience or skill.")
+    summary: str = Field(..., description="A comprehensive, multi-paragraph summary capturing all key information from the entire document. Include specific details, metrics, technologies, projects, and accomplishments.")
     category: str = Field(..., description="Category: 'experience', 'skill', 'education', 'achievement', or 'other'.")
-    context: str = Field(..., description="Relevant keywords or context for better retrieval indexing.")
+    detected_source_type: str = Field(..., description="Detected type of document: 'resume', 'linkedin', 'article', 'transcript', or 'other'.")
+    context: str = Field(..., description="Comprehensive keywords or context for better retrieval indexing (comma-separated).")
