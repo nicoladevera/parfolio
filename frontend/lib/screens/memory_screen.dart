@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import '../services/memory_service.dart';
 import '../models/memory_model.dart';
-import '../widgets/memory/upload_cta.dart';
+import '../widgets/memory/upload_cta.dart'; // Import to access MemoryFile
 import '../widgets/memory/memory_entry_card.dart';
 import '../widgets/empty_state_widget.dart';
 
@@ -39,26 +39,34 @@ class _MemoryScreenState extends State<MemoryScreen> {
     }
   }
 
-  Future<void> _onFileSelected(File file) async {
+  Future<void> _onFilesSelected(List<MemoryFile> files) async {
     setState(() => _isProcessing = true);
     
     try {
-      // 1. Start upload
-      final result = await _memoryService.uploadDocument(file: file);
-      _showSuccess('Upload started successfully.');
-
-      // 2. Poll for the new entry to appear
-      final previousCount = _memories.length;
-      final newEntry = await _memoryService.pollForNewEntry(previousCount);
-
-      if (newEntry != null) {
-        _showSuccess('Document processed and added to your Memory Bank!');
-        await _loadMemories(); // Refresh the list
-      } else {
-        _showWarning('Document is still being processed. It will appear shortly.');
+      int successCount = 0;
+      for (var file in files) {
+        try {
+          // 1. Start upload using bytes
+          await _memoryService.uploadDocument(
+            bytes: file.bytes,
+            filename: file.name,
+          );
+          successCount++;
+        } catch (e) {
+          _showError('Upload failed for ${file.name}: $e');
+        }
       }
-    } catch (e) {
-      _showError('Upload failed: $e');
+
+      if (successCount > 0) {
+        _showSuccess('Successfully started upload for $successCount document(s).');
+        
+        // 2. Poll for the latest count to see if entries appeared
+        final previousCount = _memories.length;
+        // This polling logic might need adjustment for multiple files, 
+        // but for now, we refresh the list after a short delay or when poll returns.
+        await _memoryService.pollForNewEntry(previousCount);
+        await _loadMemories(); // Refresh the list
+      }
     } finally {
       setState(() => _isProcessing = false);
     }
@@ -119,16 +127,42 @@ class _MemoryScreenState extends State<MemoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: const Text(
-          'Memory Bank',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight + 1),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border(
+              bottom: BorderSide(
+                color: Theme.of(context).colorScheme.outlineVariant.withOpacity(0.5),
+                width: 1,
+              ),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: AppBar(
+            backgroundColor: Colors.white,
+            elevation: 0,
+            scrolledUnderElevation: 0,
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back, color: Colors.black),
+              onPressed: () => Navigator.pop(context),
+            ),
+            title: const Text(
+              'Memory Bank',
+              style: TextStyle(
+                color: Colors.black, 
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+          ),
         ),
       ),
       body: SafeArea(
@@ -155,7 +189,7 @@ class _MemoryScreenState extends State<MemoryScreen> {
               UploadCTA(
                 isProcessing: _isProcessing,
                 currentCount: _memories.length,
-                onFileSelected: _onFileSelected,
+                onFilesSelected: _onFilesSelected,
               ),
               const SizedBox(height: 48),
               Row(
