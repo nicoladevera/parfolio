@@ -279,7 +279,11 @@ async def process_story(request: ProcessRequest):
                 context_dict = {
                     "current_role": profile_data.get("current_role"),
                     "target_role": profile_data.get("target_role"),
-                    "career_stage": profile_data.get("career_stage")
+                    "career_stage": profile_data.get("career_stage"),
+                    "current_company": profile_data.get("current_company"),
+                    "target_companies": profile_data.get("target_companies"),
+                    "current_company_size": profile_data.get("current_company_size"),
+                    "target_company_size": profile_data.get("target_company_size")
                 }
                 # Filter out None values
                 context_dict = {k: v for k, v in context_dict.items() if v is not None}

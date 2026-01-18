@@ -18,6 +18,7 @@ class ProfileCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      constraints: isMobile ? null : BoxConstraints(minHeight: 212),
       decoration: BoxDecoration(
         // Mobile: Transparent/No background
         // Desktop: Lime 50 background
