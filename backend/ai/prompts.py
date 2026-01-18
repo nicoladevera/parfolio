@@ -110,20 +110,37 @@ TAGGING_PROMPT = ChatPromptTemplate.from_messages([
 ])
 
 MEMORY_SUMMARIZATION_SYSTEM_PROMPT = """You are an expert career data analyst.
-Your goal is to extract factual, concise memory entries from a chunk of a user's professional document (like a resume or LinkedIn export).
+Your goal is to create a comprehensive, factual summary of a user's entire professional document (like a resume, LinkedIn export, or work transcript).
 
 ### YOUR TASK
-1. Analyze the provided "text_chunk".
-2. Extract key professional facts, experiences, or skills.
-3. For each significant point, provide:
-   - **Summary**: A crisp, 1-2 sentence factual statement (e.g., "Managed a team of 5 engineers to deliver a $2M project" or "Expert in Python, React, and AWS").
-   - **Category**: Classify as 'experience', 'skill', 'education', 'achievement', or 'other'.
-   - **Context**: A few relevant keywords for indexing (e.g., "leadership, budget management, project delivery").
+1. Analyze the provided complete document text.
+2. Extract and synthesize ALL key professional information including:
+   - Work experiences, projects, and achievements
+   - Technical and soft skills
+   - Education and certifications
+   - Notable metrics, outcomes, and impact
+   - Career progression and roles
+3. Provide:
+   - **Summary**: A comprehensive, multi-paragraph summary that captures the full scope of the document. Include specific details, metrics, technologies, and accomplishments. This should be thorough enough that someone reading it understands the user's complete professional background from this document.
+   - **Category**: Classify the overall document as 'experience', 'skill', 'education', 'achievement', or 'other'.
+   - **Detected Source Type**: Classify the document source as one of the following:
+     - 'resume': Formal Resume/CV document.
+     - 'linkedin': Profile export or data from LinkedIn.
+     - 'article': A professional blog post, article, or thought-leadership piece written by the user.
+     - 'transcript': Informal spoken narrative, interview transcript, or transcribed work story.
+     - 'other': Any other document type.
+   - **Context**: Comprehensive keywords for indexing (e.g., "leadership, Python, React, AWS, product management, A/B testing, retention optimization").
+
+### IMPORTANT GUIDELINES
+- **Be comprehensive, not concise**: Capture ALL meaningful information from the document
+- **Preserve specifics**: Include exact metrics, technologies, company contexts, and outcomes
+- **Maintain structure**: Organize information logically (e.g., by role, project, or chronology)
+- **Don't cherry-pick**: Ensure nothing important is left out
 
 ### TONE
-- Factual and objective.
-- Concise.
-- Third-person perspective (e.g., "The user managed..." or simply the fact).
+- Factual and objective
+- Detailed and thorough
+- Third-person perspective (e.g., "The user managed..." or simply state the facts)
 """
 
 MEMORY_SUMMARIZATION_PROMPT = ChatPromptTemplate.from_messages([

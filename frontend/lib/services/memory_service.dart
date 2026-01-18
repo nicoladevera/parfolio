@@ -18,7 +18,7 @@ class MemoryService {
   Future<Map<String, dynamic>> uploadDocument({
     required List<int> bytes,
     required String filename,
-    String sourceType = 'resume',
+    String sourceType = 'other',
   }) async {
     final token = await _getIdToken();
     if (token == null) throw Exception('User not authenticated');
