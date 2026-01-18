@@ -139,16 +139,16 @@ Each skill category has a dedicated color for instant visual recognition.
 
 | Map Key | Display Color | Hex Code |
 |---------|---------------|----------|
-| **Leadership** | Purple | `#8b5cf6` |
-| **Ownership** | Lime Green | `#65a30d` (Primary) |
-| **Impact** | Amber | `#f59e0b` |
+| **Leadership** | Purple | `#8B5CF6` |
+| **Ownership** | Lime Green | `#65A30D` (Primary) |
+| **Impact** | Amber | `#F59E0B` |
 | **Communication** | Teal | `#00CEC9` |
-| **Conflict** | Lime Green | `#65a30d` (Primary) |
-| **Strategic Thinking** | Light Purple | `#a78bfa` |
-| **Execution** | Lime Green | `#65a30d` (Primary) |
-| **Adaptability** | Light Green | `#34d399` |
-| **Failure** | Lime Green | `#65a30d` (Primary) |
-| **Innovation** | Light Red | `#f87171` |
+| **Conflict** | Orange | `#F97316` |
+| **Strategic Thinking** | Indigo | `#6366F1` |
+| **Execution** | Sky Blue | `#0EA5E9` |
+| **Adaptability** | Emerald | `#10B981` |
+| **Failure** | Slate | `#64748B` |
+| **Innovation** | Fuchsia | `#D946EF` |
 
 ### Flutter Implementation
 
@@ -242,13 +242,15 @@ extension ParfolioColors on ColorScheme {
   // Tag Colors
   Map<String, Color> get tagColors => {
     'Leadership': const Color(0xFF8B5CF6),
-    'Communication': const Color(0xFF00CEC9),
+    'Ownership': const Color(0xFF65A30D),
     'Impact': const Color(0xFFF59E0B),
-    'Problem-Solving': const Color(0xFFE17055),
-    'Collaboration': const Color(0xFF60A5FA),
-    'Strategic Thinking': const Color(0xFFA78BFA),
-    'Innovation': const Color(0xFFF87171),
-    'Adaptability': const Color(0xFF34D399),
+    'Communication': const Color(0xFF00CEC9),
+    'Conflict': const Color(0xFFF97316),
+    'Strategic Thinking': const Color(0xFF6366F1),
+    'Execution': const Color(0xFF0EA5E9),
+    'Adaptability': const Color(0xFF10B981),
+    'Failure': const Color(0xFF64748B),
+    'Innovation': const Color(0xFFD946EF),
   };
 }
 ```
