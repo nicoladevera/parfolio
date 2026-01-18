@@ -34,7 +34,7 @@ class StoryModel {
       id: json['story_id'] ?? '',
       userId: json['user_id'] ?? '',
       title: json['title'] ?? 'Untitled Story',
-      rawTranscript: json['rawTranscript'] ?? '',
+      rawTranscript: json['raw_transcript'] ?? '',
       problem: json['problem'] ?? '',
       action: json['action'] ?? '',
       result: json['result'] ?? '',
