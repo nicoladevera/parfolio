@@ -41,6 +41,10 @@ class ProfileService {
     CareerStage? careerStage,
     List<TransitionType>? transitionTypes,
     String? profilePhotoUrl,
+    String? currentCompany,
+    List<String>? targetCompanies,
+    CompanySize? currentCompanySize,
+    CompanySize? targetCompanySize,
   }) async {
     try {
       final user = _firebaseAuth.currentUser;
@@ -58,6 +62,12 @@ class ProfileService {
         body['transition_types'] = transitionTypes.map((t) => t.toString().split('.').last).toList();
       }
       if (profilePhotoUrl != null) body['profile_photo_url'] = profilePhotoUrl;
+      if (currentCompany != null) body['current_company'] = currentCompany;
+      if (targetCompanies != null && targetCompanies.isNotEmpty) {
+        body['target_companies'] = targetCompanies;
+      }
+      if (currentCompanySize != null) body['current_company_size'] = currentCompanySize.toString().split('.').last;
+      if (targetCompanySize != null) body['target_company_size'] = targetCompanySize.toString().split('.').last;
 
       final response = await http.put(
         Uri.parse('$baseUrl/profile'),

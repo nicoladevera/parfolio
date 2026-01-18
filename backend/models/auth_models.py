@@ -25,6 +25,10 @@ class UserResponse(BaseModel):
     career_stage: Optional[str] = None
     transition_types: Optional[List[str]] = None
     profile_photo_url: Optional[str] = None
+    current_company: Optional[str] = None
+    target_companies: Optional[List[str]] = None
+    current_company_size: Optional[str] = None
+    target_company_size: Optional[str] = None
 
     created_at: datetime
 

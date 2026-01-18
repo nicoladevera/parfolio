@@ -11,6 +11,13 @@ enum TransitionType {
   company_type_shift,  // Big Tech → Startup
 }
 
+enum CompanySize {
+  startup,      // <50 employees
+  small,        // 50-500 employees
+  medium,       // 500-5K employees
+  enterprise,   // 5K+ employees
+}
+
 class UserModel {
   final String id;
   final String email;
@@ -23,6 +30,10 @@ class UserModel {
   final String? targetIndustry;
   final CareerStage? careerStage;
   final List<TransitionType> transitionTypes;
+  final String? currentCompany;
+  final List<String> targetCompanies;
+  final CompanySize? currentCompanySize;
+  final CompanySize? targetCompanySize;
   final String? profilePhotoUrl;
   final String? createdAt;
 
@@ -38,6 +49,10 @@ class UserModel {
     this.targetIndustry,
     this.careerStage,
     this.transitionTypes = const [],
+    this.currentCompany,
+    this.targetCompanies = const [],
+    this.currentCompanySize,
+    this.targetCompanySize,
     this.profilePhotoUrl,
     this.createdAt,
   });
@@ -64,7 +79,30 @@ class UserModel {
         );
       }).toList();
     }
-    
+
+    List<String> targetCompanies = [];
+    if (json['target_companies'] != null && json['target_companies'] is List) {
+      targetCompanies = (json['target_companies'] as List)
+          .map((c) => c.toString())
+          .toList();
+    }
+
+    CompanySize? currentCompanySize;
+    if (json['current_company_size'] != null) {
+      currentCompanySize = CompanySize.values.firstWhere(
+        (e) => e.toString().split('.').last == json['current_company_size'],
+        orElse: () => CompanySize.startup,
+      );
+    }
+
+    CompanySize? targetCompanySize;
+    if (json['target_company_size'] != null) {
+      targetCompanySize = CompanySize.values.firstWhere(
+        (e) => e.toString().split('.').last == json['target_company_size'],
+        orElse: () => CompanySize.startup,
+      );
+    }
+
     return UserModel(
       id: json['user_id'] ?? '',
       email: json['email'] ?? '',
@@ -77,6 +115,10 @@ class UserModel {
       targetIndustry: json['target_industry'],
       careerStage: careerStage,
       transitionTypes: transitionTypes,
+      currentCompany: json['current_company'],
+      targetCompanies: targetCompanies,
+      currentCompanySize: currentCompanySize,
+      targetCompanySize: targetCompanySize,
       profilePhotoUrl: json['profile_photo_url'],
       createdAt: json['created_at'],
     );

@@ -84,10 +84,10 @@ class RecordingCTA extends StatelessWidget {
               Text(
                 'Record a New Story',
                 textAlign: TextAlign.left,
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith( 
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
-                  fontSize: 24, 
+                  fontSize: 24,
                 ),
               ),
               SizedBox(height: 8),

@@ -13,6 +13,12 @@ class TransitionType(str, Enum):
     industry_change = "industry_change"
     company_type_shift = "company_type_shift"  # Big Tech → Startup
 
+class CompanySize(str, Enum):
+    startup = "startup"           # <50 employees
+    small = "small"               # 50-500 employees
+    medium = "medium"             # 500-5K employees
+    enterprise = "enterprise"     # 5K+ employees
+
 class ProfileUpdateRequest(BaseModel):
     current_role: Optional[str] = None
     target_role: Optional[str] = None
@@ -21,6 +27,10 @@ class ProfileUpdateRequest(BaseModel):
     career_stage: Optional[CareerStage] = None
     transition_types: Optional[List[TransitionType]] = None
     profile_photo_url: Optional[str] = None
+    current_company: Optional[str] = None
+    target_companies: Optional[List[str]] = None
+    current_company_size: Optional[CompanySize] = None
+    target_company_size: Optional[CompanySize] = None
 
 class ProfileResponse(BaseModel):
     user_id: str
@@ -35,3 +45,7 @@ class ProfileResponse(BaseModel):
     career_stage: Optional[CareerStage] = None
     transition_types: Optional[List[TransitionType]] = None
     profile_photo_url: Optional[str] = None
+    current_company: Optional[str] = None
+    target_companies: Optional[List[str]] = None
+    current_company_size: Optional[CompanySize] = None
+    target_company_size: Optional[CompanySize] = None

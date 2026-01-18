@@ -31,9 +31,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   final TextEditingController _targetRoleController = TextEditingController();
   final TextEditingController _currentIndustryController = TextEditingController();
   final TextEditingController _targetIndustryController = TextEditingController();
-  
+  final TextEditingController _currentCompanyController = TextEditingController();
+
   CareerStage? _selectedCareerStage;
   Set<TransitionType> _selectedTransitionTypes = {};
+  List<String> _targetCompanies = [];
+  CompanySize? _selectedCurrentCompanySize;
+  CompanySize? _selectedTargetCompanySize;
 
   @override
   void initState() {
@@ -51,8 +55,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         _targetRoleController.text = user.targetRole ?? '';
         _currentIndustryController.text = user.currentIndustry ?? '';
         _targetIndustryController.text = user.targetIndustry ?? '';
+        _currentCompanyController.text = user.currentCompany ?? '';
         _selectedCareerStage = user.careerStage;
         _selectedTransitionTypes = user.transitionTypes.toSet();
+        _targetCompanies = List.from(user.targetCompanies);
+        _selectedCurrentCompanySize = user.currentCompanySize;
+        _selectedTargetCompanySize = user.targetCompanySize;
       });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -153,6 +161,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         careerStage: _selectedCareerStage,
         transitionTypes: _selectedTransitionTypes.toList(),
         profilePhotoUrl: photoUrl,
+        currentCompany: _currentCompanyController.text,
+        targetCompanies: _targetCompanies,
+        currentCompanySize: _selectedCurrentCompanySize,
+        targetCompanySize: _selectedTargetCompanySize,
       );
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Profile updated successfully!')),
@@ -400,6 +412,74 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 controller: _targetIndustryController,
                 hint: 'Climate Tech',
               ),
+              SizedBox(height: 24),
+              _buildTextField(
+                label: 'Current Company',
+                controller: _currentCompanyController,
+                hint: 'Google',
+              ),
+              SizedBox(height: 24),
+              _buildTargetCompaniesField(theme),
+              SizedBox(height: 32),
+              Text('Current Company Size', style: theme.textTheme.labelLarge?.copyWith(fontWeight: FontWeight.bold)),
+              SizedBox(height: 12),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: CompanySize.values.map((size) {
+                  final isSelected = _selectedCurrentCompanySize == size;
+                  return ChoiceChip(
+                    showCheckmark: false,
+                    label: Text(_formatCompanySize(size)),
+                    selected: isSelected,
+                    onSelected: (selected) {
+                      setState(() => _selectedCurrentCompanySize = selected ? size : null);
+                    },
+                    selectedColor: Color(0xFF65A30D).withOpacity(0.15),
+                    labelStyle: GoogleFonts.inter(
+                      color: isSelected ? Color(0xFF4D7C0F) : theme.colorScheme.onSurface,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      side: BorderSide(
+                        color: isSelected ? Color(0xFF4D7C0F) : theme.colorScheme.outlineVariant,
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+              SizedBox(height: 32),
+              Text('Target Company Size', style: theme.textTheme.labelLarge?.copyWith(fontWeight: FontWeight.bold)),
+              SizedBox(height: 12),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: CompanySize.values.map((size) {
+                  final isSelected = _selectedTargetCompanySize == size;
+                  return ChoiceChip(
+                    showCheckmark: false,
+                    label: Text(_formatCompanySize(size)),
+                    selected: isSelected,
+                    onSelected: (selected) {
+                      setState(() => _selectedTargetCompanySize = selected ? size : null);
+                    },
+                    selectedColor: Color(0xFF65A30D).withOpacity(0.15),
+                    labelStyle: GoogleFonts.inter(
+                      color: isSelected ? Color(0xFF4D7C0F) : theme.colorScheme.onSurface,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      side: BorderSide(
+                        color: isSelected ? Color(0xFF4D7C0F) : theme.colorScheme.outlineVariant,
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
               SizedBox(height: 32),
               Text('Career Stage', style: theme.textTheme.labelLarge?.copyWith(fontWeight: FontWeight.bold)),
               SizedBox(height: 12),
@@ -522,5 +602,122 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     String name = value.toString().split('.').last;
     name = name.replaceAll('_', ' ');
     return name.substring(0, 1).toUpperCase() + name.substring(1);
+  }
+
+  String _formatCompanySize(CompanySize size) {
+    switch (size) {
+      case CompanySize.startup:
+        return 'Startup (<50)';
+      case CompanySize.small:
+        return 'Small (50-500)';
+      case CompanySize.medium:
+        return 'Medium (500-5K)';
+      case CompanySize.enterprise:
+        return 'Enterprise (5K+)';
+    }
+  }
+
+  Widget _buildTargetCompaniesField(ThemeData theme) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Target Companies (up to 5)', style: theme.textTheme.labelLarge?.copyWith(fontWeight: FontWeight.bold)),
+        SizedBox(height: 12),
+        if (_targetCompanies.isEmpty)
+          Text(
+            'No target companies added yet',
+            style: GoogleFonts.inter(
+              color: theme.colorScheme.onSurface.withOpacity(0.6),
+              fontSize: 14,
+            ),
+          )
+        else
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: _targetCompanies.map((company) {
+              return InputChip(
+                label: Text(company),
+                deleteIcon: Icon(Icons.close, size: 18),
+                onDeleted: () {
+                  setState(() {
+                    _targetCompanies.remove(company);
+                  });
+                },
+                backgroundColor: Color(0xFF65A30D).withOpacity(0.1),
+                labelStyle: GoogleFonts.inter(
+                  color: Color(0xFF4D7C0F),
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  side: BorderSide(color: Color(0xFF4D7C0F)),
+                ),
+              );
+            }).toList(),
+          ),
+        SizedBox(height: 12),
+        if (_targetCompanies.length < 5)
+          OutlinedButton.icon(
+            onPressed: _showAddCompanyDialog,
+            icon: Icon(Icons.add, color: Color(0xFF4D7C0F)),
+            label: Text('Add Company'),
+            style: OutlinedButton.styleFrom(
+              foregroundColor: Color(0xFF4D7C0F),
+              side: BorderSide(color: Color(0xFF4D7C0F)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+
+  Future<void> _showAddCompanyDialog() async {
+    final TextEditingController companyController = TextEditingController();
+
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Add Target Company'),
+          content: TextField(
+            controller: companyController,
+            decoration: InputDecoration(
+              labelText: 'Company Name',
+              hintText: 'Meta',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+            autofocus: true,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                final company = companyController.text.trim();
+                if (company.isNotEmpty && !_targetCompanies.contains(company)) {
+                  setState(() {
+                    _targetCompanies.add(company);
+                  });
+                  Navigator.of(context).pop();
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xFF65A30D),
+                foregroundColor: Colors.white,
+              ),
+              child: Text('Add'),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

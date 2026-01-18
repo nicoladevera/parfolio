@@ -31,7 +31,11 @@ async def get_profile(decoded_token: dict = Depends(get_current_user)):
         target_industry=data.get("target_industry"),
         career_stage=data.get("career_stage"),
         transition_types=data.get("transition_types"),
-        profile_photo_url=data.get("profile_photo_url")
+        profile_photo_url=data.get("profile_photo_url"),
+        current_company=data.get("current_company"),
+        target_companies=data.get("target_companies"),
+        current_company_size=data.get("current_company_size"),
+        target_company_size=data.get("target_company_size")
     )
 
 @router.put("", response_model=ProfileResponse)
