@@ -22,7 +22,7 @@ PARfolio listens to your rambling work stories, automatically structures them in
 - 🤖 **AI Orchestrator**: Converts rambling speech into structured PAR (Problem-Action-Result) stories.
 - 🏷️ **Behavioral Tagging**: Auto-assigns competencies like Leadership, Communication, and Impact.
 - ⚡ **All-in-One Pipeline**: Orchestrate the entire flow from raw audio/text to polished PAR story in a single API call.
-- 🧠 **Personal Memory**: Upload resumes, LinkedIn data, articles, and transcripts for AI-powered semantic search and personalized coaching.
+- 🧠 **Personal Memory**: Upload resumes, LinkedIn data, articles, and transcripts (supports drag and drop on web/desktop) for AI-powered semantic search and personalized coaching.
 - 🛠️ **Agentic Coaching**: AI agent autonomously retrieves user context from memory to personalize feedback.
 - 📁 **Story Bank**: Manage, filter, and export your polished narratives.
 

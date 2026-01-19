@@ -23,7 +23,7 @@
 | Aspect | Details |
 |--------|---------|
 | **AI Orchestrator** | Converts rambling speech into structured PAR (Problem-Action-Result) stories. |
-| **Personal Memory** | Upload resumes, LinkedIn data, articles, and transcripts for AI-powered semantic search and personalized coaching using holistic summarization. |
+| **Personal Memory** | Upload resumes, LinkedIn data, articles, and transcripts for AI-powered semantic search and personalized coaching using holistic summarization (supports native drag & drop on web/desktop). |
 | **Agentic Coaching** | AI agent autonomously retrieves user context from memory to personalize feedback. |
 | **Behavioral Tagging** | Auto-assigns competencies like Leadership, Communication, and Impact. |
 
