@@ -628,7 +628,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             'No target companies added yet',
             style: GoogleFonts.inter(
               color: theme.colorScheme.onSurface.withOpacity(0.6),
-              fontSize: 14,
+              fontSize: 16,
             ),
           )
         else
@@ -648,7 +648,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 labelStyle: GoogleFonts.inter(
                   color: Color(0xFF4D7C0F),
                   fontWeight: FontWeight.w400,
-                  fontSize: 14,
+                  fontSize: 16,
                 ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
