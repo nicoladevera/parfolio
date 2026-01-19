@@ -848,6 +848,32 @@ Container(
 - **Border**: 1px solid Gray 200 (`#E5E7EB`) at 50% opacity.
 - **Border Radius**: 16px (matches medium cards).
 - **Interaction**: Expandable/Collapsible.
+
+#### File Drop Zone
+
+**Use**: For dragging and dropping files to upload (web/desktop only).
+
+**Visual States**:
+
+| State | Border | Background | Icon | Text |
+|-------|--------|------------|------|------|
+| **Default** | 2px solid Lime 200 | Lime 50 (5%) | Cloud upload | "Upload Context Document" |
+| **Drag Hover** | 2px dashed Lime 500 (animated) | Lime 50 (15%) | Cloud upload (larger, 1.1x) | "Drop files here" |
+| **Full** | 2px solid Gray 300 | Gray 50 | Cloud upload (gray) | "Memory Bank Full" |
+
+**Specifications**:
+- **Animation**: Continuous dashed border animation during hover state.
+- **Platform**: Web, macOS, Windows, Linux only.
+- **Mobile**: Falls back to "Default" state with button interaction only.
+
+```dart
+// Implementation uses desktop_drop package
+DropTarget(
+  onDragEntered: (_) => setState(() => _isDragging = true),
+  onDragExited: (_) => setState(() => _isDragging = false),
+  // ...
+)
+```
 - **Arrow Color**: Custom `iconColor` and `collapsedIconColor` set to Gray 600 (`#4B5563`) to prevent automatic brand color shifts when expanded.
 
 **Visual Construction**:
