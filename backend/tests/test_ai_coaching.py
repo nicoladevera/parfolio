@@ -9,7 +9,7 @@ load_dotenv()
 BASE_URL = "http://localhost:8000/ai"
 
 def test_coaching_with_samples():
-    samples_dir = "backend/samples/transcripts"
+    samples_dir = "samples/transcripts"
     sample_files = [f for f in os.listdir(samples_dir) if f.startswith("sample_transcript_")]
     
     for sample_file in sample_files:

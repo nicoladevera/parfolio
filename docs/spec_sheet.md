@@ -172,7 +172,7 @@ tags/{tagId}
 | **Database** | Firebase Firestore |
 | **Auth** | Firebase Authentication |
 | **Speech-to-Text** | OpenAI Whisper (Local) |
-| **AI/LLM** | Google Gemini 2.0/2.5 Pro (Primary) / OpenAI GPT-4o / Anthropic Claude 3.5 Sonnet |
+| **AI/LLM** | Gemini 2.0 Flash (structuring, tagging) / Gemini 2.0 Pro Experimental (coaching) |
 | **Hosting** | Firebase Hosting (frontend) + Cloud Run / Railway (backend) |
 
 ---
