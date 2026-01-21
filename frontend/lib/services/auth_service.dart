@@ -10,6 +10,9 @@ class AuthService {
   // For physical device, you need your computer's IP
   static const String baseUrl = 'http://localhost:8000'; 
   
+  // Feature flag to control Google Sign In availability
+  static const bool isGoogleAuthEnabled = false;
+  
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   // TODO: Configure Google Sign-In client ID in web/index.html before enabling
   // final GoogleSignIn _googleSignIn = GoogleSignIn();

@@ -260,59 +260,61 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ? const CircularProgressIndicator(color: Colors.white)
                               : const Text('Create Account'),
                           ),
-                          const SizedBox(height: 24),
-
-                          // Visual Divider for "OR"
-                          Row(
-                            children: [
-                              const Expanded(child: Divider(color: Color(0xFFD1D5DB))), // Gray 300
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 16),
-                                child: Text(
-                                  'OR',
-                                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                                    color: const Color(0xFF9CA3AF), // Gray 400
-                                    letterSpacing: 1.5,
+                          if (AuthService.isGoogleAuthEnabled) ...[
+                            const SizedBox(height: 24),
+    
+                            // Visual Divider for "OR"
+                            Row(
+                              children: [
+                                const Expanded(child: Divider(color: Color(0xFFD1D5DB))), // Gray 300
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                                  child: Text(
+                                    'OR',
+                                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                                      color: const Color(0xFF9CA3AF), // Gray 400
+                                      letterSpacing: 1.5,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              const Expanded(child: Divider(color: Color(0xFFD1D5DB))),
-                            ],
-                          ),
-                          const SizedBox(height: 24),
-
-                          // Google Sign In Button
-                          SizedBox(
-                            width: double.infinity,
-                            height: 50,
-                            child: OutlinedButton(
-                              onPressed: _isLoading ? null : () async {
-                                setState(() => _isLoading = true);
-                                try {
-                                  await Provider.of<AuthService>(context, listen: false).signInWithGoogle();
-                                  // If successful, pop register screen to let AuthWrapper handle home
-                                  if (mounted) Navigator.pop(context);
-                                } catch (e) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text("Google Sign In failed: $e")),
-                                  );
-                                } finally {
-                                  if (mounted) setState(() => _isLoading = false);
-                                }
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(Icons.login),
-                                  const SizedBox(width: 12),
-                                  Text(
-                                    "Continue with Google",
-                                    style: Theme.of(context).textTheme.labelLarge,
-                                  ),
-                                ],
+                                const Expanded(child: Divider(color: Color(0xFFD1D5DB))),
+                              ],
+                            ),
+                            const SizedBox(height: 24),
+    
+                            // Google Sign In Button
+                            SizedBox(
+                              width: double.infinity,
+                              height: 50,
+                              child: OutlinedButton(
+                                onPressed: _isLoading ? null : () async {
+                                  setState(() => _isLoading = true);
+                                  try {
+                                    await Provider.of<AuthService>(context, listen: false).signInWithGoogle();
+                                    // If successful, pop register screen to let AuthWrapper handle home
+                                    if (mounted) Navigator.pop(context);
+                                  } catch (e) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text("Google Sign In failed: $e")),
+                                    );
+                                  } finally {
+                                    if (mounted) setState(() => _isLoading = false);
+                                  }
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Icon(Icons.login),
+                                    const SizedBox(width: 12),
+                                    Text(
+                                      "Continue with Google",
+                                      style: Theme.of(context).textTheme.labelLarge,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
+                          ],
                         ],
                       ),
                     ),
