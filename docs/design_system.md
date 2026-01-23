@@ -64,7 +64,7 @@ Lime green represents growth, action, and success—the transformation from unst
 | Shade | Hex Code | RGB | Usage |
 |-------|----------|-----|-------|
 | **Lime 50** | `#f7fee7` | rgb(247, 254, 231) | Background tints, hover states |
-| **Lime 100** | `#dcfce7` | rgb(236, 252, 225) | Badge backgrounds, soft highlights |
+| **Lime 100** | `#ecfccb` | rgb(236, 252, 203) | Badge backgrounds, soft highlights |
 | **Lime 200** | `#bef264` | rgb(190, 242, 100) | Secondary actions, borders |
 | **Lime 300** | `#a3e635` | rgb(163, 230, 53) | Interactive element highlights |
 | **Lime 400** | `#84cc16` | rgb(132, 204, 22) | **Disabled/muted actions** |
@@ -80,7 +80,7 @@ Used in multi-panel hero imagery to represent the progression from "chaos" to "g
 
 | Step | Hex Code | Usage |
 |------|----------|-------|
-| **Step 1 (Pale)** | `#dcfce7` | Left-most panel (Initial confusion) |
+| **Step 1 (Pale)** | `#ecfccb` | Left-most panel (Initial confusion) |
 | **Step 2 (Light)** | `#bef264` | Middle-left panel (Discovery) |
 | **Step 3 (Medium)** | `#84cc16` | Middle-right panel (Structure) |
 | **Step 4 (Vibrant)** | `#65a30d` | Right-most panel (Confidence/Result) |
@@ -163,7 +163,7 @@ const ColorScheme parfolioColorScheme = ColorScheme(
   // Primary: Lime Green
   primary: Color(0xFF65A30D),           // Lime 500
   onPrimary: Color(0xFFFFFFFF),         // White
-  primaryContainer: Color(0xFFDCFCE7),  // Lime 100
+  primaryContainer: Color(0xFFECFCCB),  // Lime 100
   onPrimaryContainer: Color(0xFF3F6212),// Lime 700
 
   // Secondary: Amber
@@ -204,7 +204,7 @@ const ColorScheme parfolioColorScheme = ColorScheme(
 extension ParfolioColors on ColorScheme {
   // Lime Scale
   Color get lime50 => const Color(0xFFF7FEE7);
-  Color get lime100 => const Color(0xFFDCFCE7);
+  Color get lime100 => const Color(0xFFECFCCB);
   Color get lime200 => const Color(0xFFBEF264);
   Color get lime300 => const Color(0xFFA3E635);
   Color get lime400 => const Color(0xFF84CC16);
@@ -268,6 +268,8 @@ To maintain a unified brand experience, the PARfolio landing page (`marketing/in
 **Key Alignment Strategy:**
 - **Primary CTA Harmony**: Both the landing page and web app use **Lime 500 (#65A30D)** for primary actions (Get Started, Start Recording).
 - **Subtle Badges**: Non-actionable badges on the landing page (e.g., Voice-First badge) utilize a lighter tint (**#ecfccb**) for visual hierarchy, while core interactions remain bold.
+- **Visual Narratives**: The "Sound Familiar?" section uses contextual SVG icons to represent non-sequential challenges, while "How It Works" uses numbered steps in Lime 700 to indicate process.
+
 - **Shared Shadows**: Hover effects on the landing page feature a subtle Lime 500 shadow (`rgba(101, 163, 13, 0.15)`) to match the product's interactive feel.
  
 ---

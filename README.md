@@ -33,7 +33,7 @@ PARfolio listens to your rambling work stories, automatically structures them in
 | Layer | Technology |
 |-------|------------|
 | **Frontend (App)** | Flutter (Web) |
-| **Marketing (Landing)** | HTML, CSS, JS (Vibrant/Playful Design) |
+| **Marketing (Landing)** | HTML, CSS, JS (Balanced/Professional Design) |
 | **Backend** | FastAPI (Python) |
 | **Database** | Firebase Firestore |
 | **Auth** | Firebase Authentication |
