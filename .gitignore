@@ -21,3 +21,6 @@ backend/firebase-credentials.json
 
 # Node
 node_modules/
+
+# Build/Deploy artifacts
+deploy/
