@@ -268,7 +268,7 @@ To maintain a unified brand experience, the PARfolio landing page (`marketing/in
 **Key Alignment Strategy:**
 - **Primary CTA Harmony**: Both the landing page and web app use **Lime 500 (#65A30D)** for primary actions (Get Started, Start Recording).
 - **Subtle Badges**: Non-actionable badges on the landing page (e.g., Voice-First badge) utilize a lighter tint (**#ecfccb**) for visual hierarchy, while core interactions remain bold.
-- **Visual Narratives**: The "Sound Familiar?" section uses contextual SVG icons to represent non-sequential challenges, while "How It Works" uses numbered steps in Lime 700 to indicate process.
+- **Visual Narratives**: The "Sound Familiar?" section uses contextual SVG icons with **Amber 100** backgrounds and **Amber 600** icon colors to represent pain points, creating visual distinction from the solution-focused sections. "How It Works" uses numbered circles with a **gradient progression** (Lime 100 → Lime 200 → Lime 300 → Lime 400) connected by a horizontal gradient line on desktop to indicate transformation.
 
 - **Shared Shadows**: Hover effects on the landing page feature a subtle Lime 500 shadow (`rgba(101, 163, 13, 0.15)`) to match the product's interactive feel.
  
