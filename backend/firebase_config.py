@@ -1,4 +1,5 @@
 import os
+import json
 import firebase_admin
 from firebase_admin import credentials, firestore
 from dotenv import load_dotenv
@@ -8,29 +9,39 @@ load_dotenv(override=True)
 
 def initialize_firebase():
     """Initializes the Firebase Admin SDK."""
-    cred_path = os.getenv("FIREBASE_CREDENTIALS_PATH")
-    
-    if not cred_path:
-        # Default to the example path if not set, or you could keep it required
-        cred_path = "./firebase-credentials.json"
-        print(f"Warning: FIREBASE_CREDENTIALS_PATH not set, defaulting to {cred_path}")
-
     # Check if a Firebase app has already been initialized
     if not firebase_admin._apps:
         try:
-            if os.path.exists(cred_path):
-                cred = credentials.Certificate(cred_path)
-                bucket_name = os.getenv("FIREBASE_STORAGE_BUCKET")
-                
-                firebase_admin.initialize_app(cred, {
-                    'storageBucket': bucket_name
-                })
-                print(f"Firebase Admin SDK initialized successfully with bucket: {bucket_name}")
+            # Try to load from environment variable first (for production)
+            firebase_creds_json = os.getenv("FIREBASE_CREDENTIALS_JSON")
+
+            if firebase_creds_json:
+                # Parse JSON from environment variable
+                cred_dict = json.loads(firebase_creds_json)
+                cred = credentials.Certificate(cred_dict)
+                print("Firebase credentials loaded from FIREBASE_CREDENTIALS_JSON environment variable")
             else:
-                print(f"Warning: Firebase credentials file not found at {cred_path}. Firebase functionality will be limited.")
+                # Fall back to file path (for local development)
+                cred_path = os.getenv("FIREBASE_CREDENTIALS_PATH", "./firebase-credentials.json")
+
+                if os.path.exists(cred_path):
+                    cred = credentials.Certificate(cred_path)
+                    print(f"Firebase credentials loaded from file: {cred_path}")
+                else:
+                    print(f"Warning: Firebase credentials file not found at {cred_path}. Firebase functionality will be limited.")
+                    return None
+
+            bucket_name = os.getenv("FIREBASE_STORAGE_BUCKET")
+
+            firebase_admin.initialize_app(cred, {
+                'storageBucket': bucket_name
+            })
+            print(f"Firebase Admin SDK initialized successfully with bucket: {bucket_name}")
+
         except Exception as e:
             print(f"Error initializing Firebase Admin SDK: {e}")
-    
+            return None
+
     return firebase_admin.get_app() if firebase_admin._apps else None
 
 # Initialize once when the module is imported
