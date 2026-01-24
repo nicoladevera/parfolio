@@ -37,9 +37,10 @@ PARfolio listens to your rambling work stories, automatically structures them in
 | **Backend** | FastAPI (Python) |
 | **Database** | Firebase Firestore |
 | **Auth** | Firebase Authentication |
-| **Speech-to-Text** | OpenAI Whisper (Local) |
+| **Storage** | Firebase Storage (GCS) |
+| **Speech-to-Text** | Google Cloud Speech-to-Text API |
 | **Vector DB** | ChromaDB (Local) |
-| **AI/LLM** | Google Gemini 2.0/2.5 Pro (Primary) / OpenAI GPT-4o / Anthropic Claude 3.5 Sonnet |
+| **AI/LLM** | Google Gemini 2.0 Flash & Pro (Primary) |
 
 ---
 
@@ -54,7 +55,7 @@ parfolio/
 │   ├── main.py               # Entry point
 │   ├── memory/               # Personal memory logic (ChromaDB, parsing, chunking)
 │   ├── data/                 # Local data storage (ChromaDB persistence)
-│   ├── ai/                   # LangChain logic (chains, schemas, prompts) & Whisper
+│   ├── ai/                   # AI processing (LangChain, Google Speech-to-Text, transcription)
 │   ├── firebase_config.py    # Firebase initialization
 │   ├── firebase_storage.py   # Firebase Storage utilities
 │   ├── models/               # Pydantic data models
@@ -82,11 +83,7 @@ parfolio/
 
 ### Backend Setup
 
-1. **System Dependencies**: Ensure `ffmpeg` is installed on your system (required for Whisper).
-   - On Mac: `brew install ffmpeg`
-   - Linux: `sudo apt install ffmpeg`
-
-2. Navigate to the `backend` directory:
+1. Navigate to the `backend` directory:
    ```bash
    cd backend
    ```
@@ -171,6 +168,31 @@ To test the full flow where the landing page links directly to the app:
 4. **Access the Application**:
    - Open `http://localhost:8080` for the landing page.
    - Click **"Start Recording"** or **"Get Started"** to navigate seamlessly into the app.
+
+---
+
+## Production Deployment
+
+PARfolio is deployed in production with the following architecture:
+
+- **Frontend:** https://parfolio.app (Hostinger static hosting)
+- **Backend:** https://parfolio-backend.westcentralus.cloudapp.azure.com (Azure VM with Nginx + Let's Encrypt)
+- **Database:** Firebase (Firestore, Auth, Storage)
+- **AI Services:** Google Gemini AI, Google Speech-to-Text, Tavily API
+
+### Deployment Guides
+
+- **[Azure VM Deployment Guide](docs/azure_deployment.md)** — Full backend deployment on Azure with SSL/TLS
+- **[Azure Quick Start](docs/azure_quick_start.md)** — Fast setup for backend deployment
+- **[Frontend Deployment Guide](docs/frontend_deployment_guide.md)** — Building and deploying Flutter web to Hostinger
+
+### Key Production Features
+
+- ✅ **HTTPS Everywhere:** Backend secured with Let's Encrypt SSL
+- ✅ **Auto-restart:** Systemd service with failure recovery
+- ✅ **Long Audio Support:** Handles recordings up to 8 hours via GCS upload
+- ✅ **Cost-Optimized:** Runs on 1GB RAM VM (~$10-15/month) using API-based services
+- ✅ **Auto-scaling AI:** Google Cloud APIs handle transcription and AI processing
 
 ---
 

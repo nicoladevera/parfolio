@@ -16,14 +16,16 @@ RED='\033[0;31m'
 NC='\033[0m' # No Color
 
 # Configuration
-APP_DIR="/home/azureuser/parfolio"
+# Automatically detect the current user's home directory
+USER_HOME="$HOME"
+APP_DIR="$USER_HOME/parfolio"
 BACKEND_DIR="$APP_DIR/backend"
 VENV_DIR="$BACKEND_DIR/venv"
+CURRENT_USER="$USER"
 
-# Check if running on Azure VM
-if [ ! -d "/home/azureuser" ]; then
-    echo -e "${YELLOW}Warning: /home/azureuser not found. Adjust APP_DIR if needed.${NC}"
-fi
+echo "Detected user: $CURRENT_USER"
+echo "Installation directory: $APP_DIR"
+echo ""
 
 # Step 1: Update system packages
 echo -e "${GREEN}Step 1: Updating system packages...${NC}"
@@ -33,7 +35,7 @@ sudo apt install -y python3.11 python3.11-venv python3-pip ffmpeg git nginx
 # Step 2: Clone repository (if not already cloned)
 if [ ! -d "$APP_DIR" ]; then
     echo -e "${GREEN}Step 2: Cloning repository...${NC}"
-    cd /home/azureuser
+    cd "$USER_HOME"
     git clone https://github.com/nicoladevera/parfolio.git
 else
     echo -e "${YELLOW}Repository already cloned. Pulling latest changes...${NC}"
@@ -51,7 +53,7 @@ else
 fi
 
 # Step 4: Install Python dependencies
-echo -e "${GREEN}Step 4: Installing Python dependencies (this may take 5-10 minutes)...${NC}"
+echo -e "${GREEN}Step 4: Installing Python dependencies (this may take 3-5 minutes)...${NC}"
 source "$VENV_DIR/bin/activate"
 pip install --upgrade pip
 pip install -r requirements.txt
@@ -93,7 +95,7 @@ After=network.target
 
 [Service]
 Type=simple
-User=azureuser
+User=$CURRENT_USER
 WorkingDirectory=$BACKEND_DIR
 Environment="PATH=$VENV_DIR/bin"
 EnvironmentFile=$BACKEND_DIR/.env
@@ -148,7 +150,11 @@ echo "4. Enable auto-start: sudo systemctl enable parfolio-backend"
 echo "5. Check status: sudo systemctl status parfolio-backend"
 echo ""
 echo -e "${YELLOW}Test your deployment:${NC}"
-echo "curl http://parfolio-backend.westcentralus.cloudapp.azure.com/health"
+echo "curl https://parfolio-backend.westcentralus.cloudapp.azure.com/health"
+echo ""
+echo -e "${YELLOW}Enable HTTPS with Let's Encrypt:${NC}"
+echo "sudo apt install certbot python3-certbot-nginx"
+echo "sudo certbot --nginx -d parfolio-backend.westcentralus.cloudapp.azure.com"
 echo ""
 echo -e "${YELLOW}View logs:${NC}"
 echo "sudo journalctl -u parfolio-backend -f"

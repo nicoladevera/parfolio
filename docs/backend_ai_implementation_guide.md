@@ -47,8 +47,9 @@ Build each AI processing step individually, then create the all-in-one orchestra
 **Endpoint**: `POST /ai/transcribe`
 
 **Tasks**:
-- [x] Integrate Google Cloud Speech-to-Text or OpenAI Whisper (implemented Whisper Local)
-- [x] Handle audio format conversion (Whisper handles many natively)
+- [x] Integrate Google Cloud Speech-to-Text API (replaced Whisper for production)
+- [x] Handle audio format detection (WebM Opus, WAV, AAC)
+- [x] Support long audio files (>1 min) with GCS upload and async API
 - [ ] Store audio files in Firebase Storage (at `gs://bucket/users/{userId}/audio/{storyId}.wav`)
 - [ ] Store the audio URL in Firestore (`audioUrl`) as optional field
 - [x] Save transcript text to Firebase Storage as `.txt` file (at `gs://bucket/users/{userId}/transcripts/{storyId}.txt`)
