@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PARfolio Wordmark - Refined Variations</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f9fafb;
+            color: #111827;
+            padding: 48px 24px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #111827;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: #4b5563;
+            margin-bottom: 48px;
+        }
+
+        .section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid #e5e7eb;
+            margin-bottom: 32px;
+        }
+
+        .section h2 {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 28px;
+            margin-bottom: 24px;
+            color: #111827;
+        }
+
+        .section h3 {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 20px;
+            margin-bottom: 16px;
+            color: #374151;
+            margin-top: 32px;
+        }
+
+        .logo-showcase {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 64px;
+            background: #ffffff;
+            border: 1px solid #f3f4f6;
+            border-radius: 16px;
+            margin-bottom: 24px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+
+        .variation-box {
+            background: #f9fafb;
+            border-radius: 16px;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e5e7eb;
+            min-height: 200px;
+        }
+
+        .variation-box.white {
+            background: white;
+        }
+
+        .variation-box.dark {
+            background: #111827;
+        }
+
+        .variation-box.lime {
+            background: linear-gradient(135deg, #65a30d 0%, #84cc16 100%);
+        }
+
+        .variation-label {
+            font-size: 12px;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 16px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .variation-label.white {
+            color: #ffffff;
+            opacity: 0.7;
+        }
+
+        .specs {
+            background: #f7fee7;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 24px;
+            border-left: 4px solid #65a30d;
+        }
+
+        .specs h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: #4d7c0f;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .specs ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .specs li {
+            font-size: 14px;
+            color: #4d7c0f;
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .specs li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #65a30d;
+        }
+
+        .comparison {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .size-demo {
+            display: flex;
+            align-items: flex-end;
+            gap: 32px;
+            padding: 32px;
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2, .grid-3, .grid-4 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PARfolio Wordmark System</h1>
+        <p class="subtitle">Refined logo variations for every use case</p>
+
+        <!-- Primary Full Wordmark -->
+        <div class="section">
+            <h2>Primary Full Wordmark</h2>
+            <div class="logo-showcase">
+                <svg width="400" height="100" viewBox="0 0 400 100">
+                    <!-- PAR in Libre Baskerville (Bold, Lime 500) -->
+                    <text x="20" y="65" font-family="Libre Baskerville, serif" font-size="64" font-weight="700" fill="#65a30d">PAR</text>
+
+                    <!-- folio in Inter (Semi-Bold, Gray 700) -->
+                    <text x="165" y="65" font-family="Inter, sans-serif" font-size="64" font-weight="600" fill="#374151">folio</text>
+
+                    <!-- Sunburst accent on 'i' dot -->
+                    <circle cx="234" cy="24" r="7" fill="#f59e0b"/>
+                    <path d="M234,17 L234,31 M227,24 L241,24" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M229,19 L239,29 M229,29 L239,19" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </div>
+
+            <div class="specs">
+                <h4>Primary Wordmark Specifications</h4>
+                <ul>
+                    <li><strong>PAR:</strong> Libre Baskerville Bold 700, Lime 500 (#65a30d), 64px</li>
+                    <li><strong>folio:</strong> Inter Semi-Bold 600, Gray 700 (#374151), 64px</li>
+                    <li><strong>Accent:</strong> Sunburst on 'i' dot, Amber 500 (#f59e0b)</li>
+                    <li><strong>Minimum Width:</strong> 200px (maintain legibility)</li>
+                    <li><strong>Clear Space:</strong> 32px on all sides</li>
+                    <li><strong>Use Case:</strong> Headers, hero sections, main branding</li>
+                </ul>
+            </div>
+
+            <h3>Wordmark Variations</h3>
+            <div class="grid-3">
+                <!-- Variation 1: With underline blocks -->
+                <div class="variation-box white">
+                    <svg width="280" height="100" viewBox="0 0 280 100">
+                        <text x="10" y="50" font-family="Libre Baskerville, serif" font-size="48" font-weight="700" fill="#65a30d">PAR</text>
+                        <text x="115" y="50" font-family="Inter, sans-serif" font-size="48" font-weight="600" fill="#374151">folio</text>
+                        <circle cx="161" cy="20" r="6" fill="#f59e0b"/>
+                        <path d="M161,14 L161,26 M155,20 L167,20 M157,16 L165,24 M157,24 L165,16" stroke="#f59e0b" stroke-width="1.5"/>
+
+                        <!-- Underline blocks -->
+                        <rect x="10" y="62" width="35" height="4" rx="2" fill="#ecfccb"/>
+                        <rect x="48" y="62" width="35" height="4" rx="2" fill="#84cc16"/>
+                        <rect x="86" y="62" width="35" height="4" rx="2" fill="#65a30d"/>
+                    </svg>
+                    <p class="variation-label">With PAR Underline</p>
+                </div>
+
+                <!-- Variation 2: Mic dot on 'i' -->
+                <div class="variation-box white">
+                    <svg width="280" height="100" viewBox="0 0 280 100">
+                        <text x="10" y="55" font-family="Libre Baskerville, serif" font-size="48" font-weight="700" fill="#65a30d">PAR</text>
+                        <text x="115" y="55" font-family="Inter, sans-serif" font-size="48" font-weight="600" fill="#374151">folio</text>
+
+                        <!-- Microphone as 'i' dot -->
+                        <ellipse cx="161" cy="20" rx="5" ry="6" fill="#f59e0b"/>
+                        <line x1="161" y1="26" x2="161" y2="30" stroke="#f59e0b" stroke-width="2"/>
+                        <line x1="158" y1="30" x2="164" y2="30" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <p class="variation-label">Mic Accent</p>
+                </div>
+
+                <!-- Variation 3: Simple dot (clean) -->
+                <div class="variation-box white">
+                    <svg width="280" height="100" viewBox="0 0 280 100">
+                        <text x="10" y="55" font-family="Libre Baskerville, serif" font-size="48" font-weight="700" fill="#65a30d">PAR</text>
+                        <text x="115" y="55" font-family="Inter, sans-serif" font-size="48" font-weight="600" fill="#374151">folio</text>
+
+                        <!-- Simple accent circle -->
+                        <circle cx="161" cy="20" r="6" fill="#f59e0b"/>
+                    </svg>
+                    <p class="variation-label">Minimal Accent</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Square Icons -->
+        <div class="section">
+            <h2>Square Icons & App Icons</h2>
+            <p style="color: #6b7280; margin-bottom: 24px;">Optimized for app stores, home screens, and square placements</p>
+
+            <div class="grid-4">
+                <!-- Icon 1: PAR Letters Stacked -->
+                <div class="variation-box lime">
+                    <svg width="160" height="160" viewBox="0 0 160 160">
+                        <!-- Three stacked letters with circles -->
+                        <circle cx="80" cy="40" r="22" fill="white" opacity="0.95"/>
+                        <circle cx="80" cy="80" r="22" fill="white"/>
+                        <circle cx="80" cy="120" r="22" fill="white" opacity="0.95"/>
+
+                        <text x="80" y="48" text-anchor="middle" font-family="Libre Baskerville, serif" font-size="24" font-weight="700" fill="#65a30d">P</text>
+                        <text x="80" y="88" text-anchor="middle" font-family="Libre Baskerville, serif" font-size="24" font-weight="700" fill="#65a30d">A</text>
+                        <text x="80" y="128" text-anchor="middle" font-family="Libre Baskerville, serif" font-size="24" font-weight="700" fill="#65a30d">R</text>
+                    </svg>
+                    <p class="variation-label white">Stacked PAR</p>
+                </div>
+
+                <!-- Icon 2: PAR Horizontal in Circle -->
+                <div class="variation-box lime">
+                    <svg width="160" height="160" viewBox="0 0 160 160">
+                        <circle cx="80" cy="80" r="60" fill="white"/>
+                        <text x="80" y="95" text-anchor="middle" font-family="Libre Baskerville, serif" font-size="42" font-weight="700" fill="#65a30d">PAR</text>
+                    </svg>
+                    <p class="variation-label white">Circle Badge</p>
+                </div>
+
+                <!-- Icon 3: Three Connected Dots -->
+                <div class="variation-box lime">
+                    <svg width="160" height="160" viewBox="0 0 160 160">
+                        <!-- Three connected circles -->
+                        <circle cx="50" cy="80" r="18" fill="#ecfccb"/>
+                        <circle cx="80" cy="80" r="18" fill="white"/>
+                        <circle cx="110" cy="80" r="18" fill="#ecfccb"/>
+
+                        <!-- Connection lines -->
+                        <line x1="68" y1="80" x2="62" y2="80" stroke="white" stroke-width="4"/>
+                        <line x1="98" y1="80" x2="92" y2="80" stroke="white" stroke-width="4"/>
+
+                        <!-- Letters -->
+                        <text x="50" y="87" text-anchor="middle" font-family="Libre Baskerville, serif" font-size="18" font-weight="700" fill="#4d7c0f">P</text>
+                        <text x="80" y="87" text-anchor="middle" font-family="Libre Baskerville, serif" font-size="18" font-weight="700" fill="#65a30d">A</text>
+                        <text x="110" y="87" text-anchor="middle" font-family="Libre Baskerville, serif" font-size="18" font-weight="700" fill="#4d7c0f">R</text>
+                    </svg>
+                    <p class="variation-label white">Connected Flow</p>
+                </div>
+
+                <!-- Icon 4: Large P Monogram -->
+                <div class="variation-box lime">
+                    <svg width="160" height="160" viewBox="0 0 160 160">
+                        <circle cx="80" cy="80" r="60" fill="white"/>
+                        <text x="80" y="110" text-anchor="middle" font-family="Libre Baskerville, serif" font-size="72" font-weight="700" fill="#65a30d">P</text>
+
+                        <!-- Small accent -->
+                        <circle cx="110" cy="50" r="8" fill="#f59e0b"/>
+                        <path d="M110,44 L110,56 M104,50 L116,50" stroke="white" stroke-width="1.5"/>
+                    </svg>
+                    <p class="variation-label white">P Monogram</p>
+                </div>
+            </div>
+
+            <div class="specs">
+                <h4>App Icon Guidelines</h4>
+                <ul>
+                    <li><strong>Recommended:</strong> "Stacked PAR" or "Connected Flow" for best recognition</li>
+                    <li><strong>Size:</strong> 1024x1024px for iOS/Android app stores</li>
+                    <li><strong>Background:</strong> Gradient (Lime 500 → Lime 400) or solid Lime 500</li>
+                    <li><strong>Corner Radius:</strong> OS will apply automatically, design with square edges</li>
+                    <li><strong>Safe Zone:</strong> Keep important elements 80px from edges</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Favicons -->
+        <div class="section">
+            <h2>Favicons & Small Icons</h2>
+            <p style="color: #6b7280; margin-bottom: 24px;">Simplified versions for browser tabs, bookmarks, and tiny spaces (16x16 to 64x64)</p>
+
+            <div class="grid-4">
+                <!-- Favicon 1: Simple P -->
+                <div class="variation-box white">
+                    <svg width="64" height="64" viewBox="0 0 64 64">
+                        <rect width="64" height="64" rx="12" fill="#65a30d"/>
+                        <text x="32" y="46" text-anchor="middle" font-family="Libre Baskerville, serif" font-size="36" font-weight="700" fill="white">P</text>
+                    </svg>
+                    <p class="variation-label">P Only</p>
+                </div>
+
+                <!-- Favicon 2: Three Dots -->
+                <div class="variation-box white">
+                    <svg width="64" height="64" viewBox="0 0 64 64">
+                        <rect width="64" height="64" rx="12" fill="#65a30d"/>
+                        <circle cx="18" cy="32" r="6" fill="#ecfccb"/>
+                        <circle cx="32" cy="32" r="6" fill="white"/>
+                        <circle cx="46" cy="32" r="6" fill="#ecfccb"/>
+                    </svg>
+                    <p class="variation-label">Three Dots</p>
+                </div>
+
+                <!-- Favicon 3: Mic Icon -->
+                <div class="variation-box white">
+                    <svg width="64" height="64" viewBox="0 0 64 64">
+                        <rect width="64" height="64" rx="12" fill="#65a30d"/>
+                        <rect x="26" y="18" width="12" height="18" rx="6" fill="white"/>
+                        <line x1="32" y1="36" x2="32" y2="44" stroke="white" stroke-width="3"/>
+                        <path d="M24,44 Q32,48 40,44" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
+                    </svg>
+                    <p class="variation-label">Mic Symbol</p>
+                </div>
+
+                <!-- Favicon 4: PAR Tiny -->
+                <div class="variation-box white">
+                    <svg width="64" height="64" viewBox="0 0 64 64">
+                        <rect width="64" height="64" rx="12" fill="#65a30d"/>
+                        <text x="32" y="40" text-anchor="middle" font-family="Libre Baskerville, serif" font-size="18" font-weight="700" fill="white" letter-spacing="-1">PAR</text>
+                    </svg>
+                    <p class="variation-label">PAR Compact</p>
+                </div>
+            </div>
+
+            <h3>Favicon at Actual Size (16x16)</h3>
+            <div style="background: #f9fafb; border-radius: 12px; padding: 32px; display: flex; gap: 32px; align-items: center; border: 1px solid #e5e7eb;">
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                    <svg width="16" height="16" viewBox="0 0 64 64">
+                        <rect width="64" height="64" rx="12" fill="#65a30d"/>
+                        <text x="32" y="46" text-anchor="middle" font-family="Libre Baskerville, serif" font-size="36" font-weight="700" fill="white">P</text>
+                    </svg>
+                    <span style="font-size: 11px; color: #9ca3af;">P Only</span>
+                </div>
+
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                    <svg width="16" height="16" viewBox="0 0 64 64">
+                        <rect width="64" height="64" rx="12" fill="#65a30d"/>
+                        <circle cx="18" cy="32" r="6" fill="#ecfccb"/>
+                        <circle cx="32" cy="32" r="6" fill="white"/>
+                        <circle cx="46" cy="32" r="6" fill="#ecfccb"/>
+                    </svg>
+                    <span style="font-size: 11px; color: #9ca3af;">Three Dots</span>
+                </div>
+
+                <p style="margin-left: 24px; color: #6b7280; font-size: 14px; max-width: 400px;">
+                    At 16x16, <strong>"P Only"</strong> is the clearest and most legible option. The three dots remain recognizable but may blur on low-DPI screens.
+                </p>
+            </div>
+        </div>
+
+        <!-- Vertical Lockup -->
+        <div class="section">
+            <h2>Vertical Lockup</h2>
+            <p style="color: #6b7280; margin-bottom: 24px;">For mobile splash screens, posters, and vertical layouts</p>
+
+            <div class="grid-2">
+                <div class="variation-box white">
+                    <svg width="280" height="320" viewBox="0 0 280 320">
+                        <!-- Centered icon -->
+                        <circle cx="90" cy="80" r="20" fill="#ecfccb"/>
+                        <circle cx="140" cy="80" r="20" fill="#84cc16"/>
+                        <circle cx="190" cy="80" r="20" fill="#65a30d"/>
+                        <line x1="110" y1="80" x2="120" y2="80" stroke="#65a30d" stroke-width="3"/>
+                        <line x1="160" y1="80" x2="170" y2="80" stroke="#65a30d" stroke-width="3"/>
+
+                        <!-- Letters in circles -->
+                        <text x="90" y="88" text-anchor="middle" font-family="Libre Baskerville, serif" font-size="20" font-weight="700" fill="#4d7c0f">P</text>
+                        <text x="140" y="88" text-anchor="middle" font-family="Libre Baskerville, serif" font-size="20" font-weight="700" fill="#3f6212">A</text>
+                        <text x="190" y="88" text-anchor="middle" font-family="Libre Baskerville, serif" font-size="20" font-weight="700" fill="white">R</text>
+
+                        <!-- Wordmark below -->
+                        <text x="140" y="200" text-anchor="middle" font-family="Libre Baskerville, serif" font-size="56" font-weight="700" fill="#65a30d">PAR</text>
+                        <text x="140" y="260" text-anchor="middle" font-family="Inter, sans-serif" font-size="48" font-weight="600" fill="#374151">folio</text>
+                    </svg>
+                    <p class="variation-label">Icon + Wordmark</p>
+                </div>
+
+                <div class="variation-box white">
+                    <svg width="280" height="320" viewBox="0 0 280 320">
+                        <!-- Wordmark stacked -->
+                        <text x="140" y="140" text-anchor="middle" font-family="Libre Baskerville, serif" font-size="72" font-weight="700" fill="#65a30d">PAR</text>
+                        <text x="140" y="220" text-anchor="middle" font-family="Inter, sans-serif" font-size="56" font-weight="600" fill="#374151">folio</text>
+
+                        <!-- Sunburst accent -->
+                        <circle cx="140" cy="72" r="10" fill="#f59e0b"/>
+                        <path d="M140,62 L140,82 M130,72 L150,72 M133,65 L147,79 M133,79 L147,65" stroke="#f59e0b" stroke-width="2.5"/>
+                    </svg>
+                    <p class="variation-label">Stacked Wordmark</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dark Mode Versions -->
+        <div class="section">
+            <h2>Dark Mode & Background Variations</h2>
+
+            <div class="grid-2">
+                <!-- On dark background -->
+                <div class="variation-box dark">
+                    <svg width="320" height="100" viewBox="0 0 320 100">
+                        <!-- Lighter lime for dark backgrounds -->
+                        <text x="10" y="65" font-family="Libre Baskerville, serif" font-size="56" font-weight="700" fill="#84cc16">PAR</text>
+                        <text x="140" y="65" font-family="Inter, sans-serif" font-size="56" font-weight="600" fill="#ffffff">folio</text>
+                        <circle cx="196" cy="24" r="6" fill="#f59e0b"/>
+                        <path d="M196,18 L196,30 M190,24 L202,24 M192,20 L200,28 M192,28 L200,20" stroke="#f59e0b" stroke-width="1.5"/>
+                    </svg>
+                    <p class="variation-label white">On Dark Background</p>
+                </div>
+
+                <!-- On colored background -->
+                <div class="variation-box" style="background: #f7fee7;">
+                    <svg width="320" height="100" viewBox="0 0 320 100">
+                        <text x="10" y="65" font-family="Libre Baskerville, serif" font-size="56" font-weight="700" fill="#4d7c0f">PAR</text>
+                        <text x="140" y="65" font-family="Inter, sans-serif" font-size="56" font-weight="600" fill="#374151">folio</text>
+                        <circle cx="196" cy="24" r="6" fill="#f59e0b"/>
+                        <path d="M196,18 L196,30 M190,24 L202,24 M192,20 L200,28 M192,28 L200,20" stroke="#f59e0b" stroke-width="1.5"/>
+                    </svg>
+                    <p class="variation-label">On Lime 50</p>
+                </div>
+            </div>
+
+            <div class="specs">
+                <h4>Color Adaptations for Backgrounds</h4>
+                <ul>
+                    <li><strong>White/Light:</strong> PAR = Lime 500 (#65a30d), folio = Gray 700 (#374151)</li>
+                    <li><strong>Dark (#111827):</strong> PAR = Lime 400 (#84cc16), folio = White (#ffffff)</li>
+                    <li><strong>Lime 50 (#f7fee7):</strong> PAR = Lime 700 (#4d7c0f), folio = Gray 700 (#374151)</li>
+                    <li><strong>Gradient Backgrounds:</strong> Use white text for both PAR and folio</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Size Scale Reference -->
+        <div class="section">
+            <h2>Responsive Scale Reference</h2>
+            <p style="color: #6b7280; margin-bottom: 24px;">How the wordmark scales across different contexts</p>
+
+            <div class="size-demo">
+                <!-- Hero size -->
+                <div>
+                    <svg width="200" height="60" viewBox="0 0 200 60">
+                        <text x="0" y="45" font-family="Libre Baskerville, serif" font-size="48" font-weight="700" fill="#65a30d">PAR</text>
+                        <text x="82" y="45" font-family="Inter, sans-serif" font-size="48" font-weight="600" fill="#374151">folio</text>
+                    </svg>
+                    <p style="font-size: 11px; color: #9ca3af; margin-top: 8px;">Hero (48px)</p>
+                </div>
+
+                <!-- Header size -->
+                <div>
+                    <svg width="140" height="48" viewBox="0 0 140 48">
+                        <text x="0" y="32" font-family="Libre Baskerville, serif" font-size="32" font-weight="700" fill="#65a30d">PAR</text>
+                        <text x="58" y="32" font-family="Inter, sans-serif" font-size="32" font-weight="600" fill="#374151">folio</text>
+                    </svg>
+                    <p style="font-size: 11px; color: #9ca3af; margin-top: 8px;">Header (32px)</p>
+                </div>
+
+                <!-- Nav size -->
+                <div>
+                    <svg width="100" height="36" viewBox="0 0 100 36">
+                        <text x="0" y="24" font-family="Libre Baskerville, serif" font-size="24" font-weight="700" fill="#65a30d">PAR</text>
+                        <text x="43" y="24" font-family="Inter, sans-serif" font-size="24" font-weight="600" fill="#374151">folio</text>
+                    </svg>
+                    <p style="font-size: 11px; color: #9ca3af; margin-top: 8px;">Navigation (24px)</p>
+                </div>
+
+                <!-- Footer size -->
+                <div>
+                    <svg width="70" height="24" viewBox="0 0 70 24">
+                        <text x="0" y="16" font-family="Libre Baskerville, serif" font-size="16" font-weight="700" fill="#65a30d">PAR</text>
+                        <text x="30" y="16" font-family="Inter, sans-serif" font-size="16" font-weight="600" fill="#374151">folio</text>
+                    </svg>
+                    <p style="font-size: 11px; color: #9ca3af; margin-top: 8px;">Footer (16px)</p>
+                </div>
+            </div>
+
+            <div style="background: #fff7ed; border-radius: 12px; padding: 20px; margin-top: 24px; border-left: 4px solid #f97316;">
+                <h4 style="font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700; color: #ea580c; margin-bottom: 8px;">⚠️ Minimum Size Warning</h4>
+                <p style="font-size: 14px; color: #9a3412; line-height: 1.5;">
+                    Do not use the full wordmark below 16px. For small sizes (under 100px width), use the square icon or "P" monogram instead.
+                </p>
+            </div>
+        </div>
+
+        <!-- Usage Guidelines -->
+        <div class="section">
+            <h2>Usage Guidelines</h2>
+
+            <h3>Do's ✓</h3>
+            <div class="grid-2" style="margin-bottom: 32px;">
+                <div style="background: #ecfdf5; padding: 24px; border-radius: 12px; border: 2px solid #10b981;">
+                    <svg width="240" height="80" viewBox="0 0 240 80">
+                        <text x="10" y="50" font-family="Libre Baskerville, serif" font-size="48" font-weight="700" fill="#65a30d">PAR</text>
+                        <text x="115" y="50" font-family="Inter, sans-serif" font-size="48" font-weight="600" fill="#374151">folio</text>
+                    </svg>
+                    <p style="font-size: 13px; color: #059669; margin-top: 12px; font-weight: 600;">✓ Maintain proper spacing and proportions</p>
+                </div>
+
+                <div style="background: #ecfdf5; padding: 24px; border-radius: 12px; border: 2px solid #10b981;">
+                    <svg width="240" height="80" viewBox="0 0 240 80">
+                        <text x="10" y="50" font-family="Libre Baskerville, serif" font-size="48" font-weight="700" fill="#84cc16">PAR</text>
+                        <text x="115" y="50" font-family="Inter, sans-serif" font-size="48" font-weight="600" fill="#ffffff">folio</text>
+                    </svg>
+                    <p style="font-size: 13px; color: #059669; margin-top: 12px; font-weight: 600;">✓ Use color variations for different backgrounds</p>
+                </div>
+            </div>
+
+            <h3>Don'ts ✗</h3>
+            <div class="grid-2">
+                <div style="background: #fef2f2; padding: 24px; border-radius: 12px; border: 2px solid #ef4444;">
+                    <svg width="240" height="80" viewBox="0 0 240 80">
+                        <text x="10" y="50" font-family="Libre Baskerville, serif" font-size="48" font-weight="700" fill="#65a30d" transform="skewX(-15)">PAR</text>
+                        <text x="115" y="50" font-family="Inter, sans-serif" font-size="48" font-weight="600" fill="#374151" transform="skewX(-15)">folio</text>
+                    </svg>
+                    <p style="font-size: 13px; color: #dc2626; margin-top: 12px; font-weight: 600;">✗ Don't skew or distort the wordmark</p>
+                </div>
+
+                <div style="background: #fef2f2; padding: 24px; border-radius: 12px; border: 2px solid #ef4444;">
+                    <svg width="240" height="80" viewBox="0 0 240 80">
+                        <text x="10" y="50" font-family="Libre Baskerville, serif" font-size="48" font-weight="700" fill="#3b82f6">PAR</text>
+                        <text x="115" y="50" font-family="Inter, sans-serif" font-size="48" font-weight="600" fill="#ec4899">folio</text>
+                    </svg>
+                    <p style="font-size: 13px; color: #dc2626; margin-top: 12px; font-weight: 600;">✗ Don't use off-brand colors</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- File Export Specs -->
+        <div class="section">
+            <h2>Export Specifications</h2>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                <div style="background: #f9fafb; padding: 20px; border-radius: 12px; border: 1px solid #e5e7eb;">
+                    <h4 style="font-size: 16px; font-weight: 700; margin-bottom: 12px; color: #111827;">📱 App Icons</h4>
+                    <ul style="list-style: none; padding: 0; font-size: 14px; color: #4b5563;">
+                        <li style="margin-bottom: 8px;">• iOS: 1024x1024px PNG (no alpha)</li>
+                        <li style="margin-bottom: 8px;">• Android: 512x512px PNG</li>
+                        <li style="margin-bottom: 8px;">• Format: PNG or SVG</li>
+                        <li>• Color space: sRGB</li>
+                    </ul>
+                </div>
+
+                <div style="background: #f9fafb; padding: 20px; border-radius: 12px; border: 1px solid #e5e7eb;">
+                    <h4 style="font-size: 16px; font-weight: 700; margin-bottom: 12px; color: #111827;">🌐 Web Assets</h4>
+                    <ul style="list-style: none; padding: 0; font-size: 14px; color: #4b5563;">
+                        <li style="margin-bottom: 8px;">• Favicon: 16x16, 32x32, 64x64 PNG</li>
+                        <li style="margin-bottom: 8px;">• Apple Touch Icon: 180x180px PNG</li>
+                        <li style="margin-bottom: 8px;">• OG Image: 1200x630px PNG/JPG</li>
+                        <li>• Header Logo: SVG preferred</li>
+                    </ul>
+                </div>
+
+                <div style="background: #f9fafb; padding: 20px; border-radius: 12px; border: 1px solid #e5e7eb;">
+                    <h4 style="font-size: 16px; font-weight: 700; margin-bottom: 12px; color: #111827;">🖨️ Print & Marketing</h4>
+                    <ul style="list-style: none; padding: 0; font-size: 14px; color: #4b5563;">
+                        <li style="margin-bottom: 8px;">• Vector: SVG, EPS, PDF</li>
+                        <li style="margin-bottom: 8px;">• Raster: PNG @ 300 DPI minimum</li>
+                        <li style="margin-bottom: 8px;">• Color: CMYK (convert from RGB)</li>
+                        <li>• Include black & white versions</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Final Recommendations -->
+        <div style="background: linear-gradient(135deg, #ecfccb 0%, #d9f99d 100%); border-radius: 20px; padding: 40px; margin-top: 32px; border: 2px solid #84cc16;">
+            <h2 style="font-family: 'Libre Baskerville', serif; font-size: 28px; margin-bottom: 16px; color: #3f6212;">✨ Recommended System</h2>
+
+            <div style="display: grid; gap: 16px; margin-top: 24px;">
+                <div style="background: white; padding: 20px; border-radius: 12px;">
+                    <strong style="color: #4d7c0f; font-size: 16px;">Primary Wordmark:</strong>
+                    <p style="color: #4d7c0f; margin-top: 8px; line-height: 1.6;">Full "PARfolio" with sunburst accent on 'i' — use for headers, landing page, email signatures</p>
+                </div>
+
+                <div style="background: white; padding: 20px; border-radius: 12px;">
+                    <strong style="color: #4d7c0f; font-size: 16px;">App Icon:</strong>
+                    <p style="color: #4d7c0f; margin-top: 8px; line-height: 1.6;">"Stacked PAR" (three circles in vertical) on lime gradient — distinctive and recognizable at all sizes</p>
+                </div>
+
+                <div style="background: white; padding: 20px; border-radius: 12px;">
+                    <strong style="color: #4d7c0f; font-size: 16px;">Favicon:</strong>
+                    <p style="color: #4d7c0f; margin-top: 8px; line-height: 1.6;">"P Only" in lime square — maximum legibility at 16x16px</p>
+                </div>
+
+                <div style="background: white; padding: 20px; border-radius: 12px;">
+                    <strong style="color: #4d7c0f; font-size: 16px;">Social Media:</strong>
+                    <p style="color: #4d7c0f; margin-top: 8px; line-height: 1.6;">"Connected Flow" (three dots) or "Circle Badge" (PAR in circle) for profile pictures</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

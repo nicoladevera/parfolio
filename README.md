@@ -28,6 +28,18 @@ PARfolio listens to your rambling work stories, automatically structures them in
 
 ---
 
+## Screenshots
+
+### Landing Page
+![PARfolio Landing Page](/Users/nicoladevera/Developer/parfolio/assets/screenshots/screenshot_landing.png)
+*The PARfolio landing page showcasing the voice-first approach to capturing work stories.*
+
+### Dashboard
+![PARfolio Dashboard](/Users/nicoladevera/Developer/parfolio/assets/screenshots/screenshot_dashboard.png)
+*The main dashboard where users manage their structured PAR stories and behavioral competencies.*
+
+---
+
 ## Tech Stack
 
 | Layer | Technology |
