@@ -22,11 +22,10 @@ def detect_audio_format(file_path: str):
         except:
             pass
 
-    # Check for M4A/AAC format (ftyp or similar)
-    # AAC files uploaded from Flutter web typically have file extension .wav but are AAC encoded
-    # Default to ENCODING_UNSPECIFIED to let Google auto-detect
-    print(f"Non-WAV format detected. Using Google auto-detection.")
-    return speech.RecognitionConfig.AudioEncoding.ENCODING_UNSPECIFIED, None, 1
+    # For non-WAV files (likely WebM Opus from web browsers)
+    # Flutter's record package on web typically outputs WebM Opus
+    print(f"Non-WAV format detected. Trying WEBM_OPUS encoding.")
+    return speech.RecognitionConfig.AudioEncoding.WEBM_OPUS, 48000, 1
 
 def transcribe_audio_file(file_path: str) -> str:
     """
@@ -53,28 +52,20 @@ def transcribe_audio_file(file_path: str) -> str:
     # Detect audio format
     encoding, sample_rate, channels = detect_audio_format(file_path)
 
-    if sample_rate:
-        print(f"Audio format: {sample_rate}Hz, {channels} channel(s), encoding={encoding.name}")
-    else:
-        print(f"Using auto-detection for format (encoding={encoding.name})")
+    print(f"Audio format: {sample_rate}Hz, {channels} channel(s), encoding={encoding.name}")
 
     # Configure audio settings
     audio = speech.RecognitionAudio(content=content)
 
-    # Build config with conditional parameters
-    config_params = {
-        "encoding": encoding,
-        "language_code": "en-US",
-        "enable_automatic_punctuation": True,
-        "model": "default",
-        "audio_channel_count": channels,
-    }
-
-    # Only add sample_rate if we detected it (not needed for auto-detection)
-    if sample_rate:
-        config_params["sample_rate_hertz"] = sample_rate
-
-    config = speech.RecognitionConfig(**config_params)
+    # Build config
+    config = speech.RecognitionConfig(
+        encoding=encoding,
+        sample_rate_hertz=sample_rate,
+        language_code="en-US",
+        enable_automatic_punctuation=True,
+        model="default",
+        audio_channel_count=channels,
+    )
 
     # Perform transcription
     try:
