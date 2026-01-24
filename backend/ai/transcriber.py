@@ -68,11 +68,26 @@ def transcribe_audio_file(file_path: str) -> str:
     )
 
     # Perform transcription
+    # Check file size to determine which API to use
+    # Files over ~1MB or >60 seconds need async API, but we'll use sync first and fallback
     try:
+        print("Using synchronous recognition (for audio < 1 minute)...")
         response = client.recognize(config=config, audio=audio)
     except Exception as e:
-        print(f"Speech-to-Text API error: {e}")
-        raise Exception(f"Failed to transcribe audio: {str(e)}")
+        error_msg = str(e)
+        # If sync fails due to length, try long-running recognize
+        if "too long" in error_msg.lower() or "LongRunningRecognize" in error_msg:
+            print("Audio too long for sync API. Using asynchronous long-running recognition...")
+            try:
+                operation = client.long_running_recognize(config=config, audio=audio)
+                print("Waiting for transcription to complete (this may take a while)...")
+                response = operation.result(timeout=1800)  # 30 minute processing timeout (supports audio up to 8 hours)
+            except Exception as long_e:
+                print(f"Long-running Speech-to-Text API error: {long_e}")
+                raise Exception(f"Failed to transcribe long audio: {str(long_e)}")
+        else:
+            print(f"Speech-to-Text API error: {e}")
+            raise Exception(f"Failed to transcribe audio: {str(e)}")
 
     # Combine all transcription results
     transcript = ""
