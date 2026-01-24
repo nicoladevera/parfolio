@@ -1,7 +1,9 @@
 import os
 import wave
 import struct
+import uuid
 from google.cloud import speech_v1p1beta1 as speech
+from google.cloud import storage
 from google.oauth2 import service_account
 
 def detect_audio_format(file_path: str):
@@ -75,16 +77,44 @@ def transcribe_audio_file(file_path: str) -> str:
         response = client.recognize(config=config, audio=audio)
     except Exception as e:
         error_msg = str(e)
-        # If sync fails due to length, try long-running recognize
-        if "too long" in error_msg.lower() or "LongRunningRecognize" in error_msg:
-            print("Audio too long for sync API. Using asynchronous long-running recognition...")
+        # If sync fails due to length, try long-running recognize with GCS
+        if "too long" in error_msg.lower() or "LongRunningRecognize" in error_msg or "duration limit" in error_msg.lower():
+            print("Audio too long for sync API. Uploading to GCS for long-running recognition...")
+
+            # Upload audio to GCS
             try:
-                operation = client.long_running_recognize(config=config, audio=audio)
+                # Get Firebase Storage bucket name
+                bucket_name = os.getenv("FIREBASE_STORAGE_BUCKET", "agentic-coding-project.firebasestorage.app")
+                storage_client = storage.Client(credentials=credentials)
+                bucket = storage_client.bucket(bucket_name)
+
+                # Create unique blob name
+                blob_name = f"temp/transcription-{uuid.uuid4()}.wav"
+                blob = bucket.blob(blob_name)
+
+                # Upload file
+                print(f"Uploading to gs://{bucket_name}/{blob_name}...")
+                blob.upload_from_filename(file_path)
+
+                # Get GCS URI
+                gcs_uri = f"gs://{bucket_name}/{blob_name}"
+                print(f"File uploaded. Using GCS URI: {gcs_uri}")
+
+                # Create audio object with URI instead of content
+                audio_gcs = speech.RecognitionAudio(uri=gcs_uri)
+
+                # Perform long-running recognition
+                operation = client.long_running_recognize(config=config, audio=audio_gcs)
                 print("Waiting for transcription to complete (this may take a while)...")
-                response = operation.result(timeout=1800)  # 30 minute processing timeout (supports audio up to 8 hours)
-            except Exception as long_e:
-                print(f"Long-running Speech-to-Text API error: {long_e}")
-                raise Exception(f"Failed to transcribe long audio: {str(long_e)}")
+                response = operation.result(timeout=1800)  # 30 minute processing timeout
+
+                # Clean up - delete the temporary file from GCS
+                print(f"Deleting temporary file from GCS: {blob_name}")
+                blob.delete()
+
+            except Exception as gcs_e:
+                print(f"Long-running Speech-to-Text API error: {gcs_e}")
+                raise Exception(f"Failed to transcribe long audio: {str(gcs_e)}")
         else:
             print(f"Speech-to-Text API error: {e}")
             raise Exception(f"Failed to transcribe audio: {str(e)}")
