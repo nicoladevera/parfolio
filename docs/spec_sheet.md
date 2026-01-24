@@ -173,7 +173,7 @@ tags/{tagId}
 | **Auth** | Firebase Authentication |
 | **Speech-to-Text** | OpenAI Whisper (Local) |
 | **AI/LLM** | Gemini 2.0 Flash (structuring, tagging) / Gemini 2.0 Pro Experimental (coaching) |
-| **Hosting** | Firebase Hosting (frontend) + Cloud Run / Railway (backend) |
+| **Hosting** | Hostinger (frontend) + Azure VM (backend) |
 
 ---
 
