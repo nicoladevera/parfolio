@@ -8,7 +8,7 @@ Fast setup guide for deploying PARfolio backend on Azure VM.
 
 ### 1. SSH into Azure VM
 ```bash
-ssh azureuser@parfolio-backend.westcentralus.cloudapp.azure.com
+ssh nicoladevera@parfolio-backend.westcentralus.cloudapp.azure.com
 ```
 
 ### 2. Clone and Run Setup Script
@@ -30,7 +30,7 @@ The script will:
 
 Edit the `.env` file:
 ```bash
-nano /home/azureuser/parfolio/backend/.env
+nano /home/nicoladevera/parfolio/backend/.env
 ```
 
 **Required values to update:**
@@ -48,19 +48,19 @@ Save: `Ctrl+X` → `Y` → `Enter`
 
 **From your local machine:**
 ```bash
-scp backend/firebase-credentials.json azureuser@parfolio-backend.westcentralus.cloudapp.azure.com:/home/azureuser/parfolio/backend/
+scp backend/firebase-credentials.json nicoladevera@parfolio-backend.westcentralus.cloudapp.azure.com:/home/nicoladevera/parfolio/backend/
 ```
 
 **Or manually create on server:**
 ```bash
-nano /home/azureuser/parfolio/backend/firebase-credentials.json
+nano /home/nicoladevera/parfolio/backend/firebase-credentials.json
 # Paste your Firebase service account JSON
 # Save: Ctrl+X → Y → Enter
 ```
 
 Set permissions:
 ```bash
-chmod 600 /home/azureuser/parfolio/backend/firebase-credentials.json
+chmod 600 /home/nicoladevera/parfolio/backend/firebase-credentials.json
 ```
 
 ### 5. Start Backend Service
@@ -74,7 +74,7 @@ sudo systemctl status parfolio-backend
 ### 6. Test Deployment
 
 ```bash
-curl http://parfolio-backend.westcentralus.cloudapp.azure.com/health
+curl https://parfolio-backend.westcentralus.cloudapp.azure.com/health
 # Expected: {"status":"healthy"}
 ```
 
@@ -107,7 +107,7 @@ sudo systemctl restart parfolio-backend
 
 ### Update Code
 ```bash
-cd /home/azureuser/parfolio
+cd /home/nicoladevera/parfolio
 git pull origin main
 cd backend
 source venv/bin/activate
@@ -138,8 +138,8 @@ sudo systemctl status parfolio-backend
 
 ## ✅ Deployment Checklist
 
-- [ ] VM created with at least 4GB RAM
-- [ ] Port 80 open in NSG
+- [ ] VM created with at least 1GB RAM (B1s or higher)
+- [ ] Ports 80 and 443 open in NSG (for HTTP/HTTPS)
 - [ ] Repository cloned
 - [ ] Setup script executed
 - [ ] `.env` file configured with all API keys
@@ -169,10 +169,10 @@ sudo journalctl -u parfolio-backend -n 50
 
 ## 📚 Full Documentation
 
-See `docs/AZURE_DEPLOYMENT.md` for complete deployment guide.
+See `docs/azure_deployment.md` for complete deployment guide.
 
 ---
 
 **Production URLs:**
 - Frontend: https://parfolio.app
-- Backend: http://parfolio-backend.westcentralus.cloudapp.azure.com
+- Backend: https://parfolio-backend.westcentralus.cloudapp.azure.com

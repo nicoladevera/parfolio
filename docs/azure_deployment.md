@@ -4,7 +4,7 @@ This guide covers deploying the PARfolio backend on Azure VM with DNS configurat
 
 ## Production Configuration
 
-**Backend URL:** http://parfolio-backend.westcentralus.cloudapp.azure.com
+**Backend URL:** https://parfolio-backend.westcentralus.cloudapp.azure.com
 **Frontend URL:** https://parfolio.app
 
 ---
@@ -22,10 +22,36 @@ sudo apt install -y python3.11 python3.11-venv python3-pip ffmpeg git
 ### 2. Clone Repository
 
 ```bash
-cd /home/azureuser  # or your preferred directory
+cd ~  # or your preferred directory
 git clone https://github.com/nicoladevera/parfolio.git
 cd parfolio/backend
 ```
+
+---
+
+## Google Cloud API Setup
+
+### Enable Required APIs
+
+Before deploying, ensure these Google Cloud APIs are enabled in your Firebase project:
+
+1. **Go to Google Cloud Console:** https://console.cloud.google.com
+2. **Select your Firebase project**
+3. **Enable these APIs:**
+   - **Cloud Speech-to-Text API** - For audio transcription
+   - **Cloud Storage API** - For storing long audio files during transcription
+
+**Enable via CLI:**
+```bash
+gcloud services enable speech.googleapis.com
+gcloud services enable storage-api.googleapis.com
+```
+
+**Enable via Console:**
+- Navigate to "APIs & Services" → "Library"
+- Search for each API and click "Enable"
+
+**Note:** Your Firebase service account credentials automatically work with these APIs.
 
 ---
 
@@ -34,7 +60,7 @@ cd parfolio/backend
 ### 1. Create `.env` File
 
 ```bash
-cd /home/azureuser/parfolio/backend
+cd /home/nicoladevera/parfolio/backend
 nano .env
 ```
 
@@ -50,7 +76,7 @@ DEBUG=False
 FRONTEND_URL=https://parfolio.app
 
 # Firebase Configuration
-FIREBASE_CREDENTIALS_PATH=/home/azureuser/parfolio/backend/firebase-credentials.json
+FIREBASE_CREDENTIALS_PATH=/home/nicoladevera/parfolio/backend/firebase-credentials.json
 FIREBASE_API_KEY=your_firebase_web_api_key_here
 FIREBASE_STORAGE_BUCKET=your-project.appspot.com
 
@@ -74,18 +100,18 @@ Copy your Firebase service account JSON to the server:
 
 ```bash
 # On your local machine
-scp backend/firebase-credentials.json azureuser@parfolio-backend.westcentralus.cloudapp.azure.com:/home/azureuser/parfolio/backend/
+scp backend/firebase-credentials.json nicoladevera@parfolio-backend.westcentralus.cloudapp.azure.com:/home/nicoladevera/parfolio/backend/
 ```
 
 Or manually create the file on the server:
 ```bash
-nano /home/azureuser/parfolio/backend/firebase-credentials.json
+nano /home/nicoladevera/parfolio/backend/firebase-credentials.json
 # Paste your Firebase credentials JSON
 ```
 
 **Set proper permissions:**
 ```bash
-chmod 600 /home/azureuser/parfolio/backend/firebase-credentials.json
+chmod 600 /home/nicoladevera/parfolio/backend/firebase-credentials.json
 ```
 
 ---
@@ -95,7 +121,7 @@ chmod 600 /home/azureuser/parfolio/backend/firebase-credentials.json
 ### 1. Create Virtual Environment
 
 ```bash
-cd /home/azureuser/parfolio/backend
+cd /home/nicoladevera/parfolio/backend
 python3.11 -m venv venv
 source venv/bin/activate
 ```
@@ -111,11 +137,12 @@ This will install all required packages including:
 - FastAPI, Uvicorn
 - Firebase Admin SDK
 - LangChain + Google Gemini
-- OpenAI Whisper (large ML package - takes time)
+- Google Cloud Speech-to-Text API
+- Google Cloud Storage (for long audio transcription)
 - ChromaDB
 - All other dependencies
 
-**Note:** Installation may take 5-10 minutes due to ML packages.
+**Note:** Installation may take 3-5 minutes.
 
 ---
 
@@ -124,7 +151,7 @@ This will install all required packages including:
 ### Option 1: Manual Start (Testing)
 
 ```bash
-cd /home/azureuser/parfolio/backend
+cd /home/nicoladevera/parfolio/backend
 source venv/bin/activate
 uvicorn main:app --host 0.0.0.0 --port 80
 ```
@@ -145,7 +172,7 @@ Create a systemd service for automatic startup and restart on failure.
 sudo nano /etc/systemd/system/parfolio-backend.service
 ```
 
-**2. Add this configuration:**
+**2. Add this configuration** (replace `nicoladevera` with your username if different):
 ```ini
 [Unit]
 Description=PARfolio FastAPI Backend
@@ -153,11 +180,11 @@ After=network.target
 
 [Service]
 Type=simple
-User=azureuser
-WorkingDirectory=/home/azureuser/parfolio/backend
-Environment="PATH=/home/azureuser/parfolio/backend/venv/bin"
-EnvironmentFile=/home/azureuser/parfolio/backend/.env
-ExecStart=/home/azureuser/parfolio/backend/venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000
+User=nicoladevera
+WorkingDirectory=/home/nicoladevera/parfolio/backend
+Environment="PATH=/home/nicoladevera/parfolio/backend/venv/bin"
+EnvironmentFile=/home/nicoladevera/parfolio/backend/.env
+ExecStart=/home/nicoladevera/parfolio/backend/venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000
 Restart=on-failure
 RestartSec=5s
 
@@ -259,7 +286,7 @@ Ensure these ports are open in your Azure NSG:
 ### 1. Test Backend Health
 
 ```bash
-curl http://parfolio-backend.westcentralus.cloudapp.azure.com/health
+curl https://parfolio-backend.westcentralus.cloudapp.azure.com/health
 # Expected: {"status":"healthy"}
 ```
 
@@ -308,7 +335,7 @@ sudo systemctl restart nginx
 ### Update Code
 
 ```bash
-cd /home/azureuser/parfolio
+cd /home/nicoladevera/parfolio
 git pull origin main
 cd backend
 source venv/bin/activate
@@ -324,12 +351,12 @@ sudo systemctl restart parfolio-backend
 
 Vector embeddings are stored at:
 ```
-/home/azureuser/parfolio/backend/data/chromadb/
+/home/nicoladevera/parfolio/backend/data/chromadb/
 ```
 
 **Backup ChromaDB:**
 ```bash
-tar -czf chromadb-backup-$(date +%Y%m%d).tar.gz /home/azureuser/parfolio/backend/data/chromadb/
+tar -czf chromadb-backup-$(date +%Y%m%d).tar.gz /home/nicoladevera/parfolio/backend/data/chromadb/
 ```
 
 ### Firebase
@@ -360,7 +387,7 @@ sudo journalctl -u parfolio-backend -n 50
 
 ```bash
 # Verify FRONTEND_URL in .env
-cat /home/azureuser/parfolio/backend/.env | grep FRONTEND_URL
+cat /home/nicoladevera/parfolio/backend/.env | grep FRONTEND_URL
 
 # Should show: FRONTEND_URL=https://parfolio.app
 
@@ -381,12 +408,13 @@ sudo nginx -t
 sudo tail -f /var/log/nginx/error.log
 ```
 
-### High Memory Usage
+### Audio Transcription
 
-Whisper model loads ~3GB into memory on first transcription request. Consider:
-- Using at least 4GB RAM on VM
-- Implementing lazy loading (already done)
-- Monitoring with `htop`
+The app uses Google Cloud Speech-to-Text API for audio transcription:
+- **Short audio (<1 minute):** Uses synchronous API with inline audio
+- **Long audio (>1 minute):** Automatically uploads to GCS and uses asynchronous API
+- **Supported formats:** WebM Opus (from web browsers), WAV, AAC
+- **Max audio length:** Up to 8 hours (limited by API processing timeout)
 
 ---
 
@@ -405,16 +433,24 @@ sudo ufw enable
 
 ```bash
 # Ensure .env has restricted permissions
-chmod 600 /home/azureuser/parfolio/backend/.env
-chmod 600 /home/azureuser/parfolio/backend/firebase-credentials.json
+chmod 600 /home/nicoladevera/parfolio/backend/.env
+chmod 600 /home/nicoladevera/parfolio/backend/firebase-credentials.json
 ```
 
-### 3. HTTPS (Future Upgrade)
+### 3. HTTPS with Let's Encrypt ✅ (Implemented)
 
-Consider adding SSL/TLS with Let's Encrypt:
+The backend is secured with SSL/TLS using Let's Encrypt:
+
+**Initial setup:**
 ```bash
 sudo apt install certbot python3-certbot-nginx
 sudo certbot --nginx -d parfolio-backend.westcentralus.cloudapp.azure.com
+```
+
+**Auto-renewal:**
+Certbot automatically renews certificates. Test renewal with:
+```bash
+sudo certbot renew --dry-run
 ```
 
 ---
@@ -423,14 +459,20 @@ sudo certbot --nginx -d parfolio-backend.westcentralus.cloudapp.azure.com
 
 ### VM Sizing
 
-Recommended minimum:
-- **Size:** Standard B2s (2 vCPU, 4 GB RAM)
+**Current production setup:**
+- **Size:** Standard B1s (1 vCPU, 1 GB RAM) - Sufficient for API-based services
 - **Disk:** 30 GB Standard SSD
-- **Cost:** ~$30-40/month
+- **Cost:** ~$10-15/month
+
+**Why 1GB RAM works:**
+- Google Cloud Speech-to-Text API handles transcription (no local ML models)
+- Gemini API handles AI processing
+- Low memory footprint (~200-300MB)
 
 For cost savings:
 - Stop VM when not in use (dev/testing)
 - Use Reserved Instances for production (save 30-70%)
+- Current setup is already cost-optimized
 
 ### API Usage Monitoring
 
