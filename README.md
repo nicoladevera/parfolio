@@ -31,11 +31,11 @@ PARfolio listens to your rambling work stories, automatically structures them in
 ## Screenshots
 
 ### Landing Page
-![PARfolio Landing Page](/Users/nicoladevera/Developer/parfolio/assets/screenshots/screenshot_landing.png)
+![PARfolio Landing Page](assets/screenshots/screenshot_landing.png)
 *The PARfolio landing page showcasing the voice-first approach to capturing work stories.*
 
 ### Dashboard
-![PARfolio Dashboard](/Users/nicoladevera/Developer/parfolio/assets/screenshots/screenshot_dashboard.png)
+![PARfolio Dashboard](assets/screenshots/screenshot_dashboard.png)
 *The main dashboard where users manage their structured PAR stories and behavioral competencies.*
 
 ---
@@ -82,6 +82,9 @@ parfolio/
 │   ├── style.css             # Vibrant design styles
 │   ├── script.js             # Interactions
 │   └── assets/               # Images and mockups
+├── assets/                   # Brand & visual assets
+│   ├── logos/                # Logo system (specs, prompts, files)
+│   └── screenshots/          # Application screenshots
 ├── docs/
 │   ├── overview.md           # Product overview & pitch
 │   ├── spec_sheet.md         # Technical spec (schema, endpoints)
