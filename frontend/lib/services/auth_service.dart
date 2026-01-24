@@ -6,8 +6,8 @@ import '../models/user_model.dart';
 // import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
-  // Production backend URL (Azure VM)
-  static const String baseUrl = 'http://parfolio-backend.westcentralus.cloudapp.azure.com';
+  // Production backend URL (Azure VM with HTTPS)
+  static const String baseUrl = 'https://parfolio-backend.westcentralus.cloudapp.azure.com';
 
   // For local development, use:
   // static const String baseUrl = 'http://localhost:8000';
