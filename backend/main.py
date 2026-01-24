@@ -8,21 +8,31 @@ app = FastAPI()
 
 # Configure CORS origins based on environment
 allowed_origins = [
+    # Local development
     "http://localhost:3000",
     "http://localhost:5173",
     "http://127.0.0.1:3000",
     "http://127.0.0.1:5173",
+    # Production frontend (Hostinger)
+    "https://parfolio.app",
+    "http://parfolio.app",
+    "https://www.parfolio.app",
+    "http://www.parfolio.app",
 ]
 
-# Add production frontend URL from environment variable
+# Add additional frontend URL from environment variable if specified
 frontend_url = os.getenv("FRONTEND_URL")
-if frontend_url:
+if frontend_url and frontend_url not in allowed_origins:
     allowed_origins.append(frontend_url)
     # Also add https version if http is provided
     if frontend_url.startswith("http://"):
-        allowed_origins.append(frontend_url.replace("http://", "https://"))
+        https_url = frontend_url.replace("http://", "https://")
+        if https_url not in allowed_origins:
+            allowed_origins.append(https_url)
     elif frontend_url.startswith("https://"):
-        allowed_origins.append(frontend_url.replace("https://", "http://"))
+        http_url = frontend_url.replace("https://", "http://")
+        if http_url not in allowed_origins:
+            allowed_origins.append(http_url)
 
 # Add CORS middleware
 app.add_middleware(

@@ -2,11 +2,9 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import '../models/user_model.dart';
+import 'auth_service.dart'; // Import to use centralized baseUrl
 
 class ProfileService {
-  // Use 10.0.2.2 for Android emulator, localhost for iOS/Web
-  static const String baseUrl = 'http://localhost:8000';
-  
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   Future<UserModel> getProfile() async {
@@ -17,7 +15,7 @@ class ProfileService {
       final token = await user.getIdToken();
       
       final response = await http.get(
-        Uri.parse('$baseUrl/profile'),
+        Uri.parse('${AuthService.baseUrl}/profile'),
         headers: {
           'Authorization': 'Bearer $token',
         },
@@ -70,7 +68,7 @@ class ProfileService {
       if (targetCompanySize != null) body['target_company_size'] = targetCompanySize.toString().split('.').last;
 
       final response = await http.put(
-        Uri.parse('$baseUrl/profile'),
+        Uri.parse('${AuthService.baseUrl}/profile'),
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
