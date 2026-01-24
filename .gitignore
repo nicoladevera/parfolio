@@ -15,6 +15,10 @@ backend/data/chromadb/
 # Credentials
 backend/firebase-credentials.json
 
+# Firebase/Google Services config files (contain API keys)
+**/GoogleService-Info.plist
+**/google-services.json
+
 # IDEs
 .vscode/
 .idea/
