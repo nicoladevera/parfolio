@@ -245,8 +245,26 @@ PARfolio is deployed in production with the following architecture:
 - **Database:** Firebase (Firestore, Auth, Storage)
 - **AI Services:** Google Gemini AI, Google Speech-to-Text, Tavily API
 
+### Quick Deployment
+
+**🚀 Automated Scripts (Recommended)**
+
+Deploy backend:
+```bash
+./scripts/deploy-backend.sh
+```
+
+Deploy frontend:
+```bash
+./scripts/deploy-frontend.sh
+# Then upload deploy/ folder to Hostinger
+```
+
+See **[Deployment Quick Start Guide](docs/deployment_quick_start.md)** for step-by-step instructions.
+
 ### Deployment Guides
 
+- **[Deployment Quick Start](docs/deployment_quick_start.md)** — Simplest way to deploy (use this!)
 - **[Azure VM Deployment Guide](docs/azure_deployment.md)** — Full backend deployment on Azure with SSL/TLS
 - **[Azure Quick Start](docs/azure_quick_start.md)** — Fast setup for backend deployment
 - **[Frontend Deployment Guide](docs/frontend_deployment_guide.md)** — Building and deploying Flutter web to Hostinger

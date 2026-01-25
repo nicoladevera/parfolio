@@ -28,3 +28,8 @@ node_modules/
 
 # Build/Deploy artifacts
 deploy/
+
+# Deployment scripts (contain local paths/hostnames)
+# Use .template versions instead
+scripts/deploy-backend.sh
+scripts/deploy-frontend.sh
