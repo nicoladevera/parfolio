@@ -117,20 +117,28 @@ parfolio/
 
 4. Create a `.env` file based on `.env.example`
 
-5. Start the server (ensure virtual environment is active):
+   **Environment Configuration:** The backend uses environment-aware settings:
+   - **Local development** (default): Uses `data/chromadb_local` for vector storage and allows all localhost CORS origins
+   - **Production**: Set `ENVIRONMENT=production` in `.env` to use `data/chromadb` and restricted CORS
+
+5. Start the server on **port 8000** (ensure virtual environment is active):
    ```bash
    # If venv is activated (from step 2):
-   uvicorn main:app --reload
-   
+   uvicorn main:app --reload --port 8000
+
    # Or run directly without activation:
-   ./venv/bin/uvicorn main:app --reload
+   ./venv/bin/uvicorn main:app --reload --port 8000
    ```
+
+   The backend API will be available at `http://localhost:8000`
+
+   **Note:** CORS is automatically configured to accept requests from any `localhost` port in development mode, allowing Flutter's dynamic port assignment to work seamlessly.
 
 6. **AI Verification**: Run tests against AI and Stories endpoints:
    ```bash
    # Test AI Tagging
    python tests/test_ai_tagging.py
-   
+
    # Test Stories CRUD (Standard pytest)
    export PYTHONPATH=$PYTHONPATH:.
    pytest tests/test_stories_unit.py
@@ -150,9 +158,51 @@ parfolio/
 
 3. Run the app:
    ```bash
-   # For Chrome
+   # For Chrome (automatically connects to localhost:8000 in debug mode)
    flutter run -d chrome
    ```
+
+#### Backend URL Configuration
+
+The Flutter app uses **environment-aware** backend URL configuration:
+
+**Default Behavior:**
+- **Debug mode** (`flutter run`): Uses `http://localhost:8000`
+- **Release mode** (`flutter build`): Uses production Azure URL
+
+**Override with Environment Variable:**
+```bash
+# Force production URL in debug mode
+flutter run --dart-define=BACKEND_URL=https://parfolio-backend.westcentralus.cloudapp.azure.com
+
+# Use custom localhost port
+flutter run --dart-define=BACKEND_URL=http://localhost:3000
+
+# For Android emulator with local backend
+flutter run --dart-define=BACKEND_URL=http://10.0.2.2:8000
+```
+
+**For Local Development:** Ensure your backend server is running on port 8000 before starting the Flutter app.
+
+### Local Development: Running Frontend + Backend Together
+
+For full local development with both frontend and backend:
+
+**Terminal 1 - Start Backend API:**
+```bash
+cd backend
+uvicorn main:app --reload --port 8000
+```
+Backend runs at: `http://localhost:8000`
+
+**Terminal 2 - Start Flutter App:**
+```bash
+cd frontend
+flutter run -d chrome
+```
+Frontend runs at: `http://localhost:<dynamic-port>` (e.g., 60153)
+
+The Flutter app will automatically connect to your local backend at `http://localhost:8000` in debug mode. The backend is configured to accept requests from any localhost port (Flutter uses dynamic ports).
 
 ### Marketing Site Setup (Landing Page)
 

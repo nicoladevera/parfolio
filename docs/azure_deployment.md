@@ -90,6 +90,10 @@ TAVILY_API_KEY=your_tavily_api_key_here
 # Model Configuration (optional overrides)
 GEMINI_FLASH_MODEL=gemini-2.0-flash
 GEMINI_PRO_MODEL=gemini-2.0-pro-exp-02-05
+
+# Environment (IMPORTANT for production)
+# Set to 'production' to use production ChromaDB path and CORS settings
+ENVIRONMENT=production
 ```
 
 Save and exit (`Ctrl+X`, then `Y`, then `Enter`).
@@ -349,12 +353,21 @@ sudo systemctl restart parfolio-backend
 
 ### ChromaDB Storage
 
-Vector embeddings are stored at:
+Vector embeddings are stored in environment-specific directories:
+
+**Production** (when `ENVIRONMENT=production` in `.env`):
 ```
 /home/nicoladevera/parfolio/backend/data/chromadb/
 ```
 
-**Backup ChromaDB:**
+**Local Development** (default):
+```
+/home/nicoladevera/parfolio/backend/data/chromadb_local/
+```
+
+This ensures local testing doesn't interfere with production data.
+
+**Backup ChromaDB (Production):**
 ```bash
 tar -czf chromadb-backup-$(date +%Y%m%d).tar.gz /home/nicoladevera/parfolio/backend/data/chromadb/
 ```

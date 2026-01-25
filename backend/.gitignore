@@ -8,3 +8,7 @@ venv/
 *.swp
 *.swo
 firebase-credentials.json
+
+# ChromaDB vector database files (environment-specific)
+data/chromadb/
+data/chromadb_local/

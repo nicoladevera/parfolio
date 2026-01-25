@@ -13,6 +13,8 @@ allowed_origins = [
     "http://localhost:5173",
     "http://127.0.0.1:3000",
     "http://127.0.0.1:5173",
+    # Flutter web development server (dynamic port range)
+    "http://localhost:60153",
     # Production frontend (Hostinger)
     "https://parfolio.app",
     "http://parfolio.app",
@@ -35,9 +37,15 @@ if frontend_url and frontend_url not in allowed_origins:
             allowed_origins.append(http_url)
 
 # Add CORS middleware
+# In development, allow all localhost origins (Flutter uses dynamic ports)
+allow_origin_regex = None
+if os.getenv("ENVIRONMENT") != "production":
+    allow_origin_regex = r"http://localhost:\d+"
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
+    allow_origin_regex=allow_origin_regex,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
