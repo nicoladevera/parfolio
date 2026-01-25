@@ -82,6 +82,11 @@ parfolio/
 │   ├── style.css             # Vibrant design styles
 │   ├── script.js             # Interactions
 │   └── assets/               # Images and mockups
+├── scripts/                  # Deployment automation
+│   ├── README.md             # Setup instructions
+│   ├── deploy-backend.sh.template   # Backend deployment template
+│   ├── deploy-frontend.sh.template  # Frontend deployment template
+│   └── azure-setup.sh        # Azure VM initial setup
 ├── assets/                   # Brand & visual assets
 │   ├── logos/                # Logo system (specs, prompts, files)
 │   └── screenshots/          # Application screenshots
@@ -89,6 +94,9 @@ parfolio/
 │   ├── overview.md           # Product overview & pitch
 │   ├── spec_sheet.md         # Technical spec (schema, endpoints)
 │   └── design_system.md      # Design system documentation
+├── cors.json                 # CORS configuration
+├── local_server.py           # Local development server
+├── package.json              # Node.js dependencies
 └── README.md
 ```
 
