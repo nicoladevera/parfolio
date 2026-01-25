@@ -1,17 +1,41 @@
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import '../models/user_model.dart';
 
 // import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
-  // Production backend URL (Azure VM with HTTPS)
-  static const String baseUrl = 'https://parfolio-backend.westcentralus.cloudapp.azure.com';
+  // Environment-aware backend URL configuration
+  //
+  // Usage:
+  // 1. Default behavior:
+  //    - Debug mode (flutter run): uses localhost:8000
+  //    - Release mode (flutter build): uses production Azure URL
+  //
+  // 2. Override via environment variable:
+  //    flutter run --dart-define=BACKEND_URL=http://localhost:8000
+  //    flutter run --dart-define=BACKEND_URL=https://parfolio-backend.westcentralus.cloudapp.azure.com
+  //
+  // 3. For Android emulator in debug mode, set:
+  //    flutter run --dart-define=BACKEND_URL=http://10.0.2.2:8000
+  static String get baseUrl {
+    // Check for environment variable override first
+    const envUrl = String.fromEnvironment('BACKEND_URL');
+    if (envUrl.isNotEmpty) {
+      return envUrl;
+    }
 
-  // For local development, use:
-  // static const String baseUrl = 'http://localhost:8000';
-  // For Android emulator: 'http://10.0.2.2:8000' 
+    // Default behavior: localhost in debug, production in release
+    if (kDebugMode) {
+      // Local development URL
+      return 'http://localhost:8000';
+    } else {
+      // Production backend URL (Azure VM with HTTPS)
+      return 'https://parfolio-backend.westcentralus.cloudapp.azure.com';
+    }
+  } 
   
   // Feature flag to control Google Sign In availability
   static const bool isGoogleAuthEnabled = false;
