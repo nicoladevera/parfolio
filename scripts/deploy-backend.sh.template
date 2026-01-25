@@ -1,0 +1,94 @@
+#!/bin/bash
+
+# PARfolio Backend Deployment Script
+# Automates deployment to Azure VM
+
+set -e  # Exit on any error
+
+echo "🚀 PARfolio Backend Deployment"
+echo "================================"
+echo ""
+
+# Configuration - Update these values for your environment
+PEM_FILE="${PARFOLIO_PEM_FILE:-$HOME/path/to/your-key.pem}"
+SSH_HOST="${PARFOLIO_SSH_HOST:-username@your-backend-host.com}"
+
+# Check if PEM file exists
+if [ ! -f "$PEM_FILE" ]; then
+    echo "❌ Error: PEM file not found at $PEM_FILE"
+    echo ""
+    echo "Setup Instructions:"
+    echo "  1. Copy this template: cp scripts/deploy-backend.sh.template scripts/deploy-backend.sh"
+    echo "  2. Edit scripts/deploy-backend.sh and update PEM_FILE and SSH_HOST"
+    echo "  3. Or set environment variables:"
+    echo "     export PARFOLIO_PEM_FILE=~/Documents/Keys/your-key.pem"
+    echo "     export PARFOLIO_SSH_HOST=user@your-host.com"
+    exit 1
+fi
+
+# Ensure correct permissions on PEM file
+chmod 400 "$PEM_FILE"
+
+echo "📡 Connecting to Azure VM..."
+echo ""
+
+# SSH into Azure VM and run deployment commands
+ssh -i "$PEM_FILE" "$SSH_HOST" << 'ENDSSH'
+    set -e
+
+    echo "📥 Pulling latest code from GitHub..."
+    cd ~/parfolio
+    git fetch origin
+    git reset --hard origin/main
+
+    echo "✅ Code updated"
+    echo ""
+
+    echo "📦 Installing dependencies..."
+    cd backend
+    source venv/bin/activate
+    pip install -q -r requirements.txt
+
+    echo "✅ Dependencies installed"
+    echo ""
+
+    echo "🔄 Restarting backend service..."
+    sudo systemctl restart parfolio-backend
+
+    echo "✅ Service restarted"
+    echo ""
+
+    echo "⏳ Waiting for service to start..."
+    sleep 3
+
+    echo "🔍 Checking service status..."
+    if sudo systemctl is-active --quiet parfolio-backend; then
+        echo "✅ Backend service is running!"
+    else
+        echo "❌ Backend service failed to start"
+        sudo systemctl status parfolio-backend
+        exit 1
+    fi
+
+    echo ""
+    echo "🧪 Testing health endpoint..."
+    # Update this URL to match your backend
+    HEALTH_CHECK=$(curl -s https://your-backend-host.com/health)
+
+    if echo "$HEALTH_CHECK" | grep -q "healthy"; then
+        echo "✅ Health check passed: $HEALTH_CHECK"
+    else
+        echo "❌ Health check failed: $HEALTH_CHECK"
+        exit 1
+    fi
+ENDSSH
+
+echo ""
+echo "======================================"
+echo "✅ Backend deployment completed!"
+echo "======================================"
+echo ""
+echo "📊 To view logs:"
+echo "   ssh -i $PEM_FILE $SSH_HOST"
+echo "   sudo journalctl -u parfolio-backend -f"
+echo ""

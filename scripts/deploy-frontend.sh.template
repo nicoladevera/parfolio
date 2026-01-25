@@ -1,0 +1,99 @@
+#!/bin/bash
+
+# PARfolio Frontend Build & Deploy Script
+# Builds Flutter app and prepares files for Hostinger upload
+
+set -e  # Exit on any error
+
+echo "🚀 PARfolio Frontend Build & Deploy"
+echo "===================================="
+echo ""
+
+# Get the project root directory (one level up from scripts/)
+PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$PROJECT_ROOT"
+
+echo "📍 Project root: $PROJECT_ROOT"
+echo ""
+
+# Step 1: Clean previous deployment
+echo "🧹 Cleaning previous deployment..."
+rm -rf deploy
+mkdir -p deploy
+echo "✅ Cleaned"
+echo ""
+
+# Step 2: Build Flutter app
+echo "🔨 Building Flutter web app..."
+cd frontend
+flutter build web --release --base-href "/app/"
+BUILD_STATUS=$?
+cd ..
+
+if [ $BUILD_STATUS -ne 0 ]; then
+    echo ""
+    echo "❌ Flutter build failed!"
+    exit 1
+fi
+
+echo "✅ Flutter app built successfully"
+echo ""
+
+# Step 3: Copy landing page files
+echo "📄 Copying landing page files..."
+cp marketing/index.html deploy/
+cp marketing/style.css deploy/
+cp marketing/script.js deploy/
+cp -r marketing/assets deploy/
+echo "✅ Landing page files copied"
+echo ""
+
+# Step 4: Copy Flutter build
+echo "📦 Packaging Flutter app..."
+mkdir -p deploy/app
+cp -r frontend/build/web/* deploy/app/
+echo "✅ Flutter app packaged"
+echo ""
+
+# Step 5: Show summary
+DEPLOY_SIZE=$(du -sh deploy/ | cut -f1)
+
+echo "======================================"
+echo "✅ Build completed successfully!"
+echo "======================================"
+echo ""
+echo "📊 Deployment Summary:"
+echo "   Location: $PROJECT_ROOT/deploy/"
+echo "   Size: $DEPLOY_SIZE"
+echo ""
+echo "📁 Files ready for upload:"
+echo "   - index.html (landing page)"
+echo "   - style.css"
+echo "   - script.js"
+echo "   - assets/ (landing page images)"
+echo "   - app/ (Flutter web app)"
+echo ""
+echo "📤 Next Steps:"
+echo "   1. Log into Hostinger File Manager"
+echo "      https://hpanel.hostinger.com"
+echo ""
+echo "   2. Navigate to public_html/"
+echo ""
+echo "   3. Delete old files:"
+echo "      - index.html, style.css, script.js"
+echo "      - assets/ folder"
+echo "      - app/ folder"
+echo ""
+echo "   4. Upload ALL files from:"
+echo "      $PROJECT_ROOT/deploy/"
+echo ""
+echo "   5. After upload, test:"
+echo "      - Landing page: https://parfolio.app/"
+echo "      - Flutter app: https://parfolio.app/app"
+echo ""
+echo "   6. Hard reload browser to clear cache:"
+echo "      - Mac: Cmd + Shift + R"
+echo "      - Windows: Ctrl + Shift + R"
+echo ""
+echo "======================================"
+echo ""
