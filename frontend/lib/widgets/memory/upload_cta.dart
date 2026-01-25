@@ -204,6 +204,7 @@ class _UploadCTAState extends State<UploadCTA> with SingleTickerProviderStateMix
           ),
         ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             AnimatedScale(
               scale: _isDragging ? 1.1 : 1.0,
@@ -219,6 +220,7 @@ class _UploadCTAState extends State<UploadCTA> with SingleTickerProviderStateMix
               _isDragging 
                   ? 'Drop files here'
                   : (isFull ? 'Memory Bank Full' : 'Upload Context Document'),
+              textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: isFull ? Colors.grey : (_isDragging ? primaryColor : null),
@@ -227,6 +229,7 @@ class _UploadCTAState extends State<UploadCTA> with SingleTickerProviderStateMix
             const SizedBox(height: 8),
             Text(
               'Supported formats: PDF, DOCX, TXT, MD',
+              textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Colors.grey[600],
                   ),
@@ -234,6 +237,7 @@ class _UploadCTAState extends State<UploadCTA> with SingleTickerProviderStateMix
             const SizedBox(height: 8),
             Text(
               '${widget.currentCount} of ${UploadCTA.maxFiles} slots used',
+              textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.labelMedium?.copyWith(
                     color: isFull ? Colors.orange : Colors.grey[600],
                     fontWeight: isFull ? FontWeight.bold : null,
