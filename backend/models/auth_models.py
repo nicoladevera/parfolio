@@ -7,6 +7,7 @@ class UserRegisterRequest(BaseModel):
     password: str = Field(..., min_length=6)
     first_name: str
     last_name: str
+    current_role: Optional[str] = None
 
 class UserLoginRequest(BaseModel):
     email: EmailStr

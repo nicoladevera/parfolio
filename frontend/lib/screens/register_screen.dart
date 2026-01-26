@@ -16,6 +16,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _passwordController = TextEditingController();
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
+  final _currentRoleController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
   bool _obscurePassword = true;
@@ -33,6 +34,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         _passwordController.text,
         _firstNameController.text.trim(),
         _lastNameController.text.trim(),
+        currentRole: _currentRoleController.text.trim(),
       );
       
       // 2. Auto Login after registration
@@ -231,6 +233,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             keyboardType: TextInputType.emailAddress,
                             validator: (val) => val!.isEmpty ? 'Please enter email' : null,
+                          ),
+                          const SizedBox(height: 16),
+                          TextFormField(
+                            controller: _currentRoleController,
+                            decoration: const InputDecoration(
+                              labelText: 'Current Role',
+                              prefixIcon: Icon(Icons.work_outline),
+                              hintText: 'e.g. Product Manager',
+                            ),
                           ),
                           const SizedBox(height: 16),
                           TextFormField(

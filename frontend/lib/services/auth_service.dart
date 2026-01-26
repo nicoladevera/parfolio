@@ -101,7 +101,7 @@ class AuthService {
     }
   }
 
-  Future<UserModel> register(String email, String password, String firstName, String lastName) async {
+  Future<UserModel> register(String email, String password, String firstName, String lastName, {String? currentRole}) async {
     try {
       final response = await http.post(
         Uri.parse('$baseUrl/auth/register'),
@@ -111,6 +111,7 @@ class AuthService {
           'password': password,
           'first_name': firstName,
           'last_name': lastName,
+          'current_role': currentRole,
         }),
       );
 
