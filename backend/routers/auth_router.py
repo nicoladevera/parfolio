@@ -29,6 +29,7 @@ async def register(request: UserRegisterRequest):
             "first_name": request.first_name,
             "last_name": request.last_name,
             "display_name": display_name,
+            "current_role": request.current_role,
             "created_at": firestore.SERVER_TIMESTAMP,
             "updated_at": firestore.SERVER_TIMESTAMP
         }
@@ -39,6 +40,9 @@ async def register(request: UserRegisterRequest):
             user_id=user_record.uid,
             email=request.email,
             display_name=display_name,
+            first_name=request.first_name,
+            last_name=request.last_name,
+            current_role=request.current_role,
             created_at=datetime.utcnow() # Approximate for response
         )
         

@@ -150,6 +150,7 @@ parfolio/
    # Test Stories CRUD (Standard pytest)
    export PYTHONPATH=$PYTHONPATH:.
    pytest tests/test_stories_unit.py
+   pytest tests/test_auth.py
    ```
 
 ### App Setup (Flutter)
