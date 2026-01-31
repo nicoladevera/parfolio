@@ -377,7 +377,7 @@ class _RecordingScreenState extends State<RecordingScreen> {
                     elevation: 4,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+                      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 24),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -438,22 +438,50 @@ class _RecordingScreenState extends State<RecordingScreen> {
 
                           // Recording Controls
                           if (_state == RecordingState.recording || _state == RecordingState.paused)
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                OutlinedButton.icon(
-                                  onPressed: _state == RecordingState.recording ? _pauseRecording : _resumeRecording,
-                                  icon: Icon(_state == RecordingState.recording ? Icons.pause : Icons.play_arrow),
-                                  label: Text(_state == RecordingState.recording ? 'Pause' : 'Resume'),
-                                ),
-                                const SizedBox(width: 16),
-                                ElevatedButton.icon(
-                                  onPressed: _stopRecording,
-                                  icon: const Icon(Icons.stop),
-                                  label: const Text('Stop'),
-                                  style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent, foregroundColor: Colors.white),
-                                ),
-                              ],
+                            LayoutBuilder(
+                              builder: (context, constraints) {
+                                final bool useVertical = constraints.maxWidth < 280;
+                                if (useVertical) {
+                                  return Column(
+                                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                                    children: [
+                                      OutlinedButton.icon(
+                                        onPressed: _state == RecordingState.recording ? _pauseRecording : _resumeRecording,
+                                        icon: Icon(_state == RecordingState.recording ? Icons.pause : Icons.play_arrow),
+                                        label: Text(_state == RecordingState.recording ? 'Pause' : 'Resume'),
+                                      ),
+                                      const SizedBox(height: 12),
+                                      ElevatedButton.icon(
+                                        onPressed: _stopRecording,
+                                        icon: const Icon(Icons.stop),
+                                        label: const Text('Stop'),
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.redAccent, 
+                                          foregroundColor: Colors.white,
+                                          padding: const EdgeInsets.symmetric(vertical: 12),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                }
+                                return Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    OutlinedButton.icon(
+                                      onPressed: _state == RecordingState.recording ? _pauseRecording : _resumeRecording,
+                                      icon: Icon(_state == RecordingState.recording ? Icons.pause : Icons.play_arrow),
+                                      label: Text(_state == RecordingState.recording ? 'Pause' : 'Resume'),
+                                    ),
+                                    const SizedBox(width: 16),
+                                    ElevatedButton.icon(
+                                      onPressed: _stopRecording,
+                                      icon: const Icon(Icons.stop),
+                                      label: const Text('Stop'),
+                                      style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent, foregroundColor: Colors.white),
+                                    ),
+                                  ],
+                                );
+                              },
                             ),
 
                           // Playback Controls
@@ -469,26 +497,55 @@ class _RecordingScreenState extends State<RecordingScreen> {
                           // Action Buttons for Completeds State
                           if (_state == RecordingState.completed) ...[
                              const SizedBox(height: 32),
-                             Row(
-                               children: [
-                                 Expanded(
-                                   child: OutlinedButton(
-                                     onPressed: _deleteRecording,
-                                     style: OutlinedButton.styleFrom(
-                                       foregroundColor: Colors.red,
-                                       side: const BorderSide(color: Colors.red),
+                             LayoutBuilder(
+                               builder: (context, constraints) {
+                                 final bool useVertical = constraints.maxWidth < 280;
+                                 if (useVertical) {
+                                   return Column(
+                                     crossAxisAlignment: CrossAxisAlignment.stretch,
+                                     children: [
+                                       ElevatedButton(
+                                         onPressed: _saveAndProcessing,
+                                         style: ElevatedButton.styleFrom(
+                                           padding: const EdgeInsets.symmetric(vertical: 12),
+                                         ),
+                                         child: const Text('Save & Process'),
+                                       ),
+                                       const SizedBox(height: 12),
+                                       OutlinedButton(
+                                         onPressed: _deleteRecording,
+                                         style: OutlinedButton.styleFrom(
+                                           foregroundColor: Colors.red,
+                                           side: const BorderSide(color: Colors.red),
+                                           padding: const EdgeInsets.symmetric(vertical: 12),
+                                         ),
+                                         child: const Text('Delete'),
+                                       ),
+                                     ],
+                                   );
+                                 }
+                                 return Row(
+                                   children: [
+                                     Expanded(
+                                       child: OutlinedButton(
+                                         onPressed: _deleteRecording,
+                                         style: OutlinedButton.styleFrom(
+                                           foregroundColor: Colors.red,
+                                           side: const BorderSide(color: Colors.red),
+                                         ),
+                                         child: const Text('Delete'),
+                                       ),
                                      ),
-                                     child: const Text('Delete'),
-                                   ),
-                                 ),
-                                 const SizedBox(width: 16),
-                                 Expanded(
-                                   child: ElevatedButton(
-                                     onPressed: _saveAndProcessing,
-                                     child: const Text('Save & Process'),
-                                   ),
-                                 ),
-                               ],
+                                     const SizedBox(width: 16),
+                                     Expanded(
+                                       child: ElevatedButton(
+                                         onPressed: _saveAndProcessing,
+                                         child: const Text('Save & Process'),
+                                       ),
+                                     ),
+                                   ],
+                                 );
+                               },
                              ),
                           ],
                         
