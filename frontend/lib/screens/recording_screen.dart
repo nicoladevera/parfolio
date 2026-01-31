@@ -220,18 +220,59 @@ class _RecordingScreenState extends State<RecordingScreen> {
         title: const Text('Discard Recording?'),
         content: const Text('You have an unsaved recording. Do you want to save it or discard it?'),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, 'cancel'),
-            child: const Text('Cancel Navigation'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, 'discard'),
-            style: TextButton.styleFrom(foregroundColor: Colors.red),
-            child: const Text('Discard'),
-          ),
-          ElevatedButton(
-             onPressed: () => Navigator.pop(context, 'save'),
-             child: const Text('Save'),
+          Builder(
+            builder: (context) {
+              final screenWidth = MediaQuery.of(context).size.width;
+              final bool useTwoLines = screenWidth < 485;
+
+              if (useTwoLines) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () => Navigator.pop(context, 'save'),
+                        child: const Text('Save'),
+                      ),
+                      const SizedBox(height: 12),
+                      TextButton(
+                        onPressed: () => Navigator.pop(context, 'cancel'),
+                        child: const Text('Cancel Navigation'),
+                      ),
+                      const SizedBox(height: 4),
+                      TextButton(
+                        onPressed: () => Navigator.pop(context, 'discard'),
+                        style: TextButton.styleFrom(foregroundColor: Colors.red),
+                        child: const Text('Discard'),
+                      ),
+                    ],
+                  ),
+                );
+              }
+
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, 'cancel'),
+                    child: const Text('Cancel Navigation'),
+                  ),
+                  const SizedBox(width: 8),
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, 'discard'),
+                    style: TextButton.styleFrom(foregroundColor: Colors.red),
+                    child: const Text('Discard'),
+                  ),
+                  const SizedBox(width: 8),
+                  ElevatedButton(
+                    onPressed: () => Navigator.pop(context, 'save'),
+                    child: const Text('Save'),
+                  ),
+                ],
+              );
+            },
           ),
         ],
       ),
