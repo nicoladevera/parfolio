@@ -35,6 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<String> _tags = ['All'];
   bool _isLoading = true;
   String _selectedTag = 'All';
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -46,6 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void dispose() {
     dashboardRefreshNotifier.removeListener(_loadData);
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -169,12 +171,25 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'PARfolio',
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
+                      GestureDetector(
+                        onTap: () {
+                          if (_scrollController.hasClients) {
+                            _scrollController.animateTo(
+                              0,
+                              duration: const Duration(milliseconds: 500),
+                              curve: Curves.easeInOut,
+                            );
+                          }
+                          _loadData();
+                        },
+                        child: MouseRegion(
+                          cursor: SystemMouseCursors.click,
+                          child: Image.asset(
+                            'assets/logos/parfolio-wordmark-nav.png',
+                            height: 28,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
                       ),
                       Row(
                         children: [
@@ -218,6 +233,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   onRefresh: _loadData,
                   color: Theme.of(context).colorScheme.primary,
                   child: SingleChildScrollView(
+                    controller: _scrollController,
                     padding: const EdgeInsets.all(24),
                     physics: const AlwaysScrollableScrollPhysics(),
                     child: Column(
