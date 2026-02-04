@@ -161,12 +161,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                       // PARfolio Logo/Branding
-                      Text(
-                        'PARfolio',
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
+                      Center(
+                        child: Image.asset(
+                          'assets/logos/parfolio-wordmark-nav.png',
+                          height: 24,
                         ),
                       ),
                       const SizedBox(height: 32),
