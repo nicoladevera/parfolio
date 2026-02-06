@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'dart:html' as html;
 import '../services/auth_service.dart';
 import '../widgets/auth/polka_dot_rectangle.dart';
 import '../widgets/auth/wavy_line_decoration.dart';
@@ -41,6 +42,14 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  void _navigateToLandingPage() {
+    // Use dart:html directly to navigate the browser window to root
+    // This is the most reliable approach for Flutter web
+    final rootUrl = Uri.base.resolve('/').toString();
+    debugPrint('Navigating to: $rootUrl');
+    html.window.location.href = rootUrl;
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -48,6 +57,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
     return Scaffold(
       backgroundColor: const Color(0xFFF7FEE7), // Lime 50 background
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          color: const Color(0xFF3F6212), // Lime 700
+          onPressed: _navigateToLandingPage,
+        ),
+      ),
       body: Stack(
         children: [
           // Decorative background elements (only on tablet+)
