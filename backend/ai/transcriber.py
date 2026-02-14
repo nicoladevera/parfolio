@@ -2,7 +2,7 @@ import os
 import wave
 import struct
 import uuid
-from google.cloud import speech_v1p1beta1 as speech
+from google.cloud import speech
 from google.cloud import storage
 from google.oauth2 import service_account
 
